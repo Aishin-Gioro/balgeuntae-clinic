@@ -1,0 +1,178 @@
+.section {
+  background: #1f2d27;
+  color: #e8ece6;
+  padding: clamp(80px, 11vw, 140px) clamp(20px, 6vw, 96px);
+  scroll-margin-top: 72px;
+}
+
+.inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ===== 헤더 ===== */
+.kicker {
+  margin: 0 0 16px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #a7c5a0;
+  text-align: center;
+}
+
+.title {
+  margin: 0 0 28px;
+  font-family: var(--font-serif), "Nanum Myeongjo", "AppleMyungjo", "Batang", Georgia, serif;
+  font-size: 30px;
+  font-weight: 300;
+  line-height: 1.35;
+  color: #fdfcfa;
+  white-space: pre-line;
+  word-break: keep-all;
+  text-align: center;
+}
+
+.lead {
+  margin: 0 auto;
+  max-width: 62em;
+  font-size: clamp(15px, 1.6vw, 17px);
+  line-height: 1.95;
+  color: rgba(226, 234, 224, 0.72);
+  word-break: keep-all;
+  text-align: center;
+  white-space: pre-line;
+}
+
+/* ===== 원인 체인 ===== */
+.causes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.causesTitle {
+  margin: clamp(56px, 8vw, 96px) 0 24px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: rgba(226, 234, 224, 0.5);
+}
+
+.cause {
+  display: grid;
+  grid-template-columns: minmax(140px, 240px) 1fr;
+  gap: clamp(20px, 5vw, 56px);
+  align-items: baseline;
+  padding: 26px 0;
+  border-top: 1px solid rgba(226, 234, 224, 0.12);
+}
+.cause:last-child {
+  border-bottom: 1px solid rgba(226, 234, 224, 0.12);
+}
+
+.causeQ {
+  margin: 0;
+  font-size: clamp(17px, 2vw, 21px);
+  font-weight: 600;
+  line-height: 1.4;
+  color: #fdfcfa;
+  word-break: keep-all;
+}
+
+.causeA {
+  margin: 0;
+  font-size: clamp(13.5px, 1.4vw, 15px);
+  line-height: 1.9;
+  color: rgba(226, 234, 224, 0.7);
+  word-break: keep-all;
+}
+.causeA span {
+  display: block;
+}
+
+/* ===== 신뢰 파트 ===== */
+.proof {
+  margin-top: clamp(72px, 10vw, 120px);
+  text-align: center;
+}
+
+.proofTitle {
+  margin: 0 0 16px;
+  font-size: clamp(19px, 2.4vw, 24px);
+  font-weight: 700;
+  color: #fdfcfa;
+  word-break: keep-all;
+}
+
+.proofBody {
+  margin: 0 auto;
+  max-width: 46em;
+  font-size: clamp(14px, 1.5vw, 16px);
+  line-height: 1.9;
+  color: rgba(226, 234, 224, 0.68);
+  word-break: keep-all;
+  white-space: pre-line;
+}
+
+.compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 36px;
+}
+
+.shot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  border: 1px dashed rgba(226, 234, 224, 0.22);
+  background: rgba(226, 234, 224, 0.04);
+  color: rgba(226, 234, 224, 0.5);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+
+/* ===== 치료 파트 ===== */
+.treatment {
+  margin-top: clamp(56px, 8vw, 88px);
+  padding: clamp(28px, 4vw, 44px);
+  border: 1px solid rgba(167, 197, 160, 0.35);
+  border-radius: 16px;
+  background: rgba(167, 197, 160, 0.06);
+}
+
+.treatmentTitle {
+  margin: 0 0 14px;
+  font-size: clamp(19px, 2.4vw, 24px);
+  font-weight: 700;
+  color: #fdfcfa;
+  word-break: keep-all;
+}
+
+.treatmentBody {
+  margin: 0 0 14px;
+  max-width: 46em;
+  font-size: clamp(14px, 1.5vw, 16px);
+  line-height: 1.95;
+  color: rgba(226, 234, 224, 0.78);
+  word-break: keep-all;
+}
+
+.treatmentNote {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(226, 234, 224, 0.48);
+}
+
+/* ===== 반응형 ===== */
+@media (max-width: 640px) {
+  .cause {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .compare {
+    grid-template-columns: 1fr;
+  }
+}

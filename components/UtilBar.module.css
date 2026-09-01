@@ -1,0 +1,88 @@
+.bar {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 45;
+  width: 68px;
+  display: flex;
+  flex-direction: column;
+  background: #4a3f38;
+  border-radius: 6px 0 0 6px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 13px 4px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #f3ede6;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background-color 0.2s ease;
+}
+.icon {
+  width: 21px;
+  height: 21px;
+}
+.item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.kakao {
+  background: #fee500;
+  color: #3c1e1e;
+  font-weight: 700;
+}
+.kakao:hover {
+  background: #ffe94d;
+}
+
+.tel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 4px 14px;
+  background: #2e2724;
+  text-align: center;
+}
+.telLabel {
+  font-size: 10px;
+  color: #b9aca2;
+  letter-spacing: 0.02em;
+}
+.tel a {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #e6a06a;
+}
+
+.top {
+  padding: 10px 4px;
+  background: #211c19;
+  color: #b9aca2;
+  display: flex;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+.topIcon {
+  width: 18px;
+  height: 18px;
+}
+.top:hover {
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .bar {
+    display: none;
+  }
+}

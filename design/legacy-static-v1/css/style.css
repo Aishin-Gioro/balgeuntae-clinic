@@ -1,0 +1,449 @@
+/* =====================================================================
+   밝은태 한의원 — Header + Hero
+   ---------------------------------------------------------------------
+   배경 사진 교체 방법:
+   assets/img/ 에 아래 파일을 넣으면 자동으로 적용됩니다(없으면 톤 그라데이션 표시).
+     hero-01.jpg  장상피화생·위축성위염  (권장 2400×1000, 밝고 담백한 톤)
+     hero-02.jpg  밝은태 다이어트
+     hero-03.jpg  브랜드 이야기
+   ===================================================================== */
+
+/* ---------- reset / base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: 'Noto Sans KR', system-ui, -apple-system, sans-serif;
+  color: #2b2b28;
+  background: #f4f2ee;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+img, svg { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; cursor: pointer; background: none; border: 0; }
+[hidden] { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+/* =====================================================================
+   HEADER
+   ===================================================================== */
+.site-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 50;
+  transition: background-color .3s ease, box-shadow .3s ease, color .3s ease;
+  color: #2b2b28;
+}
+.header-inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  height: 84px;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.brand { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.brand-mark { width: 34px; height: 34px; color: currentColor; transition: color .3s ease; }
+.brand-name { font-size: 20px; font-weight: 700; letter-spacing: .01em; }
+
+.gnb { flex: 1; }
+.gnb ul {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.gnb a {
+  position: relative;
+  display: inline-block;
+  padding: 6px 2px;
+  font-size: 16px;
+  font-weight: 500;
+}
+.gnb a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%; height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .25s ease;
+}
+.gnb a:hover::after,
+.gnb a:focus-visible::after { transform: scaleX(1); }
+
+.header-tel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+.header-tel svg { width: 18px; height: 18px; }
+
+/* header: transparent over hero → solid on scroll */
+.site-header:not(.is-scrolled) .header-inner {
+  /* subtle top scrim comes from .hero::before so dark text stays readable */
+}
+.site-header.is-scrolled {
+  background: #fffdfa;
+  box-shadow: 0 1px 0 rgba(43, 43, 40, .08), 0 8px 24px rgba(43, 43, 40, .06);
+}
+.site-header.is-scrolled .header-inner { height: 68px; }
+
+/* hamburger */
+.nav-toggle {
+  display: none;
+  width: 44px; height: 44px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-right: -10px;
+}
+.nav-toggle span {
+  width: 24px; height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform .25s ease, opacity .2s ease;
+}
+.site-header.nav-open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.site-header.nav-open .nav-toggle span:nth-child(2) { opacity: 0; }
+.site-header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* =====================================================================
+   HERO SLIDER
+   ===================================================================== */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 560px;
+  overflow: hidden;               /* Ken Burns 확대 이미지 클리핑 */
+  background: #1f1b18;
+  outline: none;
+}
+
+/* 상단 스크림 — 투명 헤더의 어두운 글자 가독성 확보 */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 220px;
+  z-index: 6;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, .55), rgba(255, 255, 255, 0));
+}
+
+.hero-slides { position: absolute; inset: 0; }
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 84px clamp(56px, 10vw, 150px);
+}
+
+/* 배경: 사진(있으면) + 브랜드 톤 그라데이션(없을 때 대체) */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: scale(1.12);        /* Ken Burns 시작 상태 */
+  will-change: transform;
+}
+.hero-slide:nth-child(1) .hero-bg {
+  background-image:
+    url("../img/hero-01.jpg"),
+    radial-gradient(120% 90% at 28% 18%, rgba(255, 255, 255, .55), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(125deg, #e5ddce 0%, #c9bea7 45%, #ada284 100%);
+}
+.hero-slide:nth-child(2) .hero-bg {
+  background-image:
+    url("../img/hero-02.jpg"),
+    radial-gradient(120% 90% at 72% 20%, rgba(255, 255, 255, .35), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(125deg, #cabbb4 0%, #b5a29c 50%, #8f7d78 100%);
+}
+.hero-slide:nth-child(3) .hero-bg {
+  background-image:
+    url("../img/hero-03.jpg"),
+    radial-gradient(120% 90% at 30% 80%, rgba(255, 255, 255, .40), rgba(255, 255, 255, 0) 55%),
+    linear-gradient(125deg, #d7d3c4 0%, #bfc0ad 50%, #9aa08a 100%);
+}
+
+/* 텍스트 가독성용 은은한 중앙 스크림 */
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(60% 50% at 50% 50%, rgba(0, 0, 0, .22), rgba(0, 0, 0, 0) 70%),
+    linear-gradient(to bottom, rgba(0, 0, 0, .06), rgba(0, 0, 0, .18));
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 720px;
+  text-align: center;
+  color: #fff;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, .32);
+}
+.hero-title {
+  margin: 0 0 22px;
+  font-size: clamp(23px, 3.6vw, 42px);
+  font-weight: 300;
+  letter-spacing: .03em;
+  line-height: 1.45;
+  word-break: keep-all;          /* 한글: 어절 단위 줄바꿈 */
+  overflow-wrap: break-word;
+}
+.hero-sub {
+  margin: 0;
+  font-size: clamp(14px, 1.5vw, 18px);
+  font-weight: 300;
+  line-height: 2;
+  letter-spacing: .01em;
+  color: rgba(255, 255, 255, .92);
+  word-break: keep-all;
+}
+
+/* ---------- 전환: 컷(크로스페이드 없음) + Ken Burns 재생 ---------- */
+.hero-slide.is-active .hero-bg {
+  animation: kenburns 1s ease-out forwards;
+}
+.hero-slide.is-active .hero-copy {
+  animation: fadeUp .7s ease-out .2s both;   /* 배경보다 0.2s 늦게 따라옴 */
+}
+
+@keyframes kenburns {
+  from { transform: scale(1.12); }
+  to   { transform: scale(1); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg { transform: none; }
+  .hero-slide.is-active .hero-bg,
+  .hero-slide.is-active .hero-copy { animation: none; }
+}
+
+/* ---------- 좌우 화살표 ---------- */
+.hero-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, .9);
+  filter: drop-shadow(0 1px 8px rgba(0, 0, 0, .4));
+  transition: color .2s ease, transform .2s ease;
+}
+.hero-arrow svg { width: 40px; height: 40px; }
+.hero-arrow:hover { color: #fff; }
+.hero-arrow--prev { left: clamp(8px, 3vw, 44px); }
+.hero-arrow--prev:hover { transform: translateY(-50%) translateX(-3px); }
+.hero-arrow--next { right: clamp(74px, 8vw, 116px); }
+.hero-arrow--next:hover { transform: translateY(-50%) translateX(3px); }
+.hero-arrow:focus-visible { outline: 2px solid #fff; outline-offset: 2px; border-radius: 4px; }
+
+/* ---------- 인디케이터(선택) ---------- */
+.hero-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  gap: 10px;
+}
+.hero-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .45);
+  transition: background .2s ease, transform .2s ease;
+}
+.hero-dot:hover { background: rgba(255, 255, 255, .75); }
+.hero-dot.is-active { background: #fff; transform: scale(1.25); }
+.hero-dot:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+/* =====================================================================
+   RIGHT UTILITY BAR (desktop) — 슬라이드와 무관하게 항상 고정
+   ===================================================================== */
+.util-bar {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 45;
+  width: 68px;
+  display: flex;
+  flex-direction: column;
+  background: #4a3f38;
+  border-radius: 6px 0 0 6px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .18);
+  overflow: hidden;
+}
+.util-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 13px 4px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: -.02em;
+  color: #f3ede6;
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+  transition: background-color .2s ease;
+}
+.util-item svg { width: 21px; height: 21px; }
+.util-item:hover { background: rgba(255, 255, 255, .1); }
+.util-item--kakao {
+  background: #fee500;
+  color: #3c1e1e;
+  font-weight: 700;
+}
+.util-item--kakao:hover { background: #ffe94d; }
+
+.util-tel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 4px 14px;
+  background: #2e2724;
+  text-align: center;
+}
+.util-tel__label { font-size: 10px; color: #b9aca2; letter-spacing: .02em; }
+.util-tel a {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #e6a06a;
+}
+
+.util-top {
+  padding: 10px 4px;
+  background: #211c19;
+  color: #b9aca2;
+  display: flex;
+  justify-content: center;
+  transition: color .2s ease;
+}
+.util-top svg { width: 18px; height: 18px; }
+.util-top:hover { color: #fff; }
+
+/* =====================================================================
+   BOTTOM CTA BAR (mobile only)
+   ===================================================================== */
+.mobile-cta { display: none; }
+
+/* =====================================================================
+   RESPONSIVE
+   ===================================================================== */
+@media (max-width: 1024px) {
+  .gnb { display: none; }
+  .nav-toggle { display: flex; }
+  .header-tel { margin-left: auto; }
+}
+
+@media (max-width: 1024px) {
+  /* 모바일 메뉴 패널 */
+  .site-header.nav-open {
+    background: #fffdfa;
+    box-shadow: 0 8px 24px rgba(43, 43, 40, .12);
+  }
+  .site-header.nav-open .gnb {
+    display: block;
+    position: absolute;
+    left: 0; right: 0;
+    top: 100%;
+    background: #fffdfa;
+    border-top: 1px solid rgba(43, 43, 40, .08);
+    padding: 8px 0 14px;
+  }
+  .site-header.nav-open .gnb ul {
+    flex-direction: column;
+    gap: 0;
+  }
+  .site-header.nav-open .gnb li { width: 100%; }
+  .site-header.nav-open .gnb a {
+    display: block;
+    padding: 14px 32px;
+    font-size: 16px;
+  }
+  .site-header.nav-open .gnb a::after { display: none; }
+}
+
+@media (max-width: 768px) {
+  .header-inner { height: 60px; padding: 0 20px; gap: 12px; }
+  .site-header.is-scrolled .header-inner { height: 56px; }
+  .brand-name { font-size: 17px; }
+  .brand-mark { width: 28px; height: 28px; }
+  .header-tel span { display: none; }          /* 아이콘만 */
+  .header-tel svg { width: 22px; height: 22px; }
+
+  .hero { height: 72vh; min-height: 440px; }
+  .hero::before { height: 140px; }
+  .hero-slide { padding: 64px 20px; }
+  .hero-title { margin-bottom: 16px; font-size: clamp(21px, 5.6vw, 30px); }
+
+  .hero-arrow { width: 44px; height: 44px; }
+  .hero-arrow svg { width: 30px; height: 30px; }
+  .hero-arrow--next { right: clamp(6px, 3vw, 16px); }
+  .hero-dots { bottom: 74px; }                  /* 하단 CTA 바 위로 */
+
+  /* 데스크톱 유틸바 → 숨김, 하단 고정 CTA로 대체 */
+  .util-bar { display: none; }
+  .mobile-cta {
+    display: flex;
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 45;
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, .12);
+  }
+  .mobile-cta__item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 15px 8px;
+    font-size: 15px;
+    font-weight: 700;
+    background: #4a3f38;
+    color: #fff;
+  }
+  .mobile-cta__item svg { width: 20px; height: 20px; }
+  .mobile-cta__item--kakao { background: #fee500; color: #3c1e1e; flex: 1.4; }
+}
+
+@media (max-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .hero-sub { line-height: 1.9; }
+}
