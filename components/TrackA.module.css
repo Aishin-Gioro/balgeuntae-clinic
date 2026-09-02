@@ -23,7 +23,7 @@
 .title {
   margin: 0 0 28px;
   font-family: var(--font-serif), "Nanum Myeongjo", "AppleMyungjo", "Batang", Georgia, serif;
-  font-size: 30px;
+  font-size: 36px;
   font-weight: 300;
   line-height: 1.35;
   color: #fdfcfa;
@@ -166,8 +166,20 @@
   color: rgba(226, 234, 224, 0.48);
 }
 
+/* ===== 심의 문구 ===== */
+.disclaimer {
+  margin: clamp(40px, 6vw, 64px) 0 0;
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: rgba(226, 234, 224, 0.48);
+  word-break: keep-all;
+}
+
 /* ===== 반응형 ===== */
 @media (max-width: 640px) {
+  .title {
+    font-size: 30px;
+  }
   .cause {
     grid-template-columns: 1fr;
     gap: 10px;

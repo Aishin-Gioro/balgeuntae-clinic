@@ -1,5 +1,14 @@
-import { story } from "@/lib/site";
+import { MOBILE_BREAK, story } from "@/lib/site";
 import styles from "./Story.module.css";
+
+function withMobileBreak(text: string) {
+  return text.split(MOBILE_BREAK).map((part, pi, arr) => (
+    <span key={pi}>
+      {part}
+      {pi < arr.length - 1 && <br className={styles.mobileBreak} />}
+    </span>
+  ));
+}
 
 export function Story() {
   return (
@@ -14,7 +23,7 @@ export function Story() {
 
         {story.body.map((para, i) => (
           <p key={i} className={styles.body}>
-            {para}
+            {withMobileBreak(para)}
           </p>
         ))}
 
@@ -22,7 +31,7 @@ export function Story() {
           {story.steps.map((step) => (
             <li key={step.term} className={styles.step}>
               <span className={styles.stepTerm}>{step.term}</span>
-              <p className={styles.stepDesc}>{step.desc}</p>
+              <p className={styles.stepDesc}>{withMobileBreak(step.desc)}</p>
             </li>
           ))}
         </ol>

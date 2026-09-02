@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { AUTOPLAY_MS, heroSlides } from "@/lib/site";
+import { AUTOPLAY_MS, heroSlides, MOBILE_BREAK } from "@/lib/site";
 import { ChatIcon, ChevronLeft, ChevronRight } from "./icons";
 import styles from "./Hero.module.css";
 
@@ -91,7 +91,14 @@ export function Hero() {
               />
               <div className={`${styles.scrim} ${slide.blur ? styles.scrimStrong : ""}`} />
               <div className={styles.copy}>
-                <h2 className={styles.title}>{slide.title}</h2>
+                <h2 className={styles.title}>
+                  {slide.title.split(MOBILE_BREAK).map((part, pi, arr) => (
+                    <span key={pi}>
+                      {part}
+                      {pi < arr.length - 1 && <br className={styles.mobileBreak} />}
+                    </span>
+                  ))}
+                </h2>
                 <p className={styles.sub}>
                   {slide.subtitle.map((line, li) => (
                     <span key={li}>

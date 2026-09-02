@@ -57,7 +57,7 @@
 .tagline {
   margin: 0 0 20px;
   font-family: var(--font-serif), "Nanum Myeongjo", "AppleMyungjo", "Batang", Georgia, serif;
-  font-size: 30px;
+  font-size: 36px;
   font-weight: 500;
   color: #2b2b28;
   word-break: keep-all;
@@ -200,6 +200,12 @@
 }
 
 /* ===== 반응형 ===== */
+@media (max-width: 640px) {
+  .tagline {
+    font-size: 30px;
+  }
+}
+
 @media (max-width: 900px) {
   .body {
     grid-template-columns: 1fr;

@@ -47,7 +47,7 @@
 .title {
   margin: 0 0 36px;
   font-family: var(--font-serif), "Nanum Myeongjo", "AppleMyungjo", "Batang", Georgia, serif;
-  font-size: 30px;
+  font-size: 36px;
   font-weight: 300;
   line-height: 1.3;
   color: #2b2b28;
@@ -183,6 +183,12 @@
   .card {
     aspect-ratio: 3 / 2;
     max-height: 420px;
+  }
+}
+
+@media (max-width: 640px) {
+  .title {
+    font-size: 30px;
   }
 }
 

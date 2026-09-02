@@ -43,6 +43,8 @@ export function TrackA() {
           <p className={styles.treatmentBody}>{trackA.treatment.body}</p>
           <p className={styles.treatmentNote}>{trackA.treatment.note}</p>
         </div>
+
+        <p className={styles.disclaimer}>※ {trackA.disclaimer}</p>
       </div>
     </section>
   );

@@ -96,6 +96,11 @@
   white-space: pre-line;
 }
 
+/* 모바일 전용 줄바꿈 마커 — 데스크톱에서는 숨기고 768px 이하에서만 표시 */
+.mobileBreak {
+  display: none;
+}
+
 .sub {
   margin: 0;
   font-size: clamp(14px, 1.5vw, 18px);
@@ -250,6 +255,9 @@
   .title {
     margin-bottom: 16px;
     font-size: 30px;
+  }
+  .mobileBreak {
+    display: inline;
   }
   .cta {
     margin-top: 22px;
