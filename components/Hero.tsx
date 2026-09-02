@@ -102,7 +102,12 @@ export function Hero() {
                 <p className={styles.sub}>
                   {slide.subtitle.map((line, li) => (
                     <span key={li}>
-                      {line}
+                      {line.split(MOBILE_BREAK).map((part, pi, arr) => (
+                        <span key={pi}>
+                          {part}
+                          {pi < arr.length - 1 && <br className={styles.mobileBreak} />}
+                        </span>
+                      ))}
                       {li < slide.subtitle.length - 1 && <br />}
                     </span>
                   ))}

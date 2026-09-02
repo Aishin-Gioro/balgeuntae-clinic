@@ -246,8 +246,8 @@
 /* ===== 반응형 ===== */
 @media (max-width: 768px) {
   .hero {
-    height: 72vh;
-    min-height: 440px;
+    height: 92vh;
+    min-height: 620px;
   }
   .slide {
     padding: 64px 20px;
