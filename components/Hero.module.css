@@ -13,34 +13,59 @@
   scroll-margin-top: 72px;
 }
 
+/* 배경 3종(기본/위장치료/다이어트)을 모두 겹쳐두고 opacity로만 전환 — 크로스페이드 */
 .bg {
   position: absolute;
   inset: 0;
+  z-index: 0;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  opacity: 0;
   transform: scale(1.06);
-  transition: transform 0.8s ease, background-image 0.2s ease;
+  transition: opacity 0.9s ease;
+}
+.bgActive {
+  z-index: 1;
+  opacity: 1;
   animation: kenburns 8s ease-out both;
 }
 
 .scrim {
   position: absolute;
   inset: 0;
+  z-index: 1;
   background:
     radial-gradient(60% 50% at 50% 50%, rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0) 70%),
     linear-gradient(to bottom, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.22));
 }
 
-.copy {
+/* 문구 + 선택 카드 + CTA 를 한 덩어리로 묶어 하단 정렬 기준을 고정 */
+.content {
   position: relative;
   z-index: 2;
   width: 100%;
   max-width: 720px;
   text-align: center;
   color: #fff;
+}
+
+/* 문구 3종도 같은 그리드 칸에 겹쳐 크로스페이드 — 가장 긴 문구 기준으로 높이가 고정되어 버튼 위치가 흔들리지 않음 */
+.copyLayers {
+  display: grid;
+}
+
+.copy {
+  grid-column: 1;
+  grid-row: 1;
+  opacity: 0;
+  pointer-events: none;
   text-shadow: 0 2px 20px rgba(0, 0, 0, 0.32);
-  animation: fadeUp 0.6s ease-out both;
+  transition: opacity 0.5s ease;
+}
+.copyActive {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .title {
@@ -70,13 +95,19 @@
   word-break: keep-all;
 }
 
+/* CTA 3종도 동일하게 겹쳐 크로스페이드 */
+.ctaLayers {
+  display: grid;
+  justify-content: center;
+  margin-top: clamp(28px, 4vw, 40px);
+}
+
 .cta {
-  position: relative;
-  z-index: 2;
+  grid-column: 1;
+  grid-row: 1;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-top: clamp(28px, 4vw, 40px);
   padding: 13px 28px;
   border-radius: 999px;
   background: #fff;
@@ -86,7 +117,13 @@
   letter-spacing: 0.01em;
   text-shadow: none;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.28);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+.ctaActive {
+  opacity: 1;
+  pointer-events: auto;
 }
 .cta:hover {
   background: #f4f2ee;
@@ -106,24 +143,18 @@
     transform: scale(1.06);
   }
 }
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
 @media (prefers-reduced-motion: reduce) {
   .bg {
-    animation: none;
+    transition: none;
     transform: none;
   }
-  .copy {
+  .bgActive {
     animation: none;
+  }
+  .copy,
+  .cta {
+    transition: none;
   }
 }
 
@@ -133,6 +164,7 @@
   position: relative;
   z-index: 2;
   display: flex;
+  justify-content: center;
   gap: clamp(16px, 3vw, 28px);
   margin-top: clamp(32px, 5vw, 52px);
 }
@@ -186,8 +218,10 @@
   .mobileBreak {
     display: inline;
   }
-  .cta {
+  .ctaLayers {
     margin-top: 22px;
+  }
+  .cta {
     padding: 11px 22px;
     font-size: 15px;
   }
