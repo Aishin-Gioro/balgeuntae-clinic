@@ -3,20 +3,20 @@
   /* overflow: clip 는 스크롤 컨테이너를 만들지 않아 자식 position: sticky 를 깨지 않음
      (overflow: hidden 은 sticky 를 무력화하므로 사용 금지) */
   overflow: clip;
-  background: #ffffff;
-  color: #2b2b28;
+  background: #1f2d27;
+  color: #e8ece6;
   padding: clamp(80px, 11vw, 140px) clamp(20px, 6vw, 96px);
   scroll-margin-top: 72px;
 }
 
-/* 배경 장식 곡선 — Treatment 섹션과 동일 톤 */
+/* 배경 장식 곡선 — 어두운 배경에 맞춰 밝은 톤 저채도로 조정 */
 .decor {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   fill: none;
-  stroke: #e9e6df;
+  stroke: rgba(232, 236, 230, 0.12);
   stroke-width: 1;
   stroke-linecap: round;
   pointer-events: none;
@@ -35,7 +35,7 @@
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.04em;
-  color: #6b5b3e;
+  color: #a7c5a0;
   text-align: center;
 }
 
@@ -45,7 +45,7 @@
   font-size: 36px;
   font-weight: 300;
   line-height: 1.35;
-  color: #2b2b28;
+  color: #fdfcfa;
   white-space: pre-line;
   word-break: keep-all;
   text-align: center;
@@ -56,10 +56,15 @@
   max-width: 60em;
   font-size: clamp(15px, 1.6vw, 17px);
   line-height: 1.95;
-  color: #55534e;
+  color: rgba(226, 234, 224, 0.72);
   word-break: keep-all;
   text-align: center;
   white-space: pre-line;
+}
+
+/* 모바일 전용 줄바꿈 마커 — 데스크톱에서는 숨기고 640px 이하에서만 표시 */
+.mobileBreak {
+  display: none;
 }
 
 /* ===== 작용 — 좌측 고정 이미지 + 우측 스크롤 ===== */
@@ -72,7 +77,7 @@
   font-size: clamp(17px, 2vw, 20px);
   font-weight: 700;
   line-height: 1.5;
-  color: #2b2b28;
+  color: #fdfcfa;
   word-break: keep-all;
   text-align: center;
 }
@@ -95,8 +100,9 @@
   justify-content: center;
   aspect-ratio: 4 / 5;
   border-radius: 16px;
-  background: #eae4dc;
-  color: #9a978f;
+  border: 1px dashed rgba(226, 234, 224, 0.22);
+  background: rgba(226, 234, 224, 0.04);
+  color: rgba(226, 234, 224, 0.5);
   font-size: 13px;
   letter-spacing: 0.02em;
 }
@@ -109,7 +115,7 @@
 
 .effectItem {
   padding: clamp(40px, 9vh, 88px) 0;
-  border-top: 1px solid rgba(43, 43, 40, 0.1);
+  border-top: 1px solid rgba(226, 234, 224, 0.12);
 }
 .effectItem:first-child {
   padding-top: 0;
@@ -124,7 +130,7 @@
   margin-bottom: 14px;
   font-size: 13px;
   letter-spacing: 0.04em;
-  color: #a9754f;
+  color: #a7c5a0;
 }
 
 .effectTerm {
@@ -132,7 +138,7 @@
   font-size: clamp(20px, 2.6vw, 26px);
   font-weight: 700;
   line-height: 1.4;
-  color: #2b2b28;
+  color: #fdfcfa;
   word-break: keep-all;
 }
 
@@ -140,64 +146,9 @@
   margin: 0;
   font-size: clamp(14px, 1.5vw, 15px);
   line-height: 1.95;
-  color: #55534e;
+  color: rgba(226, 234, 224, 0.7);
   white-space: pre-line;
   word-break: keep-all;
-}
-
-/* ===== 1:1 맞춤 처방 — 풀블리드 다크 배너 ===== */
-.prescription {
-  margin-top: clamp(56px, 8vw, 88px);
-  text-align: center;
-}
-
-.prescriptionBanner {
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(1240px, calc(100vw - 40px));
-  padding: clamp(40px, 7vw, 68px) clamp(24px, 6vw, 56px);
-  border-radius: 22px;
-  overflow: hidden;
-  color: #fff;
-  background-color: #1a1a18;
-  background-image: linear-gradient(rgba(16, 16, 15, 0.5), rgba(16, 16, 15, 0.62)),
-    url("/images/section5-bg.webp");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.prescriptionKicker {
-  margin: 0 0 14px;
-  font-size: 13px;
-  letter-spacing: 0.04em;
-  color: rgba(255, 255, 255, 0.72);
-}
-
-.prescriptionTitle {
-  margin: 0 0 18px;
-  font-size: clamp(20px, 2.8vw, 28px);
-  font-weight: 700;
-  line-height: 1.5;
-  color: #ffffff;
-  white-space: pre-line;
-  word-break: keep-all;
-}
-
-.prescriptionBody {
-  margin: 0 auto 8px;
-  max-width: 44em;
-  font-size: clamp(13.5px, 1.5vw, 15px);
-  line-height: 1.85;
-  color: rgba(255, 255, 255, 0.74);
-  word-break: keep-all;
-}
-
-.prescriptionNote {
-  margin: 0;
-  font-size: 12.5px;
-  color: rgba(255, 255, 255, 0.74);
 }
 
 /* ===== 인바디 전후 ===== */
@@ -210,7 +161,7 @@
   margin: 0 0 16px;
   font-size: clamp(19px, 2.4vw, 24px);
   font-weight: 700;
-  color: #2b2b28;
+  color: #fdfcfa;
   word-break: keep-all;
 }
 
@@ -219,7 +170,7 @@
   max-width: 44em;
   font-size: clamp(14px, 1.5vw, 16px);
   line-height: 1.9;
-  color: #55534e;
+  color: rgba(226, 234, 224, 0.68);
   word-break: keep-all;
 }
 
@@ -236,9 +187,9 @@
   justify-content: center;
   aspect-ratio: 4 / 3;
   border-radius: 12px;
-  border: 1px dashed rgba(43, 43, 40, 0.22);
-  background: #f5f2ec;
-  color: #8a8579;
+  border: 1px dashed rgba(226, 234, 224, 0.22);
+  background: rgba(226, 234, 224, 0.04);
+  color: rgba(226, 234, 224, 0.5);
   font-size: 13px;
   letter-spacing: 0.02em;
 }
@@ -248,7 +199,7 @@
   margin: clamp(40px, 6vw, 64px) 0 0;
   font-size: 12.5px;
   line-height: 1.7;
-  color: #9a958c;
+  color: rgba(226, 234, 224, 0.48);
   word-break: keep-all;
 }
 
@@ -272,6 +223,9 @@
 @media (max-width: 640px) {
   .title {
     font-size: 30px;
+  }
+  .mobileBreak {
+    display: inline;
   }
   .compare {
     grid-template-columns: 1fr;

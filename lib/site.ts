@@ -1,6 +1,6 @@
 /**
  * 사이트 공통 설정
- * ─ 연락처·외부링크·히어로 슬라이드 문구를 한곳에서 관리
+ * ─ 연락처·외부링크·히어로 문구를 한곳에서 관리
  */
 
 export const site = {
@@ -23,7 +23,7 @@ export const site = {
 } as const;
 
 export const nav = [
-  { label: "태(胎)란?", href: "#story" },
+  { label: "태(胎)란?", href: "#hero" },
   { label: "진료과목", href: "#treatment" },
   { label: "전후 사진", href: "#results" },
   { label: "원장 소개", href: "#doctor" },
@@ -33,9 +33,9 @@ export const nav = [
 /** 모바일 화면에서만 줄바꿈을 강제할 때 title 문자열에 삽입하는 마커(유니코드 라인 구분자, 다른 텍스트와 절대 충돌하지 않음) */
 export const MOBILE_BREAK = String.fromCharCode(0x2028);
 
-export type HeroSlide = {
-  id: string;
-  label: string;
+export type HeroTrackId = "stomach" | "diet";
+
+export type HeroContent = {
   title: string;
   /** 줄바꿈은 배열 요소로 분리 */
   subtitle: string[];
@@ -46,81 +46,50 @@ export type HeroSlide = {
   image: string;
   /** 이미지가 없을 때 대체 표시되는 톤 그라데이션 */
   gradient: string;
-  /** 배경 사진을 흐리게 처리하고 스크림을 강화해 텍스트 가독성 확보 */
-  blur?: boolean;
-  /** 슬라이드 하단 CTA 버튼 (없으면 미표시) */
+  /** CTA 버튼 (없으면 미표시) */
   cta?: { label: string; href: string };
 };
 
-export const heroSlides: HeroSlide[] = [
-  {
-    id: "brand",
-    label: "브랜드 이야기",
-    // 모바일에서 쉼표 뒤 줄바꿈 유도: "밝은태 한의원"을 nbsp로 묶어 통째로 내려가게
-    title: "환골탈태하는 한의원, 밝은태 한의원",
-    subtitle: [
-      `습관의 반복이 몸에 고착되어 구조가 된 것을${MOBILE_BREAK}‘태(胎)’라 합니다`,
-      "한의학적 치료와 심신수련으로 이전과 다른 새로운 몸과 마음을 회복합니다",
-    ],
-    image: "/images/hero-bg1.webp",
-    gradient:
-      "radial-gradient(120% 90% at 30% 80%, rgba(255,255,255,.40), rgba(255,255,255,0) 55%), linear-gradient(125deg, #d7d3c4 0%, #bfc0ad 50%, #9aa08a 100%)",
-    blur: true,
-    cta: { label: "문의하기", href: site.links.kakao },
-  },
-  {
-    id: "stomach",
-    label: "장상피화생·위축성위염",
+/** 히어로 기본 화면 — 두 진료과목 버튼을 선택하기 전 노출되는 '태(胎)' 브랜드 카피 */
+export const heroDefault: HeroContent = {
+  title: "환골탈태하는 한의원, 밝은태 한의원",
+  subtitle: [
+    `습관의 반복이 몸에 고착되어 구조가 된 것을${MOBILE_BREAK}‘태(胎)’라 합니다`,
+    "한의학적 치료와 심신수련으로 이전과 다른 새로운 몸과 마음을 회복합니다",
+  ],
+  image: "/images/hero-bg1.webp",
+  gradient:
+    "radial-gradient(120% 90% at 30% 80%, rgba(255,255,255,.40), rgba(255,255,255,0) 55%), linear-gradient(125deg, #d7d3c4 0%, #bfc0ad 50%, #9aa08a 100%)",
+  cta: { label: "문의하기", href: site.links.kakao },
+};
+
+/** 히어로에서 선택 가능한 두 진료과목 — 버튼 클릭 시 heroDefault 대신 노출 */
+export const heroTracks: Record<HeroTrackId, HeroContent & { buttonLabel: string }> = {
+  stomach: {
+    buttonLabel: "위장 치료(장상피화생)",
     title: `위암 전단계,${MOBILE_BREAK}위점막 회복을 돕습니다`,
     subtitle: [
-      "장상피화생 · 위축성위염은 위점막이 변형된 위암 전단계 질환입니다",
+      "장상피화생 · 위축성위염은 위점막이 변형된 위암 전단계 질환입니다",
       "체질과 위장 상태에 맞춘 한약으로 치료합니다",
     ],
     image: "/images/hero-bg3.webp",
     gradient:
       "radial-gradient(120% 90% at 28% 18%, rgba(255,255,255,.55), rgba(255,255,255,0) 55%), linear-gradient(125deg, #e5ddce 0%, #c9bea7 45%, #ada284 100%)",
+    cta: { label: "자세히보기", href: "#track-a" },
   },
-  {
-    id: "diet",
-    label: "밝은태 다이어트",
+  diet: {
+    buttonLabel: "다이어트",
     title: "환골탈태하는 다이어트,\n밝은태 다이어트",
-    subtitle: ["요요는 살이 찌는 습관, ‘태(胎)’를 바꾸지 않았기 때문입니다", "살이 찌는 ‘태(胎)’부터 바꿉니다"],
+    subtitle: [
+      "요요는 살이 찌는 습관, ‘태(胎)’를 바꾸지 않았기 때문입니다",
+      "살이 찌는 ‘태(胎)’부터 바꿉니다",
+    ],
     image: "/images/hero-bg2.webp",
     gradient:
       "radial-gradient(120% 90% at 72% 20%, rgba(255,255,255,.35), rgba(255,255,255,0) 55%), linear-gradient(125deg, #cabbb4 0%, #b5a29c 50%, #8f7d78 100%)",
+    cta: { label: "자세히보기", href: "#track-b" },
   },
-];
-
-export const AUTOPLAY_MS = 5500;
-
-/* ─────────────────────────────────────────────────────────────
-   브랜드 스토리 — '태(胎)'의 의미 ([[tae_meaning_brand_copy]] 원고 기반)
-   ───────────────────────────────────────────────────────────── */
-export const story = {
-  kicker: "태(胎)란?",
-  title: "‘태(胎)’ — 나를 규정하는 몸의 흔적",
-  quote:
-    "나 자신을 1차로 규정하는 것은 몸입니다.\n몸을 치료하고 수련하는 것만큼 가치 있는 일은 없습니다.",
-  body: [
-    "오래 반복된 육체적·감정적·사고의 패턴은 반드시 에너지를 그 형태로 굳어지게 만듭니다.\n습관의 반복이 몸에 고착되어 구조에까지 영향을 미치는 것을 ‘태(胎)’라 합니다.",
-    `슬픔을 오래 느낀 사람은 슬퍼하는 것이 습관이 되고,${MOBILE_BREAK}화를 자주 낸 사람은 습관적으로 화를 내는 구조가 됩니다.\n이유 없는 다리 떨기, 스트레스성 소화불량, 끊지 못하는 담배 — 각종 육체적·심리적 중독도 모두 ‘태’의 모습입니다.`,
-  ],
-  steps: [
-    {
-      term: "씨앗",
-      desc: "우리는 모두 씨앗이었습니다. 어떤 싹을 틔우고 어떤 열매를 맺을지 아무도 알 수 없습니다.",
-    },
-    {
-      term: "태(胎)의 고착",
-      desc: "동일한 패턴의 반복이 몸에 새겨져 구조가 된 상태. 그치고 싶어도 그칠 수 없는 그것이 교정해야 할 ‘태’입니다.",
-    },
-    {
-      term: "환골탈태",
-      desc: `한의학적 치료와 심신수련으로 태를 제거하고,${MOBILE_BREAK}이전과 전혀 다른 새로운 심신 상태를 얻는 것.`,
-    },
-  ],
-  closing: "환골탈태하는 한의원, 밝은태 한의원입니다.",
-} as const;
+};
 
 /* ─────────────────────────────────────────────────────────────
    진료과목 2트랙 개요
@@ -197,11 +166,6 @@ export const trackA = {
     body: "치료 전후의 내시경 소견을 환자와 함께 보며 변화를 확인합니다.\n결과를 직접 확인시켜 드리는 것은 치료에 대한 책임입니다.",
     caption: "내시경 전 · 후 비교",
   },
-  treatment: {
-    title: "밝은태의 치료 — 한약",
-    body: "개인의 체질과 위장 상태를 진단해, 마른 위점막에 진액을 보충하고 만성 염증을 가라앉히는 한약을 처방합니다. 갈라지고 노화된 위점막의 회복을 목표로, 진액을 채우는 데 필요한 만큼 충분한 기간을 두고 세심하게 처방합니다.",
-    note: "구체적인 치료 기간과 과정은 원장 상담 시 안내드립니다.",
-  },
   disclaimer:
     "한약은 한의사 진료 후에만 처방하며, 복용 시 개인의 체질과 상태에 따라 소화불량·속쓰림 등의 증상이 나타날 수 있고 회복 기간과 정도에는 개인차가 있습니다.",
 } as const;
@@ -215,7 +179,7 @@ export const trackA = {
 export const trackB = {
   kicker: "밝은태 다이어트",
   title: "요요 없는 다이어트는\n‘태(胎)’부터 바꿉니다",
-  lead: "요요는 살이 찌는 습관, ‘태(胎)’를 바꾸지 않았기 때문입니다.\n밝은태 다이어트는 단순 감량이 아니라 살이 찌는 ‘태(胎)’ — 식욕·대사·생활 패턴 — 를 함께 바꾸는 한약 치료입니다.",
+  lead: `요요는 살이 찌는 습관, ‘태(胎)’를 바꾸지 않았기 때문입니다.\n밝은태 다이어트는 단순 감량이 아니라 살이 찌는${MOBILE_BREAK}‘태(胎)’ — 식욕·대사·생활 패턴 — 를 함께 바꾸는${MOBILE_BREAK} 한약 치료입니다.`,
   effectsTitle: "밝은태 다이어트 한약은 이렇게 작용합니다",
   effects: [
     {
@@ -232,7 +196,7 @@ export const trackB = {
     },
     {
       term: "혈당 안정",
-      desc: "혈당을 안정시켜 지방 저장 호르몬인 인슐린 분비를 조절하고,\n섭취한 영양소가 지방으로 쌓이는 것을 줄이도록 돕습니다.",
+      desc: "혈당을 안정시켜 지방 저장 호르몬인 인슐린 분비를 조절하고, 섭취한 영양소가 지방으로 쌓이는 것을 줄이도록 돕습니다.",
     },
   ],
   prescription: {

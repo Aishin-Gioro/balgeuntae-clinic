@@ -38,12 +38,6 @@ export function TrackA() {
           </div>
         </div>
 
-        <div className={styles.treatment}>
-          <h3 className={styles.treatmentTitle}>{trackA.treatment.title}</h3>
-          <p className={styles.treatmentBody}>{trackA.treatment.body}</p>
-          <p className={styles.treatmentNote}>{trackA.treatment.note}</p>
-        </div>
-
         <p className={styles.disclaimer}>※ {trackA.disclaimer}</p>
       </div>
     </section>

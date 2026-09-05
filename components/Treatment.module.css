@@ -54,53 +54,11 @@
   word-break: keep-all;
 }
 
-.nav {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 30px;
-}
-.arrow {
-  width: 46px;
-  height: 46px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #cec9c0;
-  border-radius: 50%;
-  color: #2b2b28;
-  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
-}
-.arrow:hover {
-  border-color: #2b2b28;
-  background: #2b2b28;
-  color: #fff;
-}
-.arrowIcon {
-  width: 17px;
-  height: 17px;
-}
-
 .divider {
   width: 40px;
   height: 2px;
   margin-bottom: 26px;
   background: #2b2b28;
-}
-
-/* ===== 슬라이드(트랙) — 겹쳐두고 크로스페이드 ===== */
-.slides {
-  display: grid;
-}
-.slide {
-  grid-column: 1;
-  grid-row: 1;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.45s ease;
-}
-.slideActive {
-  opacity: 1;
-  pointer-events: auto;
 }
 
 .slideLabel {
@@ -195,8 +153,5 @@
 @media (max-width: 720px) {
   .title {
     margin-bottom: 26px;
-  }
-  .nav {
-    margin-bottom: 22px;
   }
 }

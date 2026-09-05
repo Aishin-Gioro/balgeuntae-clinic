@@ -1,5 +1,14 @@
-import { trackB } from "@/lib/site";
+import { MOBILE_BREAK, trackB } from "@/lib/site";
 import styles from "./TrackB.module.css";
+
+function withMobileBreak(text: string) {
+  return text.split(MOBILE_BREAK).map((part, pi, arr) => (
+    <span key={pi}>
+      {part}
+      {pi < arr.length - 1 && <br className={styles.mobileBreak} />}
+    </span>
+  ));
+}
 
 export function TrackB() {
   return (
@@ -21,7 +30,7 @@ export function TrackB() {
         <h2 id="track-b-title" className={styles.title}>
           {trackB.title}
         </h2>
-        <p className={styles.lead}>{trackB.lead}</p>
+        <p className={styles.lead}>{withMobileBreak(trackB.lead)}</p>
 
         <div className={styles.effectsBlock}>
           <h3 className={styles.effectsTitle}>{trackB.effectsTitle}</h3>
@@ -42,15 +51,6 @@ export function TrackB() {
                 </li>
               ))}
             </ol>
-          </div>
-        </div>
-
-        <div className={styles.prescription}>
-          <div className={styles.prescriptionBanner}>
-            <p className={styles.prescriptionKicker}>{trackB.prescription.kicker}</p>
-            <h3 className={styles.prescriptionTitle}>{trackB.prescription.title}</h3>
-            <p className={styles.prescriptionBody}>{trackB.prescription.body}</p>
-            <p className={styles.prescriptionNote}>{trackB.prescription.note}</p>
           </div>
         </div>
 

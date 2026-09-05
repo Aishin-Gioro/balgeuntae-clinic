@@ -134,38 +134,6 @@
   letter-spacing: 0.02em;
 }
 
-/* ===== 치료 파트 ===== */
-.treatment {
-  margin-top: clamp(56px, 8vw, 88px);
-  padding: clamp(28px, 4vw, 44px);
-  border: 1px solid rgba(167, 197, 160, 0.35);
-  border-radius: 16px;
-  background: rgba(167, 197, 160, 0.06);
-}
-
-.treatmentTitle {
-  margin: 0 0 14px;
-  font-size: clamp(19px, 2.4vw, 24px);
-  font-weight: 700;
-  color: #fdfcfa;
-  word-break: keep-all;
-}
-
-.treatmentBody {
-  margin: 0 0 14px;
-  max-width: 46em;
-  font-size: clamp(14px, 1.5vw, 16px);
-  line-height: 1.95;
-  color: rgba(226, 234, 224, 0.78);
-  word-break: keep-all;
-}
-
-.treatmentNote {
-  margin: 0;
-  font-size: 13px;
-  color: rgba(226, 234, 224, 0.48);
-}
-
 /* ===== 심의 문구 ===== */
 .disclaimer {
   margin: clamp(40px, 6vw, 64px) 0 0;

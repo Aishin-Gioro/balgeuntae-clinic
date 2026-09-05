@@ -1,15 +1,20 @@
 "use client";
 
-import { useState } from "react";
-import { treatment } from "@/lib/site";
-import { ChevronLeft, ChevronRight } from "./icons";
+import { treatment, type HeroTrackId } from "@/lib/site";
+import { useHeroTrack } from "./HeroTrackContext";
 import styles from "./Treatment.module.css";
 
-const COUNT = treatment.tracks.length;
+const TRACK_TO_TREATMENT_ID: Record<HeroTrackId, string> = {
+  stomach: "track-a",
+  diet: "track-b",
+};
 
 export function Treatment() {
-  const [index, setIndex] = useState(0);
-  const move = (next: number) => setIndex(((next % COUNT) + COUNT) % COUNT);
+  const { track } = useHeroTrack();
+  if (!track) return null;
+
+  const activeTrack = treatment.tracks.find((t) => t.id === TRACK_TO_TREATMENT_ID[track]);
+  if (!activeTrack) return null;
 
   return (
     <section id="treatment" className={styles.section} aria-labelledby="treatment-title">
@@ -33,60 +38,23 @@ export function Treatment() {
             {treatment.title}
           </h2>
 
-          <div className={styles.nav}>
-            <button
-              type="button"
-              className={styles.arrow}
-              aria-label="이전 진료과목"
-              onClick={() => move(index - 1)}
-            >
-              <ChevronLeft className={styles.arrowIcon} />
-            </button>
-            <button
-              type="button"
-              className={styles.arrow}
-              aria-label="다음 진료과목"
-              onClick={() => move(index + 1)}
-            >
-              <ChevronRight className={styles.arrowIcon} />
-            </button>
-          </div>
-
           <span className={styles.divider} aria-hidden="true" />
 
-          <div className={styles.slides}>
-            {treatment.tracks.map((track, i) => (
-              <div
-                key={track.id}
-                className={`${styles.slide} ${i === index ? styles.slideActive : ""}`}
-                aria-hidden={i !== index}
-              >
-                <p className={styles.slideLabel}>{track.label}</p>
-                <h3 className={styles.slideTitle}>{track.title}</h3>
-                <p className={styles.slideDesc}>{track.desc}</p>
-                <a
-                  className={styles.cta}
-                  href={track.href}
-                  tabIndex={i === index ? 0 : -1}
-                >
-                  {track.cta}
-                </a>
-              </div>
-            ))}
-          </div>
+          <p className={styles.slideLabel}>{activeTrack.label}</p>
+          <h3 className={styles.slideTitle}>{activeTrack.title}</h3>
+          <p className={styles.slideDesc}>{activeTrack.desc}</p>
+          <a className={styles.cta} href={activeTrack.href}>
+            {activeTrack.cta}
+          </a>
         </div>
 
         <div className={styles.media}>
-          {treatment.tracks.map((track, i) => (
-            <figure
-              key={track.id}
-              className={`${styles.card} ${i === index ? styles.cardActive : ""}`}
-              style={{ backgroundImage: `url(${track.image})` }}
-              aria-hidden={i !== index}
-            >
-              <figcaption className={styles.caption}>{track.caption}</figcaption>
-            </figure>
-          ))}
+          <figure
+            className={`${styles.card} ${styles.cardActive}`}
+            style={{ backgroundImage: `url(${activeTrack.image})` }}
+          >
+            <figcaption className={styles.caption}>{activeTrack.caption}</figcaption>
+          </figure>
         </div>
       </div>
     </section>
