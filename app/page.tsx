@@ -14,28 +14,26 @@ import { MobileCta } from "@/components/MobileCta";
 
 export default function HomePage() {
   return (
-    <>
+    <Suspense fallback={null}>
       <Header />
       <main>
-        <Suspense fallback={null}>
-          <Hero />
-          <HeroTrackGate>
-            <Treatment />
-            <ShowForTrack id="stomach">
-              <TrackA />
-            </ShowForTrack>
-            <ShowForTrack id="diet">
-              <TrackB />
-            </ShowForTrack>
-            <PrescriptionBanner />
-            <Doctor />
-            <Location />
-            {/* 이후 섹션(CTA 배너 / 푸터) 예정 */}
-          </HeroTrackGate>
-        </Suspense>
+        <Hero />
+        <HeroTrackGate>
+          <Treatment />
+          <ShowForTrack id="stomach">
+            <TrackA />
+          </ShowForTrack>
+          <ShowForTrack id="diet">
+            <TrackB />
+          </ShowForTrack>
+          <PrescriptionBanner />
+          <Doctor />
+          <Location />
+          {/* 이후 섹션(CTA 배너 / 푸터) 예정 */}
+        </HeroTrackGate>
       </main>
       <UtilBar />
       <MobileCta />
-    </>
+    </Suspense>
   );
 }

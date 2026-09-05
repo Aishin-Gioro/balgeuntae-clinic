@@ -23,7 +23,6 @@ export const site = {
 } as const;
 
 export const nav = [
-  { label: "태(胎)란?", href: "#hero" },
   { label: "진료과목", href: "#treatment" },
   { label: "전후 사진", href: "#results" },
   { label: "원장 소개", href: "#doctor" },
@@ -46,8 +45,8 @@ export type HeroContent = {
   image: string;
   /** 이미지가 없을 때 대체 표시되는 톤 그라데이션 */
   gradient: string;
-  /** CTA 버튼 (없으면 미표시) */
-  cta?: { label: string; href: string };
+  /** CTA 버튼 (없으면 미표시). icon 생략 시 "화살표"(자세히보기용) */
+  cta?: { label: string; href: string; icon?: "chat" | "arrow" };
 };
 
 /** 히어로 기본 화면 — 두 진료과목 버튼을 선택하기 전 노출되는 '태(胎)' 브랜드 카피 */
@@ -60,7 +59,7 @@ export const heroDefault: HeroContent = {
   image: "/images/hero-bg1.webp",
   gradient:
     "radial-gradient(120% 90% at 30% 80%, rgba(255,255,255,.40), rgba(255,255,255,0) 55%), linear-gradient(125deg, #d7d3c4 0%, #bfc0ad 50%, #9aa08a 100%)",
-  cta: { label: "문의하기", href: site.links.kakao },
+  cta: { label: "문의하기", href: site.links.kakao, icon: "chat" },
 };
 
 /** 히어로에서 선택 가능한 두 진료과목 — 버튼 클릭 시 heroDefault 대신 노출 */

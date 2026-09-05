@@ -54,7 +54,7 @@ export function TrackB() {
           </div>
         </div>
 
-        <div className={styles.proof}>
+        <div id="track-b-proof" className={styles.proof}>
           <h3 className={styles.proofTitle}>{trackB.proof.title}</h3>
           <p className={styles.proofBody}>{trackB.proof.body}</p>
           <div className={styles.compare}>

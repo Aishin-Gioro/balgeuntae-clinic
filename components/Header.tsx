@@ -2,11 +2,17 @@
 
 import { useState } from "react";
 import { nav, site } from "@/lib/site";
+import { useHeroTrack } from "./HeroTrackContext";
 import { BrandMark } from "./icons";
 import styles from "./Header.module.css";
 
+/** 진료과목에 따라 "전후 사진" 메뉴가 가리키는 위치가 달라짐 (장상피화생 → 내시경, 다이어트 → 인바디) */
+const RESULTS_PLACEHOLDER_HREF = "#results";
+
 export function Header() {
   const [navOpen, setNavOpen] = useState(false);
+  const { track } = useHeroTrack();
+  const resultsHref = track === "diet" ? "#track-b-proof" : "#track-a-proof";
 
   return (
     <header
@@ -22,13 +28,16 @@ export function Header() {
 
         <nav className={styles.gnb} aria-label="주요 메뉴">
           <ul>
-            {nav.map((item) => (
-              <li key={item.href}>
-                <a href={item.href} onClick={() => setNavOpen(false)}>
-                  {item.label}
-                </a>
-              </li>
-            ))}
+            {nav.map((item) => {
+              const href = item.href === RESULTS_PLACEHOLDER_HREF ? resultsHref : item.href;
+              return (
+                <li key={item.href}>
+                  <a href={href} onClick={() => setNavOpen(false)}>
+                    {item.label}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         </nav>
 

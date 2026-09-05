@@ -94,6 +94,7 @@
 .proof {
   margin-top: clamp(72px, 10vw, 120px);
   text-align: center;
+  scroll-margin-top: 72px;
 }
 
 .proofTitle {

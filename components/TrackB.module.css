@@ -155,6 +155,7 @@
 .proof {
   margin-top: clamp(56px, 8vw, 88px);
   text-align: center;
+  scroll-margin-top: 72px;
 }
 
 .proofTitle {

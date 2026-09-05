@@ -25,7 +25,7 @@ export function TrackA() {
           ))}
         </ol>
 
-        <div className={styles.proof}>
+        <div id="track-a-proof" className={styles.proof}>
           <h3 className={styles.proofTitle}>{trackA.proof.title}</h3>
           <p className={styles.proofBody}>{trackA.proof.body}</p>
           <div className={styles.compare}>

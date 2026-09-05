@@ -2,7 +2,7 @@
 
 import { heroDefault, heroTracks, MOBILE_BREAK, type HeroTrackId } from "@/lib/site";
 import { useHeroTrack } from "./HeroTrackContext";
-import { ChatIcon } from "./icons";
+import { ChatIcon, ChevronRight } from "./icons";
 import styles from "./Hero.module.css";
 
 const TRACK_IDS = Object.keys(heroTracks) as HeroTrackId[];
@@ -83,6 +83,7 @@ export function Hero() {
           {VARIANTS.map(({ id, content }) => {
             if (!content.cta) return null;
             const active = id === activeId;
+            const isChat = content.cta.icon === "chat";
             return (
               <a
                 key={id}
@@ -91,8 +92,9 @@ export function Hero() {
                 tabIndex={active ? 0 : -1}
                 aria-hidden={!active}
               >
-                <ChatIcon className={styles.ctaIcon} />
+                {isChat && <ChatIcon className={styles.ctaIcon} />}
                 {content.cta.label}
+                {!isChat && <ChevronRight className={styles.ctaIcon} />}
               </a>
             );
           })}
