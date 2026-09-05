@@ -15,7 +15,7 @@ export function Header() {
         .join(" ")}
     >
       <div className={styles.inner}>
-        <a className={styles.brand} href="#" aria-label={`${site.name} 홈`}>
+        <a className={styles.brand} href="/" aria-label={`${site.name} 홈`}>
           <BrandMark className={styles.brandMark} />
           <span className={styles.brandName}>{site.name}</span>
         </a>
