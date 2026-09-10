@@ -1,6 +1,6 @@
 "use client";
 
-import { site } from "@/lib/site";
+import { useContent, usePhoneHref } from "./ContentProvider";
 import {
   BlogIcon,
   ChatIcon,
@@ -11,7 +11,16 @@ import {
 } from "./icons";
 import styles from "./UtilBar.module.css";
 
+/** 좁은 세로 유틸바에 맞게 전화번호를 마지막 "-" 기준 두 줄로 나눔 */
+function splitPhone(phone: string): string[] {
+  const i = phone.lastIndexOf("-");
+  if (i <= 0) return [phone];
+  return [phone.slice(0, i), phone.slice(i)];
+}
+
 export function UtilBar() {
+  const { site } = useContent();
+  const phoneHref = usePhoneHref();
   const scrollTop = () => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
@@ -47,10 +56,13 @@ export function UtilBar() {
 
       <div className={styles.tel}>
         <span className={styles.telLabel}>전화상담</span>
-        <a href={site.phoneHref}>
-          010-9813
-          <br />
-          -0125
+        <a href={phoneHref}>
+          {splitPhone(site.phone).map((part, i, arr) => (
+            <span key={i}>
+              {part}
+              {i < arr.length - 1 && <br />}
+            </span>
+          ))}
         </a>
       </div>
 

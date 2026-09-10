@@ -87,6 +87,45 @@
   background: #444440;
 }
 
+/* 전후사진 열람중 → 로그아웃 칩 (상단바) */
+.gate {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  border: 1px solid rgba(107, 91, 62, 0.32);
+  border-radius: 999px;
+  color: #6b5b3e;
+  font-size: 13px;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+.gate:hover,
+.gate:focus-visible {
+  background: rgba(107, 91, 62, 0.08);
+}
+.gateIcon {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+/* 모바일 드롭다운 안의 로그아웃 행 */
+.gateRow {
+  display: none;
+}
+.gateRowLink {
+  align-items: center;
+  gap: 8px;
+  color: #6b5b3e !important;
+  font-weight: 600;
+}
+.gateRowIcon {
+  width: 16px;
+  height: 16px;
+}
+
 /* 햄버거 */
 .toggle {
   display: none;
@@ -123,8 +162,20 @@
   .toggle {
     display: flex;
   }
+  .gate {
+    margin-left: auto;
+  }
+  .gate + .cta {
+    margin-left: 0;
+  }
   .cta {
     margin-left: auto;
+  }
+
+  .gateRow {
+    display: block;
+    border-top: 1px solid rgba(43, 43, 40, 0.08);
+    margin-top: 4px;
   }
 
   .navOpen {
@@ -174,5 +225,12 @@
   .cta {
     padding: 8px 16px;
     font-size: 14px;
+  }
+  .gate {
+    gap: 0;
+    padding: 8px;
+  }
+  .gateText {
+    display: none;
   }
 }

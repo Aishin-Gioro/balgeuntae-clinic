@@ -1,8 +1,10 @@
-import { location, site } from "@/lib/site";
+import { getContent } from "@/lib/content";
+import { telHref } from "@/lib/site";
 import { KakaoIcon, PhoneIcon } from "./icons";
 import styles from "./Location.module.css";
 
-export function Location() {
+export async function Location() {
+  const { location, site } = await getContent();
   return (
     <section id="location" className={styles.section} aria-labelledby="location-title">
       <div className={styles.inner}>
@@ -75,7 +77,7 @@ export function Location() {
                 <KakaoIcon className={styles.btnIcon} />
                 카카오톡 채널로 상담 문의
               </a>
-              <a className={`${styles.btn} ${styles.btnGhost}`} href={site.phoneHref}>
+              <a className={`${styles.btn} ${styles.btnGhost}`} href={telHref(site.phone)}>
                 <PhoneIcon className={styles.btnIcon} />
                 전화 문의 {site.phone}
               </a>

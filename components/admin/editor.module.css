@@ -1,0 +1,265 @@
+.editor {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 20px 16px 140px;
+}
+
+.tabs {
+  position: sticky;
+  top: 49px;
+  z-index: 15;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 12px 0;
+  background: #f4f2ee;
+}
+.tab {
+  padding: 7px 12px;
+  font-size: 13px;
+  color: #6f6a60;
+  background: #fff;
+  border: 1px solid #e2ddd2;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.tabActive {
+  color: #fff;
+  background: #6b5b3e;
+  border-color: #6b5b3e;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.panelIntro {
+  margin: 4px 0 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #6f6a60;
+}
+
+.group {
+  background: #fff;
+  border: 1px solid #e5e1d8;
+  border-radius: 12px;
+  padding: 18px 16px;
+}
+.groupTitle {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #2b2b28;
+}
+.groupHint {
+  margin: 0 0 14px;
+  font-size: 12px;
+  line-height: 1.55;
+  color: #8a8479;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 14px;
+}
+.field:last-child {
+  margin-bottom: 0;
+}
+.fieldLabel {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #575047;
+}
+.fieldHint {
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: #948d80;
+}
+.input,
+.textarea {
+  width: 100%;
+  padding: 9px 11px;
+  font: inherit;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #2b2b28;
+  background: #fdfdfb;
+  border: 1px solid #d9d4c8;
+  border-radius: 8px;
+}
+.textarea {
+  min-height: 76px;
+  resize: vertical;
+  white-space: pre-wrap;
+}
+.input:focus,
+.textarea:focus {
+  outline: 2px solid #b9a77f;
+  border-color: transparent;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.row .input,
+.row .textarea {
+  flex: 1;
+}
+.iconBtn {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  font-size: 15px;
+  line-height: 1;
+  color: #6f6a60;
+  background: #f1efe8;
+  border: 1px solid #e0dbcf;
+  border-radius: 7px;
+  cursor: pointer;
+}
+.iconBtn:hover {
+  background: #e8e4d9;
+}
+.addBtn {
+  align-self: flex-start;
+  margin-top: 2px;
+  padding: 6px 12px;
+  font-size: 12.5px;
+  color: #6b5b3e;
+  background: #fff;
+  border: 1px dashed #c3b48f;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.repeatItem {
+  border: 1px solid #e7e3d8;
+  border-radius: 10px;
+  padding: 14px 12px;
+  background: #fbfaf6;
+}
+.repeatHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.repeatTitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: #8a8479;
+}
+
+/* 이미지 필드 */
+.image {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.thumb {
+  flex: none;
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ddd8cc;
+  background: #f1efe8;
+}
+.thumbEmpty {
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  color: #a29c8f;
+}
+.imageCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.uploadRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.fileBtn {
+  padding: 7px 12px;
+  font-size: 12.5px;
+  color: #2b2b28;
+  background: #f1efe8;
+  border: 1px solid #ddd8cc;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+/* 저장 바 */
+.saveBar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 20px;
+  background: rgba(46, 39, 36, 0.96);
+  color: #f4f2ee;
+}
+.saveState {
+  font-size: 12.5px;
+  color: #d8d1c4;
+}
+.saveActions {
+  display: flex;
+  gap: 8px;
+}
+.saveBtn {
+  padding: 10px 20px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #2e2724;
+  background: #e8b873;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.saveBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.resetBtn {
+  padding: 10px 14px;
+  font-size: 12.5px;
+  color: #f4f2ee;
+  background: transparent;
+  border: 1px solid rgba(244, 242, 238, 0.35);
+  border-radius: 8px;
+  cursor: pointer;
+}
+.toastOk {
+  color: #9fd6a6;
+}
+.toastErr {
+  color: #f0a59c;
+}
+
+@media (max-width: 560px) {
+  .image {
+    flex-direction: column;
+  }
+}

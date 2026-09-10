@@ -1,0 +1,143 @@
+/* ===== 열람(잠금 해제) 상태 ===== */
+.compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 36px;
+}
+.shot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px dashed rgba(226, 234, 224, 0.22);
+  background: rgba(226, 234, 224, 0.04);
+  color: rgba(226, 234, 224, 0.5);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+.shotImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 640px) {
+  .compare {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== 열람 중 상태 표시 ===== */
+.status {
+  margin: 16px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: rgba(226, 234, 224, 0.55);
+}
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #a7c5a0;
+}
+.logout {
+  color: rgba(226, 234, 224, 0.72);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s ease;
+}
+.logout:hover {
+  color: #fff;
+}
+
+/* ===== 잠김 상태 ===== */
+.locked {
+  position: relative;
+  margin-top: 36px;
+  min-height: 264px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  border: 1px solid rgba(226, 234, 224, 0.14);
+  overflow: hidden;
+}
+
+.blurLayer {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 16px;
+  filter: blur(7px);
+}
+.blurShot {
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(226, 234, 224, 0.12), rgba(226, 234, 224, 0.03));
+}
+
+.panel {
+  position: relative;
+  z-index: 1;
+  max-width: 30em;
+  margin: 20px;
+  padding: 28px 24px;
+  text-align: center;
+  border-radius: 14px;
+  background: rgba(16, 24, 20, 0.8);
+  backdrop-filter: blur(2px);
+}
+.lockIcon {
+  width: 26px;
+  height: 26px;
+  color: rgba(226, 234, 224, 0.72);
+}
+.lockedTitle {
+  margin: 10px 0 18px;
+  font-size: clamp(15px, 1.9vw, 17px);
+  font-weight: 700;
+  color: #fdfcfa;
+  word-break: keep-all;
+}
+.loginBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 20px;
+  border-radius: 999px;
+  background: #fee500;
+  color: #191600;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.loginBtn:hover {
+  background: #f5dc00;
+  transform: translateY(-1px);
+}
+.kakaoIcon {
+  width: 18px;
+  height: 18px;
+}
+
+@media (max-width: 640px) {
+  .blurLayer {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logout,
+  .loginBtn {
+    transition: none;
+  }
+}

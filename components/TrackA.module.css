@@ -115,25 +115,7 @@
   white-space: pre-line;
 }
 
-.compare {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-top: 36px;
-}
-
-.shot {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: 4 / 3;
-  border-radius: 12px;
-  border: 1px dashed rgba(226, 234, 224, 0.22);
-  background: rgba(226, 234, 224, 0.04);
-  color: rgba(226, 234, 224, 0.5);
-  font-size: 13px;
-  letter-spacing: 0.02em;
-}
+/* 전후 비교 그리드(.compare/.shot)는 ProofGate.module.css 로 이동 (로그인 게이트 내부에서만 렌더) */
 
 /* ===== 심의 문구 ===== */
 .disclaimer {
@@ -152,8 +134,5 @@
   .cause {
     grid-template-columns: 1fr;
     gap: 10px;
-  }
-  .compare {
-    grid-template-columns: 1fr;
   }
 }

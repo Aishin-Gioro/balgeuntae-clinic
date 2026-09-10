@@ -1,7 +1,9 @@
-import { trackA } from "@/lib/site";
+import { getContent } from "@/lib/content";
+import { ProofGate } from "./ProofGate";
 import styles from "./TrackA.module.css";
 
-export function TrackA() {
+export async function TrackA() {
+  const { trackA } = await getContent();
   return (
     <section id="track-a" className={styles.section} aria-labelledby="track-a-title">
       <div className={styles.inner}>
@@ -28,14 +30,7 @@ export function TrackA() {
         <div id="track-a-proof" className={styles.proof}>
           <h3 className={styles.proofTitle}>{trackA.proof.title}</h3>
           <p className={styles.proofBody}>{trackA.proof.body}</p>
-          <div className={styles.compare}>
-            <div className={styles.shot} aria-hidden="true">
-              치료 전 내시경
-            </div>
-            <div className={styles.shot} aria-hidden="true">
-              치료 후 내시경
-            </div>
-          </div>
+          <ProofGate variant="endoscopy" returnTo="/#track-a-proof" />
         </div>
 
         <p className={styles.disclaimer}>※ {trackA.disclaimer}</p>

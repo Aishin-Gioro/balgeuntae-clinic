@@ -1,4 +1,6 @@
-import { MOBILE_BREAK, trackB } from "@/lib/site";
+import { MOBILE_BREAK } from "@/lib/site";
+import { getContent } from "@/lib/content";
+import { ProofGate } from "./ProofGate";
 import styles from "./TrackB.module.css";
 
 function withMobileBreak(text: string) {
@@ -10,7 +12,8 @@ function withMobileBreak(text: string) {
   ));
 }
 
-export function TrackB() {
+export async function TrackB() {
+  const { trackB } = await getContent();
   return (
     <section id="track-b" className={styles.section} aria-labelledby="track-b-title">
       <svg className={styles.decor} viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
@@ -57,14 +60,7 @@ export function TrackB() {
         <div id="track-b-proof" className={styles.proof}>
           <h3 className={styles.proofTitle}>{trackB.proof.title}</h3>
           <p className={styles.proofBody}>{trackB.proof.body}</p>
-          <div className={styles.compare}>
-            <div className={styles.shot} aria-hidden="true">
-              시작 인바디
-            </div>
-            <div className={styles.shot} aria-hidden="true">
-              마무리 인바디
-            </div>
-          </div>
+          <ProofGate variant="inbody" returnTo="/#track-b-proof" />
         </div>
 
         <p className={styles.disclaimer}>※ {trackB.disclaimer}</p>

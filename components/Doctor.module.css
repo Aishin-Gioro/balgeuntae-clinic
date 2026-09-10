@@ -118,6 +118,8 @@
   padding: 20px;
   border-radius: 14px;
   background: #eef0ee;
+  background-size: cover;
+  background-position: center;
   color: #9a978f;
   font-size: 13px;
   letter-spacing: 0.02em;

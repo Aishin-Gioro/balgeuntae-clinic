@@ -1,7 +1,10 @@
 "use client";
 
-import { treatment, type HeroTrackId } from "@/lib/site";
+import type { HeroTrackId } from "@/lib/site";
+import { useContent } from "./ContentProvider";
 import { useHeroTrack } from "./HeroTrackContext";
+import { useGateUnlocked } from "./GateProvider";
+import { KakaoIcon, LockIcon } from "./icons";
 import styles from "./Treatment.module.css";
 
 const TRACK_TO_TREATMENT_ID: Record<HeroTrackId, string> = {
@@ -10,7 +13,9 @@ const TRACK_TO_TREATMENT_ID: Record<HeroTrackId, string> = {
 };
 
 export function Treatment() {
+  const { treatment, photoGate } = useContent();
   const { track } = useHeroTrack();
+  const gateUnlocked = useGateUnlocked();
   if (!track) return null;
 
   const activeTrack = treatment.tracks.find((t) => t.id === TRACK_TO_TREATMENT_ID[track]);
@@ -49,12 +54,29 @@ export function Treatment() {
         </div>
 
         <div className={styles.media}>
-          <figure
-            className={`${styles.card} ${styles.cardActive}`}
-            style={{ backgroundImage: `url(${activeTrack.image})` }}
-          >
-            <figcaption className={styles.caption}>{activeTrack.caption}</figcaption>
-          </figure>
+          {gateUnlocked ? (
+            <figure
+              className={`${styles.card} ${styles.cardActive}`}
+              style={{ backgroundImage: `url(${activeTrack.image})` }}
+            >
+              <figcaption className={styles.caption}>{activeTrack.caption}</figcaption>
+            </figure>
+          ) : (
+            <div className={styles.cardLocked}>
+              <div className={styles.cardLockedBlur} aria-hidden="true" />
+              <div className={styles.cardLockedInner}>
+                <LockIcon className={styles.cardLockIcon} />
+                <p className={styles.cardLockedText}>{photoGate.cardLockedText}</p>
+                <a
+                  className={styles.cardLoginBtn}
+                  href={`/api/auth/kakao/login?returnTo=${encodeURIComponent("/#treatment")}`}
+                >
+                  <KakaoIcon className={styles.cardKakaoIcon} />
+                  {photoGate.loginLabel}
+                </a>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>

@@ -1,18 +1,14 @@
 "use client";
 
-import { heroDefault, heroTracks, MOBILE_BREAK, type HeroTrackId } from "@/lib/site";
+import { MOBILE_BREAK, type HeroTrackId, type HeroVariant } from "@/lib/site";
+import { useContent } from "./ContentProvider";
 import { useHeroTrack } from "./HeroTrackContext";
-import { ChatIcon, ChevronRight } from "./icons";
+import { ChatIcon, ChevronDown, ChevronRight } from "./icons";
 import styles from "./Hero.module.css";
 
-const TRACK_IDS = Object.keys(heroTracks) as HeroTrackId[];
+const TRACK_IDS: HeroTrackId[] = ["stomach", "diet"];
 
 type VariantId = "default" | HeroTrackId;
-
-const VARIANTS: { id: VariantId; content: typeof heroDefault }[] = [
-  { id: "default", content: heroDefault },
-  ...TRACK_IDS.map((id) => ({ id, content: heroTracks[id] })),
-];
 
 function withMobileBreak(text: string) {
   return text.split(MOBILE_BREAK).map((part, pi, arr) => (
@@ -24,12 +20,18 @@ function withMobileBreak(text: string) {
 }
 
 export function Hero() {
+  const { hero } = useContent();
   const { track, setTrack } = useHeroTrack();
   const activeId: VariantId = track ?? "default";
 
+  const variants: { id: VariantId; content: HeroVariant }[] = [
+    { id: "default", content: hero.default },
+    ...TRACK_IDS.map((id) => ({ id, content: hero.tracks[id] })),
+  ];
+
   return (
     <section id="hero" className={styles.hero} aria-label="주요 진료 안내">
-      {VARIANTS.map(({ id, content }) => (
+      {variants.map(({ id, content }) => (
         <div
           key={id}
           className={`${styles.bg} ${id === activeId ? styles.bgActive : ""}`}
@@ -41,7 +43,7 @@ export function Hero() {
 
       <div className={styles.content}>
         <div className={styles.copyLayers}>
-          {VARIANTS.map(({ id, content }) => {
+          {variants.map(({ id, content }) => {
             const active = id === activeId;
             return (
               <div
@@ -74,13 +76,13 @@ export function Hero() {
               aria-pressed={track === id}
               onClick={() => setTrack(track === id ? null : id)}
             >
-              {heroTracks[id].buttonLabel}
+              {hero.tracks[id].buttonLabel}
             </button>
           ))}
         </div>
 
         <div className={styles.ctaLayers}>
-          {VARIANTS.map(({ id, content }) => {
+          {variants.map(({ id, content }) => {
             if (!content.cta) return null;
             const active = id === activeId;
             const isChat = content.cta.icon === "chat";
@@ -100,6 +102,13 @@ export function Hero() {
           })}
         </div>
       </div>
+
+      {track && (
+        <a className={styles.scrollHint} href="#treatment" aria-label="아래로 스크롤">
+          <span className={styles.scrollHintText}>SCROLL</span>
+          <ChevronDown className={styles.scrollHintIcon} />
+        </a>
+      )}
     </section>
   );
 }

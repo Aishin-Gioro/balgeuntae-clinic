@@ -1,10 +1,11 @@
 "use client";
 
-import { trackB } from "@/lib/site";
+import { useContent } from "./ContentProvider";
 import { useHeroTrack } from "./HeroTrackContext";
 import styles from "./PrescriptionBanner.module.css";
 
 export function PrescriptionBanner() {
+  const { trackB } = useContent();
   const { track } = useHeroTrack();
   if (!track) return null;
 

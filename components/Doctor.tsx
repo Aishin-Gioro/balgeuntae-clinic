@@ -1,8 +1,9 @@
-import { doctor } from "@/lib/site";
+import { getContent } from "@/lib/content";
 import { BrandMark } from "./icons";
 import styles from "./Doctor.module.css";
 
-export function Doctor() {
+export async function Doctor() {
+  const { doctor } = await getContent();
   return (
     <section id="doctor" className={styles.section} aria-labelledby="doctor-name">
       <svg className={styles.decor} viewBox="0 0 1440 720" preserveAspectRatio="none" aria-hidden="true">
@@ -42,8 +43,14 @@ export function Doctor() {
             </p>
           </div>
 
-          <div className={styles.photo} aria-hidden="true">
-            원장 사진
+          <div
+            className={styles.photo}
+            aria-hidden="true"
+            style={
+              doctor.photo ? { backgroundImage: `url(${doctor.photo})` } : undefined
+            }
+          >
+            {doctor.photo ? "" : "원장 사진"}
           </div>
 
           <div className={styles.info}>
