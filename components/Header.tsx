@@ -112,7 +112,7 @@ export function Header({ gateUnlocked = false }: { gateUnlocked?: boolean }) {
                   onClick={() => setNavOpen(false)}
                 >
                   <UnlockIcon className={styles.gateRowIcon} />
-                  {photoGate.unlockedNote} · {photoGate.logoutLabel}
+                  로그아웃
                 </a>
               </li>
             )}
@@ -123,12 +123,10 @@ export function Header({ gateUnlocked = false }: { gateUnlocked?: boolean }) {
           <a
             className={styles.gate}
             href="/api/auth/logout?returnTo=/"
-            aria-label={`${photoGate.unlockedNote} — ${photoGate.logoutLabel}`}
+            aria-label={`로그아웃 (${photoGate.unlockedNote})`}
           >
             <UnlockIcon className={styles.gateIcon} />
-            <span className={styles.gateText}>
-              {photoGate.unlockedNote} · {photoGate.logoutLabel}
-            </span>
+            <span className={styles.gateText}>로그아웃</span>
           </a>
         )}
 
