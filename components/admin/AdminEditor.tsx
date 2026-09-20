@@ -761,29 +761,6 @@ function LocationTab({ draft, patch }: TabProps) {
         />
       </Group>
 
-      <Group title="네이버 플레이스">
-        <TextField
-          label="라벨"
-          value={location.place.label}
-          onChange={(v) => patch((d) => void (d.location.place.label = v))}
-        />
-        <TextAreaField
-          label="안내 문구"
-          value={location.place.text}
-          onChange={(v) => patch((d) => void (d.location.place.text = v))}
-        />
-        <TextField
-          label="링크 문구"
-          value={location.place.linkLabel}
-          onChange={(v) => patch((d) => void (d.location.place.linkLabel = v))}
-        />
-        <TextField
-          label="링크 URL"
-          value={location.place.href}
-          onChange={(v) => patch((d) => void (d.location.place.href = v))}
-        />
-      </Group>
-
       <Group title="진료 시간">
         <Repeater
           label="시간 항목"

@@ -138,12 +138,6 @@ export type SiteContent = {
     title: string;
     address: string;
     addressNote: string;
-    place: {
-      label: string;
-      text: string;
-      linkLabel: string;
-      href: string;
-    };
     hours: { day: string; time: string }[];
     /** 지도 임베드 — iframe src URL 또는 카카오맵 "지도 퍼가기" 스니펫 전체를 그대로 저장 */
     mapEmbedCode: string;
@@ -388,12 +382,6 @@ export const defaultContent: SiteContent = {
     title: "밝은태 한의원으로 오시는 길",
     address: "서울 송파구 백제고분로 358 우전빌딩 5층",
     addressNote: "2026년 9월 개원 예정",
-    place: {
-      label: "NAVER PLACE",
-      text: "주차·대중교통 등 상세 길 안내는 네이버 플레이스에서 확인하실 수 있습니다.",
-      linkLabel: "네이버 플레이스에서 보기",
-      href: "#",
-    },
     hours: [
       { day: "평일", time: "[00:00 – 00:00]" },
       { day: "토요일", time: "[00:00 – 00:00]" },

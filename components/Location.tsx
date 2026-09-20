@@ -22,7 +22,7 @@ export async function Location() {
               <MapEmbed code={location.mapEmbedCode} title={`${site.name} 위치 지도`} />
             ) : (
               <span className={styles.mapCaption}>
-                네이버 지도 임베드 영역 – 주소 확정 후 연동
+                지도 임베드 영역 – 관리자 페이지에서 등록해주세요
               </span>
             )}
           </div>
@@ -46,21 +46,6 @@ export async function Location() {
                   </div>
                 ))}
               </div>
-            </div>
-
-            <span className={styles.divider} aria-hidden="true" />
-
-            <div>
-              <p className={styles.pLabel}>{location.place.label}</p>
-              <p className={styles.placeText}>{location.place.text}</p>
-              <a
-                className={styles.placeLink}
-                href={location.place.href}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {location.place.linkLabel} →
-              </a>
             </div>
 
             <div className={styles.buttons}>
