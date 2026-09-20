@@ -60,7 +60,7 @@ export async function TrackB() {
         <div id="track-b-proof" className={styles.proof}>
           <h3 className={styles.proofTitle}>{trackB.proof.title}</h3>
           <p className={styles.proofBody}>{trackB.proof.body}</p>
-          <ProofGate variant="inbody" returnTo="/#track-b-proof" />
+          <ProofGate variant="inbody" returnTo="/?track=diet#track-b-proof" />
         </div>
 
         <p className={styles.disclaimer}>※ {trackB.disclaimer}</p>

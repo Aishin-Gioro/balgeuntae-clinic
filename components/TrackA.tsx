@@ -30,7 +30,7 @@ export async function TrackA() {
         <div id="track-a-proof" className={styles.proof}>
           <h3 className={styles.proofTitle}>{trackA.proof.title}</h3>
           <p className={styles.proofBody}>{trackA.proof.body}</p>
-          <ProofGate variant="endoscopy" returnTo="/#track-a-proof" />
+          <ProofGate variant="endoscopy" returnTo="/?track=stomach#track-a-proof" />
         </div>
 
         <p className={styles.disclaimer}>※ {trackA.disclaimer}</p>

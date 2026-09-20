@@ -69,7 +69,7 @@ export function Treatment() {
                 <p className={styles.cardLockedText}>{photoGate.cardLockedText}</p>
                 <a
                   className={styles.cardLoginBtn}
-                  href={`/api/auth/kakao/login?returnTo=${encodeURIComponent("/#treatment")}`}
+                  href={`/api/auth/kakao/login?returnTo=${encodeURIComponent(`/?track=${track}#treatment`)}`}
                 >
                   <KakaoIcon className={styles.cardKakaoIcon} />
                   {photoGate.loginLabel}
