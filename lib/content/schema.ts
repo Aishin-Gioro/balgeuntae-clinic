@@ -145,7 +145,17 @@ export type SiteContent = {
       href: string;
     };
     hours: { day: string; time: string }[];
-    mapEmbedUrl: string;
+    /** 지도 임베드 — iframe src URL 또는 카카오맵 "지도 퍼가기" 스니펫 전체를 그대로 저장 */
+    mapEmbedCode: string;
+  };
+
+  footer: {
+    links: { label: string; href: string }[];
+    bizDept: string;
+    representative: string;
+    bizNumber: string;
+    disclaimer: string[];
+    copyrightName: string;
   };
 };
 
@@ -376,7 +386,7 @@ export const defaultContent: SiteContent = {
   location: {
     kicker: "LOCATION",
     title: "밝은태 한의원으로 오시는 길",
-    address: "[병원 주소 — 원장님 확인]",
+    address: "서울 송파구 백제고분로 358 우전빌딩 5층",
     addressNote: "2026년 9월 개원 예정",
     place: {
       label: "NAVER PLACE",
@@ -390,6 +400,23 @@ export const defaultContent: SiteContent = {
       { day: "점심시간", time: "[00:00 – 00:00]" },
       { day: "일요일 · 공휴일", time: "휴진" },
     ],
-    mapEmbedUrl: "",
+    mapEmbedCode: `new daum.roughmap.Lander({
+  "timestamp" : "1789884165284",
+  "key" : "v2a3uhnuqd5",
+  "mapWidth" : "640",
+  "mapHeight" : "360"
+}).render();`,
+  },
+
+  footer: {
+    links: [],
+    bizDept: "위장질환(장상피화생·위축성위염) · 다이어트",
+    representative: "대표원장 김상태",
+    bizNumber: "[사업자등록번호 — 원장님 확인]",
+    disclaimer: [
+      "본 홈페이지에 게시된 치료 전후 사진 및 치료 사례는 환자 동의하에 게재되었으며, 치료 효과는 개인에 따라 차이가 있을 수 있습니다.",
+      "치료 전 의료진과 충분히 상담하시기 바랍니다.",
+    ],
+    copyrightName: "밝은태 한의원",
   },
 };

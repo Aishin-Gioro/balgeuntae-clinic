@@ -1,6 +1,7 @@
 import { getContent } from "@/lib/content";
 import { telHref } from "@/lib/site";
 import { KakaoIcon, PhoneIcon } from "./icons";
+import { MapEmbed } from "./MapEmbed";
 import styles from "./Location.module.css";
 
 export async function Location() {
@@ -17,13 +18,8 @@ export async function Location() {
 
         <div className={styles.grid}>
           <div className={styles.map}>
-            {location.mapEmbedUrl ? (
-              <iframe
-                className={styles.mapFrame}
-                src={location.mapEmbedUrl}
-                title={`${site.name} 위치 지도`}
-                loading="lazy"
-              />
+            {location.mapEmbedCode ? (
+              <MapEmbed code={location.mapEmbedCode} title={`${site.name} 위치 지도`} />
             ) : (
               <span className={styles.mapCaption}>
                 네이버 지도 임베드 영역 – 주소 확정 후 연동

@@ -1,0 +1,100 @@
+.footer {
+  background: #1a2420;
+  color: rgba(232, 236, 230, 0.68);
+  padding: clamp(32px, 5vw, 48px) clamp(16px, 4vw, 64px) clamp(24px, 4vw, 32px);
+}
+
+.inner {
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  padding-bottom: 20px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #ffffff;
+}
+.brandMark {
+  width: 26px;
+  height: 26px;
+  color: currentColor;
+}
+.brandName {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+}
+.links a {
+  font-size: 13px;
+  color: rgba(232, 236, 230, 0.68);
+  transition: color 0.2s ease;
+}
+.links a:hover {
+  color: #ffffff;
+}
+
+.divider {
+  height: 1px;
+  background: rgba(232, 236, 230, 0.14);
+}
+
+.info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  padding-top: 22px;
+  font-size: 12.5px;
+  line-height: 1.8;
+}
+.info span {
+  white-space: nowrap;
+}
+.info b {
+  font-weight: 600;
+  color: rgba(232, 236, 230, 0.9);
+}
+
+.address {
+  margin: 4px 0 0;
+  font-size: 12.5px;
+  line-height: 1.8;
+}
+
+.disclaimer {
+  margin: 18px 0 0;
+  font-size: 12px;
+  line-height: 1.8;
+  color: rgba(232, 236, 230, 0.42);
+}
+.disclaimer p {
+  margin: 0;
+}
+
+.copyright {
+  margin: 18px 0 0;
+  font-size: 12px;
+  color: rgba(232, 236, 230, 0.36);
+}
+
+@media (max-width: 640px) {
+  .top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

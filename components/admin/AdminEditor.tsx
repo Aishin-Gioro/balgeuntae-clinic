@@ -44,6 +44,7 @@ const TABS = [
   "전후사진 문구",
   "원장 소개",
   "오시는 길",
+  "푸터",
 ] as const;
 
 export function AdminEditor({ initial }: { initial: SiteContent }) {
@@ -120,6 +121,7 @@ export function AdminEditor({ initial }: { initial: SiteContent }) {
       {tab === "전후사진 문구" && <PhotoGateTab draft={draft} patch={patch} />}
       {tab === "원장 소개" && <DoctorTab draft={draft} patch={patch} />}
       {tab === "오시는 길" && <LocationTab draft={draft} patch={patch} />}
+      {tab === "푸터" && <FooterTab draft={draft} patch={patch} />}
 
       <div className={s.saveBar}>
         <span className={s.saveState}>
@@ -800,10 +802,72 @@ function LocationTab({ draft, patch }: TabProps) {
 
       <Group title="지도">
         <TextAreaField
-          label="지도 임베드 주소(iframe src)"
-          hint="카카오맵/네이버지도의 '지도 퍼가기'에서 iframe 의 src 주소만 붙여넣으세요. 비우면 안내 문구가 표시됩니다."
-          value={location.mapEmbedUrl}
-          onChange={(v) => patch((d) => void (d.location.mapEmbedUrl = v))}
+          label="지도 임베드 코드"
+          hint="네이버지도/구글지도는 '지도 퍼가기'의 iframe src 주소만, 카카오맵은 '지도 퍼가기' 코드 전체(스크립트 포함)를 그대로 붙여넣으세요. 비우면 안내 문구가 표시됩니다."
+          value={location.mapEmbedCode}
+          onChange={(v) => patch((d) => void (d.location.mapEmbedCode = v))}
+        />
+      </Group>
+    </div>
+  );
+}
+
+/* ── 푸터 ────────────────────────────────────────────── */
+function FooterTab({ draft, patch }: TabProps) {
+  const { footer } = draft;
+  return (
+    <div className={s.panel}>
+      <p className={s.panelIntro}>
+        상호명·주소·대표번호는 "기본 정보"·"오시는 길" 탭 값을 그대로 가져다 씁니다.
+      </p>
+
+      <Group title="사업자 정보">
+        <TextField
+          label="진료과목"
+          value={footer.bizDept}
+          onChange={(v) => patch((d) => void (d.footer.bizDept = v))}
+        />
+        <TextField
+          label="대표자"
+          value={footer.representative}
+          onChange={(v) => patch((d) => void (d.footer.representative = v))}
+        />
+        <TextField
+          label="사업자등록번호"
+          value={footer.bizNumber}
+          onChange={(v) => patch((d) => void (d.footer.bizNumber = v))}
+        />
+      </Group>
+
+      <Group title="하단 링크" hint="약관·비급여 항목 등 안내 페이지가 준비되면 링크만 채워주세요.">
+        <Repeater
+          label="링크 목록"
+          items={footer.links}
+          makeEmpty={() => ({ label: "", href: "#" })}
+          itemLabel={(it) => it.label || "링크"}
+          onChange={(v) => patch((d) => void (d.footer.links = v))}
+          renderItem={(it, update) => (
+            <>
+              <TextField label="문구" value={it.label} onChange={(v) => update({ label: v })} />
+              <TextField label="URL" value={it.href} onChange={(v) => update({ href: v })} />
+            </>
+          )}
+        />
+      </Group>
+
+      <Group title="하단 안내 문구">
+        <StringListField
+          label="법적 고지 문구"
+          hint="치료 전후 사진·효과에 대한 안내 문구입니다. 줄 단위로 추가/삭제할 수 있습니다."
+          values={footer.disclaimer}
+          onChange={(v) => patch((d) => void (d.footer.disclaimer = v))}
+          multiline
+        />
+        <TextField
+          label="저작권 표시 이름"
+          hint="© 연도(자동) + 이 이름 + . All rights reserved. 형태로 표시됩니다."
+          value={footer.copyrightName}
+          onChange={(v) => patch((d) => void (d.footer.copyrightName = v))}
         />
       </Group>
     </div>

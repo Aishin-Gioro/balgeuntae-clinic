@@ -13,6 +13,7 @@ import { TrackA } from "@/components/TrackA";
 import { TrackB } from "@/components/TrackB";
 import { Doctor } from "@/components/Doctor";
 import { Location } from "@/components/Location";
+import { Footer } from "@/components/Footer";
 import { UtilBar } from "@/components/UtilBar";
 import { MobileCta } from "@/components/MobileCta";
 
@@ -40,10 +41,11 @@ export default async function HomePage() {
               <PrescriptionBanner />
               <Doctor />
               <Location />
-              {/* 이후 섹션(CTA 배너 / 푸터) 예정 */}
+              {/* 이후 섹션(CTA 배너) 예정 */}
             </GateProvider>
           </HeroTrackGate>
         </main>
+        <Footer />
         <UtilBar />
         <MobileCta />
       </ContentProvider>
