@@ -95,6 +95,7 @@
 .lockIcon {
   width: 26px;
   height: 26px;
+  margin: 0 auto;
   color: rgba(226, 234, 224, 0.72);
 }
 .lockedTitle {
