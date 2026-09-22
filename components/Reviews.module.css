@@ -116,8 +116,6 @@
 .marqueeOuter {
   margin-top: 40px;
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
 }
 .marqueeTrack {
   display: flex;
@@ -238,8 +236,6 @@
   /* 자동으로 흐르는 대신, 직접 좌우로 넘겨볼 수 있게 한다 */
   .marqueeOuter {
     overflow-x: auto;
-    -webkit-mask-image: none;
-    mask-image: none;
   }
   .marqueeTrack {
     animation: none;
