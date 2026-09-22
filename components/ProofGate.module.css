@@ -1,15 +1,19 @@
 /* ===== 열람(잠금 해제) 상태 ===== */
 .compare {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
   margin-top: 36px;
+}
+
+/* 전후 비교 사진 표시 폭(내시경·인바디 공통) */
+.narrow {
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .shot {
   display: flex;
   align-items: center;
   justify-content: center;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   border-radius: 12px;
   border: 1px dashed rgba(226, 234, 224, 0.22);
@@ -22,12 +26,6 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-@media (max-width: 640px) {
-  .compare {
-    grid-template-columns: 1fr;
-  }
 }
 
 /* ===== 열람 중 상태 표시 ===== */
@@ -73,13 +71,12 @@
 .blurLayer {
   position: absolute;
   inset: 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
   padding: 16px;
   filter: blur(7px);
 }
 .blurShot {
+  width: 100%;
+  height: 100%;
   border-radius: 12px;
   background: linear-gradient(135deg, rgba(226, 234, 224, 0.12), rgba(226, 234, 224, 0.03));
 }
@@ -127,12 +124,6 @@
 .kakaoIcon {
   width: 18px;
   height: 18px;
-}
-
-@media (max-width: 640px) {
-  .blurLayer {
-    grid-template-columns: 1fr;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

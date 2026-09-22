@@ -66,3 +66,25 @@ export async function saveContent(next: SiteContent): Promise<void> {
   await getStorage().writeContent(next);
   revalidateTag(CONTENT_TAG);
 }
+
+/**
+ * 로그인 게이트(전후 사진)로 보호되는 필드를 비운 콘텐츠를 반환한다.
+ *
+ * `<ContentProvider>`는 클라이언트 컴포넌트라서, 여기에 넘기는 값은 로그인
+ * 여부와 무관하게 페이지의 RSC 페이로드에 그대로 직렬화되어 담긴다. 전후
+ * 사진처럼 의료법상 비로그인 방문자에게 절대 노출되면 안 되는 값은 반드시
+ * 이 함수로 걸러낸 뒤 ContentProvider 에 전달해야 한다.
+ * (실제 화면에 쓰이는 값은 ProofGate 가 서버에서 별도로 isGateUnlocked() 를
+ * 확인해 직접 렌더링하므로 이 함수와 무관하게 정상 동작한다.)
+ *
+ * 후기(reviews.items)는 여기서 걸러내지 않는다 — 비로그인 방문자에게도
+ * 실제 사진·글이 화면에 표시되고, CSS 블러로만 가려지는 의도된 동작이다
+ * (components/Reviews.tsx 참고).
+ */
+export function redactGatedContent(content: SiteContent): SiteContent {
+  return {
+    ...content,
+    trackA: { ...content.trackA, proof: { ...content.trackA.proof, photo: "" } },
+    trackB: { ...content.trackB, proof: { ...content.trackB.proof, photo: "" } },
+  };
+}

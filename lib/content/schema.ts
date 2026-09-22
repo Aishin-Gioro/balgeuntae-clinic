@@ -38,8 +38,6 @@ export type HeroVariant = {
 
 export type HeroTrack = HeroVariant & { buttonLabel: string };
 
-export type ProofShot = { label: string; src: string };
-
 export type SiteContent = {
   site: {
     name: string;
@@ -76,6 +74,23 @@ export type SiteContent = {
     }[];
   };
 
+  /**
+   * 히어로 아래(진료과목 탭을 선택한 화면에서만) 노출되는 후기 섹션.
+   * 사진/이름/후기글(items)은 의료법상 비로그인 방문자에게 노출되면 안 되므로
+   * `components/Reviews.tsx` 가 서버에서만 읽어 렌더링하고, 공개 페이지의
+   * ContentProvider(클라이언트 공유 콘텐츠)에는 절대 포함시키지 않는다.
+   */
+  reviews: {
+    kicker: string;
+    title: string;
+    subtitle: string;
+    loginLabel: string;
+    unlockedNote: string;
+    logoutLabel: string;
+    disclaimer: string;
+    items: { name: string; photo: string; quote: string[] }[];
+  };
+
   trackA: {
     kicker: string;
     title: string;
@@ -86,7 +101,8 @@ export type SiteContent = {
       title: string;
       body: string;
       caption: string;
-      shots: ProofShot[];
+      /** 비포·애프터가 한 장에 함께 담긴 비교 사진 */
+      photo: string;
     };
     disclaimer: string;
   };
@@ -107,7 +123,8 @@ export type SiteContent = {
       title: string;
       body: string;
       caption: string;
-      shots: ProofShot[];
+      /** 비포·애프터가 한 장에 함께 담긴 비교 사진 */
+      photo: string;
     };
     disclaimer: string;
   };
@@ -244,6 +261,21 @@ export const defaultContent: SiteContent = {
     ],
   },
 
+  reviews: {
+    kicker: "REAL REVIEW",
+    title: "밝은태 한의원을 이용하신\n분들의 솔직한 후기입니다",
+    subtitle: "먼저 경험하신 분들의 솔직한 이야기를 확인해보세요",
+    loginLabel: "3초만에 로그인하고 후기보기",
+    unlockedNote: "후기 열람 중",
+    logoutLabel: "열람 종료",
+    disclaimer: "* 개인차가 있을 수 있습니다",
+    items: [
+      { name: "", photo: "", quote: ["", ""] },
+      { name: "", photo: "", quote: ["", ""] },
+      { name: "", photo: "", quote: ["", ""] },
+    ],
+  },
+
   trackA: {
     kicker: "장상피화생 · 위축성위염",
     title: "위점막의 변화,\n회복을 목표로 합니다",
@@ -283,10 +315,7 @@ export const defaultContent: SiteContent = {
       title: "치료 후, 내시경으로 확인합니다",
       body: "치료 전후의 내시경 소견을 환자와 함께 보며 변화를 확인합니다.\n결과를 직접 확인시켜 드리는 것은 치료에 대한 책임입니다.",
       caption: "내시경 전 · 후 비교",
-      shots: [
-        { label: "치료 전 내시경", src: "" },
-        { label: "치료 후 내시경", src: "" },
-      ],
+      photo: "",
     },
     disclaimer:
       "한약은 한의사 진료 후에만 처방하며, 복용 시 개인의 체질과 상태에 따라 소화불량·속쓰림 등의 증상이 나타날 수 있고 회복 기간과 정도에는 개인차가 있습니다.",
@@ -325,10 +354,7 @@ export const defaultContent: SiteContent = {
       title: "변화는 인바디로 확인합니다",
       body: "시작과 마무리의 인바디 결과를 함께 보며 체중·체지방·근육량의 변화를 확인합니다.",
       caption: "인바디 전 · 후 비교",
-      shots: [
-        { label: "시작 인바디", src: "" },
-        { label: "마무리 인바디", src: "" },
-      ],
+      photo: "",
     },
     disclaimer:
       "다이어트 한약은 의약품으로 한의사 진료 후에만 처방하며, 복용 시 개인의 차이에 따라 두근거림·어지러움 등의 증상이 있을 수 있습니다.",

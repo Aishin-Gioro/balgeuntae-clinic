@@ -106,7 +106,7 @@
   grid-column: 1;
   grid-row: 1;
   margin: 0;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 3 / 2;
   display: flex;
   align-items: flex-end;
   padding: 22px;
@@ -137,7 +137,7 @@
   grid-column: 1;
   grid-row: 1;
   position: relative;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 3 / 2;
   display: flex;
   align-items: center;
   justify-content: center;

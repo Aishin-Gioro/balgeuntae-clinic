@@ -24,9 +24,8 @@ export async function ProofGate({
 
   if (!(await isGateUnlocked())) {
     return (
-      <div className={styles.locked}>
+      <div className={`${styles.locked} ${styles.narrow}`}>
         <div className={styles.blurLayer} aria-hidden="true">
-          <div className={styles.blurShot} />
           <div className={styles.blurShot} />
         </div>
         <div className={styles.panel}>
@@ -44,24 +43,19 @@ export async function ProofGate({
     );
   }
 
-  const shots =
-    variant === "endoscopy"
-      ? content.trackA.proof.shots
-      : content.trackB.proof.shots;
+  const proof = variant === "endoscopy" ? content.trackA.proof : content.trackB.proof;
 
   return (
     <div>
-      <div className={styles.compare}>
-        {shots.map((shot) => (
-          <div key={shot.label} className={styles.shot}>
-            {shot.src ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img className={styles.shotImg} src={shot.src} alt={shot.label} />
-            ) : (
-              shot.label
-            )}
-          </div>
-        ))}
+      <div className={`${styles.compare} ${styles.narrow}`}>
+        <div className={styles.shot}>
+          {proof.photo ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img className={styles.shotImg} src={proof.photo} alt={proof.caption} />
+          ) : (
+            proof.caption
+          )}
+        </div>
       </div>
       <p className={styles.status}>
         <span className={styles.dot} aria-hidden="true" />

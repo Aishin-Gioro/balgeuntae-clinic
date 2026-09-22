@@ -38,6 +38,7 @@ const BREAK_HINT = `줄바꿈은 Enter. 모바일에서만 줄을 나누려면 �
 const TABS = [
   "기본 정보",
   "히어로",
+  "후기",
   "진료과목",
   "위장 상세",
   "다이어트 상세",
@@ -115,6 +116,7 @@ export function AdminEditor({ initial }: { initial: SiteContent }) {
 
       {tab === "기본 정보" && <BasicTab draft={draft} patch={patch} />}
       {tab === "히어로" && <HeroTab draft={draft} patch={patch} />}
+      {tab === "후기" && <ReviewsTab draft={draft} patch={patch} />}
       {tab === "진료과목" && <TreatmentTab draft={draft} patch={patch} />}
       {tab === "위장 상세" && <TrackATab draft={draft} patch={patch} />}
       {tab === "다이어트 상세" && <TrackBTab draft={draft} patch={patch} />}
@@ -350,6 +352,89 @@ function HeroTab({ draft, patch }: TabProps) {
   );
 }
 
+/* ── 후기 ────────────────────────────────────────────── */
+function ReviewsTab({ draft, patch }: TabProps) {
+  const { reviews } = draft;
+  return (
+    <div className={s.panel}>
+      <p className={s.panelIntro}>
+        히어로에서 진료과목(탭)을 선택한 화면에만 보이는 후기 섹션입니다.
+        로그인 전에는 사진·이름·후기글이 흐리게(블러) 보이다가, 로그인하면 선명하게 보입니다.
+      </p>
+
+      <Group title="상단 문구">
+        <TextField
+          label="작은 제목"
+          value={reviews.kicker}
+          onChange={(v) => patch((d) => void (d.reviews.kicker = v))}
+        />
+        <TextAreaField
+          label="큰 제목"
+          hint={BREAK_HINT}
+          value={reviews.title}
+          onChange={(v) => patch((d) => void (d.reviews.title = v))}
+        />
+        <TextField
+          label="설명"
+          value={reviews.subtitle}
+          onChange={(v) => patch((d) => void (d.reviews.subtitle = v))}
+        />
+      </Group>
+
+      <Group
+        title="후기 카드"
+        hint="로그인 전에는 블러 처리되어 보이므로, 이름은 반드시 실명 대신 이니셜(예: 김*희님)로 입력해주세요."
+      >
+        <Repeater
+          label="후기"
+          items={reviews.items}
+          makeEmpty={() => ({ name: "", photo: "", quote: ["", ""] })}
+          itemLabel={(it) => it.name || "후기"}
+          onChange={(v) => patch((d) => void (d.reviews.items = v))}
+          renderItem={(it, update) => (
+            <>
+              <TextField label="이름" value={it.name} onChange={(v) => update({ name: v })} />
+              <ImageField label="사진" value={it.photo} onChange={(v) => update({ photo: v })} />
+              <StringListField
+                label="후기 문구(줄별)"
+                values={it.quote}
+                multiline
+                onChange={(v) => update({ quote: v })}
+              />
+            </>
+          )}
+        />
+      </Group>
+
+      <Group title="로그인 버튼 / 상태 문구">
+        <TextField
+          label="로그인 버튼 문구"
+          value={reviews.loginLabel}
+          onChange={(v) => patch((d) => void (d.reviews.loginLabel = v))}
+        />
+        <TextField
+          label="열람 중 표시"
+          value={reviews.unlockedNote}
+          onChange={(v) => patch((d) => void (d.reviews.unlockedNote = v))}
+        />
+        <TextField
+          label="열람 종료 버튼"
+          value={reviews.logoutLabel}
+          onChange={(v) => patch((d) => void (d.reviews.logoutLabel = v))}
+        />
+      </Group>
+
+      <Group title="주의 문구">
+        <TextField
+          label="하단 고지"
+          value={reviews.disclaimer}
+          onChange={(v) => patch((d) => void (d.reviews.disclaimer = v))}
+        />
+      </Group>
+    </div>
+  );
+}
+
 /* ── 진료과목 개요 ───────────────────────────────────── */
 function TreatmentTab({ draft, patch }: TabProps) {
   const { treatment } = draft;
@@ -482,19 +567,11 @@ function TrackATab({ draft, patch }: TabProps) {
           value={trackA.proof.caption}
           onChange={(v) => patch((d) => void (d.trackA.proof.caption = v))}
         />
-        <Repeater
-          label="전후 사진"
-          hint="로그인한 방문자에게만 보입니다(의료법). 사진이 없으면 라벨만 표시됩니다."
-          items={trackA.proof.shots}
-          makeEmpty={() => ({ label: "", src: "" })}
-          itemLabel={(it) => it.label || "사진"}
-          onChange={(v) => patch((d) => void (d.trackA.proof.shots = v))}
-          renderItem={(it, update) => (
-            <>
-              <TextField label="라벨" value={it.label} onChange={(v) => update({ label: v })} />
-              <ImageField label="사진" value={it.src} onChange={(v) => update({ src: v })} />
-            </>
-          )}
+        <ImageField
+          label="전후 비교 사진"
+          hint="로그인한 방문자에게만 보입니다(의료법). 비포·애프터가 한 장에 함께 담긴 사진 1장을 올려주세요."
+          value={trackA.proof.photo}
+          onChange={(v) => patch((d) => void (d.trackA.proof.photo = v))}
         />
       </Group>
 
@@ -597,19 +674,11 @@ function TrackBTab({ draft, patch }: TabProps) {
           value={trackB.proof.caption}
           onChange={(v) => patch((d) => void (d.trackB.proof.caption = v))}
         />
-        <Repeater
-          label="전후 사진"
-          hint="로그인한 방문자에게만 보입니다(의료법)."
-          items={trackB.proof.shots}
-          makeEmpty={() => ({ label: "", src: "" })}
-          itemLabel={(it) => it.label || "사진"}
-          onChange={(v) => patch((d) => void (d.trackB.proof.shots = v))}
-          renderItem={(it, update) => (
-            <>
-              <TextField label="라벨" value={it.label} onChange={(v) => update({ label: v })} />
-              <ImageField label="사진" value={it.src} onChange={(v) => update({ src: v })} />
-            </>
-          )}
+        <ImageField
+          label="전후 비교 사진"
+          hint="로그인한 방문자에게만 보입니다(의료법). 비포·애프터가 한 장에 함께 담긴 사진 1장을 올려주세요."
+          value={trackB.proof.photo}
+          onChange={(v) => patch((d) => void (d.trackB.proof.photo = v))}
         />
       </Group>
 
