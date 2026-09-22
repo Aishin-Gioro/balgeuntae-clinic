@@ -13,12 +13,40 @@ import styles from "./Reviews.module.css";
  * — 이름은 반드시 이니셜(예: "김*희님")로만 입력해 실명이 노출되지 않게 한다.
  */
 
+type ReviewItem = { name: string; photo: string; quote: string[] };
+
+function ReviewCard({ item }: { item: ReviewItem }) {
+  return (
+    <div className={styles.card}>
+      <div
+        className={styles.photo}
+        style={item.photo ? { backgroundImage: `url(${item.photo})` } : undefined}
+      >
+        {item.photo ? "" : "후기 사진"}
+      </div>
+      <div className={styles.body}>
+        <p className={styles.name}>{item.name || "익명"}</p>
+        <p className={styles.quote}>
+          {item.quote.map((line, li) => (
+            <span key={li}>{line}</span>
+          ))}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export async function Reviews({ track }: { track?: string }) {
   const [content, unlocked] = await Promise.all([getContent(), isGateUnlocked()]);
   const { reviews } = content;
 
   const returnTo =
     track === "stomach" || track === "diet" ? `/?track=${track}#reviews` : "/#reviews";
+
+  // 후기가 4개 이상이면 3열 그리드 대신 옆으로 천천히 흐르는 마퀴로 전환한다.
+  const many = reviews.items.length >= 4;
+  const lockClass = unlocked ? "" : ` ${styles.gridLocked}`;
+  const marqueeDuration = Math.max(20, reviews.items.length * 6);
 
   return (
     <section id="reviews" className={styles.section} aria-labelledby="reviews-title">
@@ -38,27 +66,21 @@ export async function Reviews({ track }: { track?: string }) {
         <p className={styles.subtitle}>{reviews.subtitle}</p>
 
         <div
-          className={unlocked ? styles.grid : `${styles.grid} ${styles.gridLocked}`}
+          className={many ? styles.marqueeOuter : `${styles.grid}${lockClass}`}
           aria-hidden={!unlocked}
         >
-          {reviews.items.map((item, i) => (
-            <div className={styles.card} key={i}>
-              <div
-                className={styles.photo}
-                style={item.photo ? { backgroundImage: `url(${item.photo})` } : undefined}
-              >
-                {item.photo ? "" : "후기 사진"}
-              </div>
-              <div className={styles.body}>
-                <p className={styles.name}>{item.name || "익명"}</p>
-                <p className={styles.quote}>
-                  {item.quote.map((line, li) => (
-                    <span key={li}>{line}</span>
-                  ))}
-                </p>
-              </div>
+          {many ? (
+            <div
+              className={`${styles.marqueeTrack}${lockClass}`}
+              style={{ animationDuration: `${marqueeDuration}s` }}
+            >
+              {[...reviews.items, ...reviews.items].map((item, i) => (
+                <ReviewCard item={item} key={i} />
+              ))}
             </div>
-          ))}
+          ) : (
+            reviews.items.map((item, i) => <ReviewCard item={item} key={i} />)
+          )}
         </div>
 
         {unlocked ? (
