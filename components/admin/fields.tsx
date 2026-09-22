@@ -277,6 +277,45 @@ export function Repeater<T>({
   );
 }
 
+/* ── 이미지 업로드 전 자동 리사이즈/압축 ──────────────── */
+/**
+ * Vercel 서버리스 함수의 요청 본문 제한(4.5MB)보다 확실히 작아지도록
+ * 4MB를 목표로 압축한다. GIF(움짤 가능성) 및 이미 목표 이하인 파일은 그대로 둔다.
+ */
+async function compressImageForUpload(
+  file: File,
+  { maxBytes = 4 * 1024 * 1024, maxDimension = 2400 } = {},
+): Promise<File> {
+  if (file.type === "image/gif" || file.size <= maxBytes) return file;
+
+  const bitmap = await createImageBitmap(file).catch(() => null);
+  if (!bitmap) return file;
+
+  const scale = Math.min(1, maxDimension / Math.max(bitmap.width, bitmap.height));
+  const width = Math.round(bitmap.width * scale);
+  const height = Math.round(bitmap.height * scale);
+
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return file;
+  ctx.drawImage(bitmap, 0, 0, width, height);
+
+  const toBlob = (quality: number) =>
+    new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/jpeg", quality));
+
+  let blob: Blob | null = null;
+  for (const quality of [0.85, 0.7, 0.55, 0.4]) {
+    blob = await toBlob(quality);
+    if (blob && blob.size <= maxBytes) break;
+  }
+  if (!blob) return file;
+
+  const name = file.name.replace(/\.[^.]+$/, "") + ".jpg";
+  return new File([blob], name, { type: "image/jpeg" });
+}
+
 /* ── 이미지 (업로드 + 경로) ──────────────────────────── */
 export function ImageField({
   label,
@@ -300,8 +339,9 @@ export function ImageField({
     setBusy(true);
     setError(null);
     try {
+      const uploadFile = await compressImageForUpload(file);
       const form = new FormData();
-      form.append("file", file);
+      form.append("file", uploadFile);
       const res = await fetch("/api/admin/upload", { method: "POST", body: form });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {

@@ -2,7 +2,10 @@ import { NextResponse, type NextRequest } from "next/server";
 import { isAdmin } from "@/lib/admin/auth";
 import { getStorage } from "@/lib/content/storage";
 
-const MAX_BYTES = 8 * 1024 * 1024; // 8MB
+// Vercel 서버리스 함수의 요청 본문 하드 제한(4.5MB)보다 작게 잡는다.
+// 클라이언트(ImageField)에서 업로드 전 이 이하로 압축하지만, 압축이
+// 불가능한 브라우저를 대비해 서버에서도 동일 기준으로 다시 검증한다.
+const MAX_BYTES = 4 * 1024 * 1024; // 4MB
 const ALLOWED = new Set([
   "image/jpeg",
   "image/png",
@@ -35,7 +38,7 @@ export async function POST(req: NextRequest) {
   }
   if (file.size > MAX_BYTES) {
     return NextResponse.json(
-      { error: "파일이 너무 큽니다 (최대 8MB)." },
+      { error: "파일이 너무 큽니다 (최대 4MB)." },
       { status: 413 },
     );
   }
