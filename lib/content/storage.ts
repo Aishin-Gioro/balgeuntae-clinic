@@ -34,30 +34,61 @@ function useBlob(): boolean {
 
 /* ── Vercel Blob 드라이버 ─────────────────────────────────── */
 
+/**
+ * content.json 원문을 읽는다. 없으면 null, 그 밖의 오류는 던진다.
+ *
+ * 목록(list) 조회 결과의 갱신 시점이나 Blob CDN 캐시(같은 경로로 덮어써도 최소 60초
+ * 옛 파일을 줄 수 있음)에 기대지 않도록, 파일 이름으로 주소만 구하고(head) 내용은
+ * 매번 다른 쿼리를 붙여 CDN 캐시를 건너뛴 채 읽는다.
+ */
+async function readBlobText(): Promise<string | null> {
+  const { head, BlobNotFoundError } = await import("@vercel/blob");
+  let url: string;
+  try {
+    url = (await head(CONTENT_KEY)).url;
+  } catch (err) {
+    if (err instanceof BlobNotFoundError) return null;
+    throw err;
+  }
+  const res = await fetch(`${url}?t=${Date.now()}`, {
+    cache: "no-store",
+    headers: { "cache-control": "no-cache" },
+  });
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`content.json 읽기 실패 (${res.status})`);
+  return res.text();
+}
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
 const blobStorage: ContentStorage = {
   async readContent() {
-    const { list } = await import("@vercel/blob");
-    const { blobs } = await list({ prefix: CONTENT_KEY, limit: 1 });
-    const hit = blobs.find((b) => b.pathname === CONTENT_KEY);
-    if (!hit) return null;
-    // 같은 경로로 덮어쓰므로 URL 이 안 바뀐다 → Blob CDN(최소 60초 캐시)이 옛 파일을
-    // 줄 수 있다. 업로드 시각을 쿼리로 붙여 덮어쓸 때마다 다른 URL 로 읽는다.
-    const res = await fetch(`${hit.url}?v=${new Date(hit.uploadedAt).getTime()}`, {
-      cache: "no-store",
-    });
-    if (!res.ok) return null;
-    return (await res.json()) as unknown;
+    const text = await readBlobText();
+    return text === null ? null : (JSON.parse(text) as unknown);
   },
 
   async writeContent(value) {
     const { put } = await import("@vercel/blob");
-    await put(CONTENT_KEY, JSON.stringify(value, null, 2), {
+    const body = JSON.stringify(value, null, 2);
+    await put(CONTENT_KEY, body, {
       access: "public",
       contentType: "application/json",
       addRandomSuffix: false,
       allowOverwrite: true,
       cacheControlMaxAge: 0,
     });
+
+    // 저장 직후에는 읽기 경로가 잠깐 옛 파일을 줄 수 있다. 이때 캐시를 비우면 관리자 화면의
+    // 새로고침이 옛 내용을 읽어 5분간 캐시에 박아 버리므로, 방금 쓴 내용이 실제로 읽힐
+    // 때까지 확인한 뒤(최대 약 6초) 반환한다. 확인에 실패해도 저장 자체는 성공이다.
+    for (let i = 0; i < 12; i++) {
+      try {
+        if ((await readBlobText()) === body) return;
+      } catch {
+        /* 일시 오류는 다음 시도에서 재확인 */
+      }
+      await sleep(500);
+    }
   },
 
   async uploadImage(file) {

@@ -40,13 +40,13 @@ export function deepMerge<T>(base: T, patch: unknown): T {
   return out as T;
 }
 
+/**
+ * 저장본을 읽어 기본값과 병합한다. 읽기 오류는 일부러 던진다 — unstable_cache 는 던진 결과를
+ * 캐시하지 않으므로, 일시 오류로 기본 문구가 5분간 캐시에 박히는 일을 막는다.
+ * (오류 시 기본값으로 대체하는 것은 getContent 에서 한다.)
+ */
 async function loadMerged(): Promise<SiteContent> {
-  let stored: unknown = null;
-  try {
-    stored = await getStorage().readContent();
-  } catch (err) {
-    console.error("[content] 저장된 콘텐츠를 읽지 못했습니다. 기본값 사용:", err);
-  }
+  const stored = await getStorage().readContent();
   return stored ? deepMerge(defaultContent, stored) : defaultContent;
 }
 
@@ -58,9 +58,15 @@ const loadCached = unstable_cache(loadMerged, [CONTENT_TAG], {
 
 /** 서버 컴포넌트/라우트에서 콘텐츠를 읽는다. */
 export const getContent = cache(async (): Promise<SiteContent> => {
-  // 캐시에 남아 있는 옛 병합본에는 새로 추가한 필드가 없을 수 있어(스키마 변경 직후),
-  // 꺼낸 뒤 기본값을 한 번 더 깔아 준다.
-  return deepMerge(defaultContent, await loadCached());
+  try {
+    // 캐시에 남아 있는 옛 병합본에는 새로 추가한 필드가 없을 수 있어(스키마 변경 직후),
+    // 꺼낸 뒤 기본값을 한 번 더 깔아 준다.
+    return deepMerge(defaultContent, await loadCached());
+  } catch (err) {
+    // 저장본을 못 읽는 일시 오류 — 이 결과는 캐시되지 않으므로 다음 요청에서 다시 시도한다.
+    console.error("[content] 저장된 콘텐츠를 읽지 못했습니다. 기본값 사용:", err);
+    return defaultContent;
+  }
 });
 
 /** 관리자 편집기 저장 처리. 저장 후 캐시 무효화. */
