@@ -40,7 +40,11 @@ const blobStorage: ContentStorage = {
     const { blobs } = await list({ prefix: CONTENT_KEY, limit: 1 });
     const hit = blobs.find((b) => b.pathname === CONTENT_KEY);
     if (!hit) return null;
-    const res = await fetch(hit.url, { cache: "no-store" });
+    // 같은 경로로 덮어쓰므로 URL 이 안 바뀐다 → Blob CDN(최소 60초 캐시)이 옛 파일을
+    // 줄 수 있다. 업로드 시각을 쿼리로 붙여 덮어쓸 때마다 다른 URL 로 읽는다.
+    const res = await fetch(`${hit.url}?v=${new Date(hit.uploadedAt).getTime()}`, {
+      cache: "no-store",
+    });
     if (!res.ok) return null;
     return (await res.json()) as unknown;
   },

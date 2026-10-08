@@ -58,7 +58,9 @@ const loadCached = unstable_cache(loadMerged, [CONTENT_TAG], {
 
 /** 서버 컴포넌트/라우트에서 콘텐츠를 읽는다. */
 export const getContent = cache(async (): Promise<SiteContent> => {
-  return loadCached();
+  // 캐시에 남아 있는 옛 병합본에는 새로 추가한 필드가 없을 수 있어(스키마 변경 직후),
+  // 꺼낸 뒤 기본값을 한 번 더 깔아 준다.
+  return deepMerge(defaultContent, await loadCached());
 });
 
 /** 관리자 편집기 저장 처리. 저장 후 캐시 무효화. */
