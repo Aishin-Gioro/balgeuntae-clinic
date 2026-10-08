@@ -113,11 +113,84 @@ export type SiteContent = {
     lead: string;
     effectsTitle: string;
     effects: { term: string; desc: string }[];
+    /** 한약 작용 다음, 이런 분들께 체크리스트 섹션 */
+    fit: {
+      title: string;
+      items: string[];
+      closing: string;
+    };
+    /** 감량기 → 유지기 2단계 차별점 섹션 */
+    phases: {
+      kicker: string;
+      title: string;
+      steps: {
+        label: string;
+        name: string;
+        tagline: string;
+        body: string;
+        note: string;
+        /** 단계 하단 이미지(선택). 비우면 표시하지 않음 */
+        image: string;
+      }[];
+      emphasis: string;
+    };
+    /** 원장 직접 관리 약속 — 4칸 패널 + 하단 안내 박스 */
+    promise: {
+      kicker: string;
+      title: string;
+      cards: {
+        label: string;
+        title: string;
+        /** title 안에서 강조색으로 보일 부분(선택). 비우면 강조 없음 */
+        highlight: string;
+        desc: string;
+      }[];
+      banner: {
+        /** 카드 상단 제목(선택). 비우면 표시하지 않음 */
+        heading: string;
+        /** 제목 아래 설명(선택). 비우면 표시하지 않음 */
+        body: string;
+        /** 베이지 바 안의 굵은 문장 */
+        title: string;
+        note: string;
+      };
+      /** 섹션 맨 아래 상담 버튼(전화·카카오톡). 번호·링크는 site.phone / site.links.kakao 사용 */
+      cta: { title: string; phoneLabel: string; kakaoLabel: string };
+    };
     prescription: {
       kicker: string;
       title: string;
       body: string;
       note: string;
+    };
+    /** 맞춤 처방 기준 — 맞춤 처방 배너 바로 뒤, 3칸 프레임 카드 + 상담 CTA */
+    basis: {
+      cards: {
+        /** 카드 왼쪽 위 작은 영문 라벨 (오른쪽 큰 숫자는 순서대로 자동) */
+        label: string;
+        title: string;
+        intro: string;
+        /** 목록 항목. 대괄호 [ ] 로 감싼 부분은 강조 표시(원장님 확인 대기 자리표시자용) */
+        bullets: string[];
+        /** 카드 상단 사진(선택). 비우면 표시하지 않음 */
+        image: string;
+      }[];
+      cta: { title: string; phoneLabel: string; kakaoLabel: string };
+    };
+    /** 마무리 상담 — 원장 소개 바로 뒤. 번호·링크는 site.phone / site.links.kakao 사용 */
+    closing: {
+      title: string;
+      subtitle: string;
+      phoneLabel: string;
+      kakaoLabel: string;
+    };
+    /** 자주 묻는 질문 — 마무리 상담 바로 뒤. 답변의 [대괄호] 부분은 강조(원장님 확인 대기 자리표시자) */
+    faq: {
+      kicker: string;
+      title: string;
+      body: string;
+      notice: string;
+      items: { q: string; a: string }[];
     };
     proof: {
       title: string;
@@ -178,9 +251,8 @@ export const defaultContent: SiteContent = {
     tagline: "환골탈태하는 한의원",
     phone: "010-9813-0125",
     links: {
-      kakao: "#",
-      youtube:
-        "https://www.youtube.com/results?search_query=진액보충+한의사+김상태",
+      kakao: "https://pf.kakao.com/_xdfDPK",
+      youtube: "https://www.youtube.com/results?search_query=진액보충+한의사+김상태",
       consult: "#",
       blog: "https://blog.naver.com/dr_kst",
       instagram: "#",
@@ -221,10 +293,10 @@ export const defaultContent: SiteContent = {
       },
       diet: {
         buttonLabel: "다이어트",
-        title: "환골탈태하는 다이어트,\n밝은태 다이어트",
+        title: "환골탈태 하는 다이어트,\n밝은태 다이어트",
         subtitle: [
-          "요요는 살이 찌는 습관, ‘태(胎)’를 바꾸지 않았기 때문입니다",
-          "살이 찌는 ‘태(胎)’부터 바꿉니다",
+          "살찌는 습관이 몸에 굳은 것, 그것이 ‘태(胎)’입니다.",
+          "체중과 함께 태까지 바꿔, 뺀 몸무게를 지켜가도록 돕습니다.",
         ],
         image: "/images/hero-bg2.webp",
         gradient:
@@ -344,11 +416,152 @@ export const defaultContent: SiteContent = {
         desc: "혈당을 안정시켜 지방 저장 호르몬인 인슐린 분비를 조절하고, 섭취한 영양소가 지방으로 쌓이는 것을 줄이도록 돕습니다.",
       },
     ],
+    fit: {
+      title: "시작하는 이유는 달라도,\n원하는 건 같습니다",
+      items: [
+        "다이어트를 어디서부터 해야 할지 막막한 분",
+        "식욕 조절이 가장 어려운 분",
+        "적은 감량조차 유지가 어려우신 분",
+        "예전보다 살이 쉽게 찌고 잘 빠지지 않는 분",
+        "열심히 해도 안 빠지는 이유를 모르겠는 분",
+      ],
+      closing: "건강하게 빼고, 그 몸 그대로 살아가는 것.\n밝은태 다이어트가 함께 만들어갑니다.",
+    },
+    phases: {
+      kicker: "밝은태 다이어트의 차별점",
+      title: "감량으로 끝나지 않습니다\n유지까지가 밝은태 다이어트입니다",
+      steps: [
+        {
+          label: "STEP 1",
+          name: "감량기",
+          tagline: "건강하게 빼기",
+          body: "원장 1:1 맞춤 진료와, 체질과 식욕·대사 상태에 맞춘 한약으로 무리 없이 체중을 줄입니다.",
+          note: "목표 체중과 몸 상태에 따라 기간을 정합니다",
+          image: "",
+        },
+        {
+          label: "STEP 2",
+          name: "유지기",
+          tagline: "내 몸으로 만들기",
+          body: "일상 식사로 돌아가는 과정을 꾸준히 관리해, 남들처럼 먹어도 유지되는 몸을 목표로 합니다.",
+          note: "감량한 체중이 몸에 자리 잡을 때까지 이어갑니다",
+          image: "",
+        },
+      ],
+      emphasis: "목표 체중에 도달한 날이 아니라, 그 체중이 편안해지는 날을 목표로 합니다.",
+    },
+    promise: {
+      kicker: "밝은태의 관리 약속",
+      title: "처음 상담부터 유지기 마지막 날까지,\n원장이 직접 봅니다",
+      cards: [
+        {
+          label: "POINT 01",
+          title: "원장 직접 진료",
+          highlight: "",
+          desc: "상담부터 처방, 관리까지\n원장이 직접 맡습니다",
+        },
+        {
+          label: "POINT 02",
+          title: "매주 몸 상태 체크",
+          highlight: "매주 몸 상태 체크",
+          desc: "체중·컨디션·식욕 변화를\n원장이 매주 확인합니다",
+        },
+        {
+          label: "POINT 03",
+          title: "한약·식단 조정",
+          highlight: "조정",
+          desc: "확인한 몸 상태에 맞게\n한약을 조정·처방하고\n식단도 함께 잡습니다",
+        },
+        {
+          label: "POINT 04",
+          title: "유지기까지 관리",
+          highlight: "유지기",
+          desc: "감량이 끝난 뒤에도\n체중이 자리 잡을 때까지\n관리를 이어갑니다",
+        },
+      ],
+      banner: {
+        heading: "",
+        body: "",
+        title: "감량한 체중이 다시 돌아오지 않도록, 유지기까지 원장이 직접 관리합니다",
+        note: "※ 관리 기간과 처방은 개인의 몸 상태에 따라 달라지며, 매주 경과를 보고 원장이 정합니다.",
+      },
+      cta: {
+        title: "내 몸은 얼마나 걸릴까요?",
+        phoneLabel: "전화 상담하기",
+        kakaoLabel: "카카오톡 상담하기",
+      },
+    },
     prescription: {
       kicker: "체질과 생활습관에 맞춘",
       title: "한의사 진맥 후,\n1:1 맞춤 처방으로 조제합니다",
       body: "생활 습관과 몸 상태에 따라 탕약과 환약 등 알맞은 제형으로 처방합니다.",
       note: "구체적인 프로그램 단계와 기간은 원장 상담 시 안내드립니다.",
+    },
+    basis: {
+      cards: [
+        {
+          label: "POINT",
+          title: "모두에게 같은 한약을\n처방하지 않습니다",
+          intro: "진맥으로 체질을 살피고,\n아래 내용을 함께 보고 처방합니다.",
+          bullets: [
+            "식욕이 강한 시간대와 패턴",
+            "소화 상태와 위장 컨디션",
+            "카페인 민감도 · 수면 상태",
+            "지난 다이어트 경험",
+            "[원장님 실제 처방 기준 추가]",
+          ],
+          image: "",
+        },
+        {
+          label: "POINT",
+          title: "무엇이 들어가는지\n숨기지 않습니다",
+          intro: "처방에 쓰는 주요 약재와\n조제 과정을 공개합니다.",
+          bullets: [
+            "주요 약재 [목록]",
+            "조제 [원내 직접 조제 / 원외탕전]",
+            "약재 [원산지 · 인증 여부]",
+          ],
+          image: "",
+        },
+        {
+          label: "POINT",
+          title: "바쁜 하루에도\n챙기기 쉽게",
+          intro: "먹기 편해야 꾸준히 이어갈 수 있습니다.",
+          bullets: ["제형 [탕약 / 환약 / 정제]", "하루 [○]회, [식전 ○분]", "맛 · 휴대 [특징]"],
+          image: "",
+        },
+      ],
+      cta: {
+        title: "내 체질엔 어떤 처방이 맞을까요?",
+        phoneLabel: "전화 상담하기",
+        kakaoLabel: "카카오톡 상담하기",
+      },
+    },
+    closing: {
+      title: "이번 다이어트가,\n마지막 다이어트가 되도록",
+      subtitle: "상담만 받아보셔도 괜찮습니다.\n내 몸에 맞는 방법인지, 먼저 확인해 보세요.",
+      phoneLabel: "전화 상담하기",
+      kakaoLabel: "카카오톡 상담하기",
+    },
+    faq: {
+      kicker: "자주 묻는 질문",
+      title: "속이 편해야\n오래 갑니다",
+      body: "위장 질환을 진료해 온 원장이\n소화 상태부터 확인하고 처방합니다.\n복용 중 불편함이 생기면\n경과를 보며 처방을 조절합니다.",
+      notice:
+        "복용 초기 두근거림 · 불면 · 소화 불편 등이 있을 수 있으며, 효과와 반응은 개인에 따라 차이가 있을 수 있습니다.",
+      items: [
+        { q: "마황이 들어가나요?", a: "[사용 여부 · 체질에 따른 용량 조절 방식]" },
+        {
+          q: "다이어트 한약, 속이 불편하진 않나요?",
+          a: "소화 상태를 먼저 진찰하고 처방합니다. [구체적 조절 방법]",
+        },
+        { q: "커피를 마셔도 되나요? 잠은 잘 오나요?", a: "[카페인 · 복용 시간 안내]" },
+        {
+          q: "한약을 끊으면 다시 찌지 않나요?",
+          a: "유지기에 한약을 단계적으로 줄이며 관리합니다. [유지기 방식]",
+        },
+        { q: "비대면으로도 처방받을 수 있나요?", a: "[가능 여부 · 진행 방식]" },
+      ],
     },
     proof: {
       title: "변화는 인바디로 확인합니다",
@@ -387,8 +600,7 @@ export const defaultContent: SiteContent = {
       "[전문 분야 · 학회 활동 — 원장님 원고 필요]",
       "유튜브 ‘진액보충 한의사 김상태’ 운영",
     ],
-    footer:
-      "밝은태 한의원 | 진료: 위장질환(장상피화생·위축성위염) · 다이어트 · 대표원장 김상태",
+    footer: "밝은태 한의원 | 진료: 위장질환(장상피화생·위축성위염) · 다이어트 · 대표원장 김상태",
     links: [
       {
         label: "유튜브 채널",

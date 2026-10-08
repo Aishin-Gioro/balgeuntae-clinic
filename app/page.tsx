@@ -12,6 +12,12 @@ import { Reviews } from "@/components/Reviews";
 import { Treatment } from "@/components/Treatment";
 import { TrackA } from "@/components/TrackA";
 import { TrackB } from "@/components/TrackB";
+import { TrackBFit } from "@/components/TrackBFit";
+import { TrackBPhases } from "@/components/TrackBPhases";
+import { TrackBPromise } from "@/components/TrackBPromise";
+import { TrackBBasis } from "@/components/TrackBBasis";
+import { TrackBClosing } from "@/components/TrackBClosing";
+import { TrackBFaq } from "@/components/TrackBFaq";
 import { Doctor } from "@/components/Doctor";
 import { Location } from "@/components/Location";
 import { Footer } from "@/components/Footer";
@@ -49,9 +55,19 @@ export default async function HomePage({
               </ShowForTrack>
               <ShowForTrack id="diet">
                 <TrackB />
+                <TrackBFit />
+                <TrackBPhases />
+                <TrackBPromise />
               </ShowForTrack>
               <PrescriptionBanner />
+              <ShowForTrack id="diet">
+                <TrackBBasis />
+              </ShowForTrack>
               <Doctor />
+              <ShowForTrack id="diet">
+                <TrackBClosing />
+                <TrackBFaq />
+              </ShowForTrack>
               <Location />
               {/* 이후 섹션(CTA 배너) 예정 */}
             </GateProvider>

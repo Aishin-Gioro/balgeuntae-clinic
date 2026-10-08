@@ -1,0 +1,199 @@
+.section {
+  background: #f5f5f5;
+  color: #2b2b28;
+  padding: clamp(64px, 9vw, 120px) clamp(20px, 6vw, 96px);
+}
+
+/* 왼쪽 소개(스크롤 따라 고정) + 오른쪽 질문 목록 */
+.inner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(40px, 7vw, 110px);
+  align-items: start;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.intro {
+  position: sticky;
+  top: 110px;
+}
+
+.kicker {
+  margin: 0 0 18px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #8a7447;
+}
+
+.title {
+  margin: 0 0 clamp(20px, 3vw, 28px);
+  font-family: var(--font-sans);
+  font-size: clamp(26px, 3.4vw, 38px);
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+  color: #2b2b28;
+  white-space: pre-line;
+  word-break: keep-all;
+}
+
+.body {
+  margin: 0;
+  font-size: clamp(14.5px, 1.5vw, 16px);
+  line-height: 1.95;
+  color: #5f5f5b;
+  white-space: pre-line;
+  word-break: keep-all;
+}
+
+/* 고지 문구 — 장식 없이 가는 세로선으로만 구분 */
+.notice {
+  margin: clamp(24px, 3.4vw, 36px) 0 0;
+  padding-left: 14px;
+  border-left: 2px solid #c9c4b6;
+  font-size: 13px;
+  line-height: 1.8;
+  color: #8a8a85;
+  word-break: keep-all;
+}
+
+/* ===== 아코디언 ===== */
+.list {
+  border-top: 1px solid #2b2b28;
+}
+
+.item {
+  border-bottom: 1px solid #d9d6cd;
+  /* 높이를 auto 로도 transition 할 수 있게(지원 브라우저 한정, 미지원이면 무시) */
+  interpolate-size: allow-keywords;
+}
+/* 열릴 때 높이가 부드럽게 늘어남 — ::details-content 지원 브라우저 한정 */
+.item::details-content {
+  height: 0;
+  overflow: clip;
+  transition:
+    height 0.5s ease,
+    content-visibility 0.5s ease allow-discrete;
+}
+.item[open]::details-content {
+  height: auto;
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: clamp(20px, 2.6vw, 26px) 4px;
+  cursor: pointer;
+  list-style: none;
+}
+.summary::-webkit-details-marker {
+  display: none;
+}
+.summary:focus-visible {
+  outline: 2px solid #3f5f4b;
+  outline-offset: 2px;
+}
+
+.q {
+  flex: none;
+  font-family: var(--font-serif), "Nanum Myeongjo", "AppleMyungjo", "Batang", Georgia, serif;
+  font-size: 20px;
+  color: #3f5f4b;
+}
+
+.question {
+  flex: 1;
+  font-size: clamp(15.5px, 1.7vw, 18px);
+  font-weight: 700;
+  line-height: 1.5;
+  color: #1f2d27;
+  word-break: keep-all;
+}
+
+/* + → − (세로선이 사라지며 가로선만 남음) */
+.toggle {
+  position: relative;
+  flex: none;
+  width: 16px;
+  height: 16px;
+}
+.toggle::before,
+.toggle::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: #1f2d27;
+  transition: transform 0.25s ease;
+}
+.toggle::before {
+  width: 16px;
+  height: 1.5px;
+  transform: translate(-50%, -50%);
+}
+.toggle::after {
+  width: 1.5px;
+  height: 16px;
+  transform: translate(-50%, -50%);
+}
+.item[open] .toggle::after {
+  transform: translate(-50%, -50%) scaleY(0);
+}
+
+/* 열릴 때 답변이 위로 살짝 미끄러지며 서서히 나타남(모든 브라우저) */
+.item[open] .answer {
+  animation: faqReveal 0.55s ease both;
+}
+@keyframes faqReveal {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.answer {
+  margin: 0;
+  padding: 0 40px clamp(22px, 2.8vw, 28px) 36px;
+  font-size: clamp(14.5px, 1.5vw, 16px);
+  line-height: 1.9;
+  color: #5f5f5b;
+  word-break: keep-all;
+}
+
+/* [ ] 안의 자리표시자 — 원장님 확인 대기 항목 */
+.mark {
+  font-weight: 700;
+  color: #b8741a;
+}
+
+/* ===== 반응형 ===== */
+@media (max-width: 860px) {
+  .inner {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .intro {
+    position: static;
+  }
+  .answer {
+    padding-right: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toggle::before,
+  .toggle::after,
+  .item::details-content {
+    transition: none;
+  }
+  .item[open] .answer {
+    animation: none;
+  }
+}

@@ -1,0 +1,129 @@
+/* 다이어트 상세(TrackB, #1f2d27)와 같은 진초록 계열 — 단색 복사본으로 보이지 않게 은은한 그라데이션 */
+.section {
+  background:
+    radial-gradient(90% 70% at 12% 8%, rgba(167, 197, 160, 0.14), rgba(167, 197, 160, 0) 60%),
+    linear-gradient(135deg, #2c4137 0%, #243429 50%, #1f2d27 100%);
+  color: #fdfcfa;
+  padding: clamp(56px, 8vw, 100px) clamp(20px, 5vw, 64px);
+}
+
+.inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(16px, 2.4vw, 32px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* 투명 면 + 가는 흰 선 프레임 */
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(24px, 2.6vw, 32px) clamp(20px, 2.4vw, 32px) clamp(28px, 3vw, 40px);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* STEP 01 처럼: 왼쪽 작은 영문 라벨, 오른쪽 큰 숫자 */
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: clamp(14px, 2vw, 22px);
+}
+.label {
+  font-family: var(--font-serif), "Nanum Myeongjo", "AppleMyungjo", "Batang", Georgia, serif;
+  font-size: clamp(16px, 1.7vw, 20px);
+  letter-spacing: 0.04em;
+  color: rgba(253, 252, 250, 0.82);
+}
+.num {
+  font-family: var(--font-serif), "Nanum Myeongjo", "AppleMyungjo", "Batang", Georgia, serif;
+  font-size: clamp(44px, 5vw, 64px);
+  font-weight: 300;
+  line-height: 1;
+  color: rgba(253, 252, 250, 0.95);
+}
+
+.image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  margin-bottom: clamp(20px, 2.6vw, 28px);
+  object-fit: cover;
+}
+
+.title {
+  margin: clamp(8px, 1.4vw, 16px) 0 14px;
+  font-family: var(--font-serif), "Nanum Myeongjo", "AppleMyungjo", "Batang", Georgia, serif;
+  font-size: clamp(19px, 2vw, 23px);
+  font-weight: 500;
+  line-height: 1.45;
+  text-align: center;
+  color: #ffffff;
+  white-space: pre-line;
+  word-break: keep-all;
+}
+
+.intro {
+  margin: 0;
+  font-size: clamp(13.5px, 1.4vw, 15px);
+  line-height: 1.9;
+  text-align: center;
+  color: rgba(253, 252, 250, 0.82);
+  white-space: pre-line;
+  word-break: keep-all;
+}
+
+/* 목록은 가운데 블록으로 두되 글자는 왼쪽 정렬 */
+.bullets {
+  width: fit-content;
+  max-width: 100%;
+  margin: clamp(20px, 2.6vw, 28px) auto 0;
+  padding: clamp(18px, 2.4vw, 24px) 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+  list-style: none;
+  text-align: left;
+}
+.bullets li {
+  position: relative;
+  padding-left: 16px;
+  font-size: clamp(14px, 1.45vw, 15.5px);
+  line-height: 1.75;
+  color: #ffffff;
+  word-break: keep-all;
+}
+.bullets li + li {
+  margin-top: 6px;
+}
+.bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.78em;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+}
+
+/* [ ] 안의 자리표시자 — 원장님 확인 대기 항목 */
+.mark {
+  font-weight: 700;
+  color: #ffe2a0;
+}
+
+/* ===== 반응형 ===== */
+@media (max-width: 960px) {
+  .grid {
+    grid-template-columns: 1fr;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+}

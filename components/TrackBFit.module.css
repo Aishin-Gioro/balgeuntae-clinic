@@ -1,0 +1,171 @@
+.section {
+  background: #ffffff;
+  color: #1f2d27;
+  padding: clamp(56px, 8vw, 96px) clamp(20px, 6vw, 96px);
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* ===== 제목 — 첫 줄 가볍게, 둘째 줄 굵게 ===== */
+.title {
+  margin: 0 0 clamp(44px, 7vw, 72px);
+  font-family: var(--font-serif), "Nanum Myeongjo", "AppleMyungjo", "Batang", Georgia, serif;
+  font-size: 34px;
+  line-height: 1.5;
+  color: #2f3a35;
+  word-break: keep-all;
+}
+.titleHead,
+.titleStrong {
+  display: block;
+  white-space: pre-line;
+}
+.titleHead {
+  font-weight: 400;
+}
+.titleStrong {
+  font-weight: 700;
+  color: #1f3a2b;
+}
+
+/* ===== 체크 카드 ===== */
+/*
+ * 끊기지 않는 하나의 "뱀" 선.
+ *  - 홀수 줄: 왼쪽이 둥근 틀(0 ~ 100%-R), 오른쪽은 열림
+ *  - 짝수 줄: 오른쪽이 둥근 틀(R ~ 100%), 왼쪽은 열림
+ *  → 이웃한 줄의 위아래 선이 곡선 끝점(R / 100%-R)에서 정확히 이어진다.
+ *  - 맨 위·맨 아래 선은 열린 쪽으로 반지름(R)만큼만 더 뻗어 반대편 곡선의 바깥 끝과 맞춘다.
+ *  - 아이콘·텍스트는 틀과 무관하게 모든 줄에서 같은 x 위치.
+ */
+.list {
+  --edge: #3f5f4b;
+  --h: clamp(92px, 13vw, 132px); /* 줄 높이 */
+  --r: calc(var(--h) / 2); /* 둥근 끝 반지름 */
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+
+.item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: calc(var(--h) * 0.2);
+  min-height: var(--h);
+  padding: 8px calc(var(--r) * 1.1) 8px calc(var(--h) * 0.27);
+  font-size: clamp(15px, 1.8vw, 18px);
+  font-weight: 700;
+  line-height: 1.55;
+  color: #1f3a2b;
+  word-break: keep-all;
+}
+.item + .item {
+  margin-top: -1px; /* 이웃한 틀의 선이 한 줄로 겹치게 */
+}
+.item > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* 틀 */
+.item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border: 1px solid var(--edge);
+}
+.item:nth-child(odd)::before {
+  left: 0;
+  right: var(--r);
+  border-right: 0;
+  border-radius: var(--r) 0 0 var(--r);
+}
+.item:nth-child(even)::before {
+  left: var(--r);
+  right: 0;
+  border-left: 0;
+  border-radius: 0 var(--r) var(--r) 0;
+}
+
+/* 맨 위 선 → 오른쪽 곡선의 바깥 끝(100%)까지 */
+.item:first-child::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: calc(100% - var(--r));
+  width: var(--r);
+  border-top: 1px solid var(--edge);
+}
+/* 맨 아래 선 → 마지막 줄의 열린 쪽 바깥 끝까지 */
+.item:last-child:nth-child(even)::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: calc(100% - var(--r));
+  width: var(--r);
+  border-bottom: 1px solid var(--edge);
+}
+.item:last-child:nth-child(odd):not(:first-child)::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: calc(100% - var(--r));
+  width: var(--r);
+  border-bottom: 1px solid var(--edge);
+}
+
+.check {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--h) * 0.6);
+  height: calc(var(--h) * 0.6);
+  border-radius: 50%;
+  background: #f5f5f4;
+  color: #3f5f4b;
+}
+
+/* ===== 마무리 ===== */
+.rule {
+  display: block;
+  width: 40px;
+  height: 2px;
+  margin: clamp(32px, 5vw, 48px) auto clamp(18px, 3vw, 26px);
+  background: #e0a04a;
+}
+
+.closing {
+  margin: 0;
+  font-size: clamp(16px, 2vw, 19px);
+  line-height: 1.7;
+  color: #2f3a35;
+  word-break: keep-all;
+}
+.closingStrong,
+.closingSoft {
+  display: block;
+  white-space: pre-line;
+}
+.closingStrong {
+  font-weight: 700;
+  color: #1f2d27;
+}
+.closingSoft {
+  font-weight: 400;
+}
+
+/* 섹션 제목 크기 통일 (모바일은 줄바꿈이 어색해지지 않게 축소) */
+@media (max-width: 640px) {
+  .title {
+    font-size: 28px;
+  }
+}

@@ -1,0 +1,82 @@
+.cta {
+  margin-top: clamp(40px, 6vw, 64px);
+  padding-top: clamp(28px, 4vw, 40px);
+  border-top: 1px solid #ece9e2;
+  text-align: center;
+}
+.onDark {
+  padding-top: 0;
+  border-top: 0;
+}
+.flush {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.title {
+  margin: 0 0 clamp(16px, 2.4vw, 22px);
+  font-size: clamp(19px, 2.2vw, 23px);
+  font-weight: 600;
+  line-height: 1.4;
+  color: #2b2b28;
+  word-break: keep-all;
+}
+.onDark .title {
+  color: #fdfcfa;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(12px, 2vw, 22px);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: min(240px, 100%);
+  height: 58px;
+  padding: 0 32px;
+  border-radius: 999px;
+  font-size: 17px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.icon {
+  flex: none;
+  width: 22px;
+  height: 22px;
+}
+.phone {
+  background: #1f2d27;
+  color: #ffffff;
+}
+.kakao {
+  background: #fee500;
+  color: #2b2b28;
+}
+/* 진초록 배경에서는 진초록 버튼이 묻히므로 흰 버튼으로 */
+.onDark .phone {
+  background: #ffffff;
+  color: #1f2d27;
+}
+
+@media (hover: hover) {
+  .button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px -10px rgba(0, 0, 0, 0.4);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+  .button:hover {
+    transform: none;
+  }
+}

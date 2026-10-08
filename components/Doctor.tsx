@@ -6,18 +6,6 @@ export async function Doctor() {
   const { doctor } = await getContent();
   return (
     <section id="doctor" className={styles.section} aria-labelledby="doctor-name">
-      <svg className={styles.decor} viewBox="0 0 1440 720" preserveAspectRatio="none" aria-hidden="true">
-        <path
-          vectorEffect="non-scaling-stroke"
-          d="M1490 60C1240 130 1130 40 940 96C760 148 660 70 470 108"
-        />
-        <path
-          vectorEffect="non-scaling-stroke"
-          style={{ opacity: 0.6 }}
-          d="M-40 640C240 580 420 690 690 654C920 622 1080 700 1300 656"
-        />
-      </svg>
-
       <div className={styles.inner}>
         <div className={styles.top}>
           <span className={styles.brand}>

@@ -1,0 +1,155 @@
+.section {
+  background: #ffffff;
+  color: #1f2d27;
+  padding: clamp(56px, 8vw, 96px) clamp(20px, 6vw, 96px);
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* ===== 헤더 ===== */
+.kicker {
+  margin: 0 0 18px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #8a7447;
+}
+
+.title {
+  margin: 0 0 clamp(36px, 5.5vw, 64px);
+  font-family: var(--font-serif), "Nanum Myeongjo", "AppleMyungjo", "Batang", Georgia, serif;
+  font-size: clamp(24px, 3.2vw, 34px);
+  font-weight: 500;
+  line-height: 1.4;
+  color: #2b2b28;
+  white-space: pre-line;
+  word-break: keep-all;
+}
+
+/* ===== 색 면 패널 ===== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(8px, 1vw, 12px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(36px, 4.5vw, 52px) clamp(18px, 2vw, 26px) clamp(32px, 4vw, 44px);
+  color: #fdfcfa;
+}
+.tone0 {
+  background: #1f2d27;
+}
+.tone1 {
+  background: #2b3d33;
+}
+.tone2 {
+  background: #3a5244;
+}
+.tone3 {
+  background: #4a6b56;
+}
+
+.icon {
+  margin-bottom: 14px;
+  color: rgba(253, 252, 250, 0.9);
+}
+
+.label {
+  margin-bottom: 14px;
+  font-size: 12.5px;
+  letter-spacing: 0.06em;
+  color: rgba(253, 252, 250, 0.7);
+}
+
+.cardTitle {
+  margin: 0 0 14px;
+  font-size: clamp(18px, 2vw, 22px);
+  font-weight: 700;
+  line-height: 1.4;
+  color: #fdfcfa;
+  word-break: keep-all;
+}
+.accent {
+  color: inherit; /* 강조 부분도 제목과 같은 흰색 */
+}
+
+.desc {
+  margin: 0;
+  font-size: clamp(13.5px, 1.4vw, 15px);
+  line-height: 1.8;
+  color: rgba(253, 252, 250, 0.88);
+  white-space: pre-line;
+  word-break: keep-all;
+}
+
+/* ===== 하단 안내 박스 ===== */
+/* 흰 카드(옅은 그림자) 안에 제목·설명, 그 아래 베이지 둥근 바 */
+.banner {
+  margin-top: clamp(20px, 3vw, 32px);
+  padding: clamp(24px, 4vw, 40px);
+  border-radius: 4px;
+  background: #ffffff;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+  text-align: left;
+}
+.bannerHeading {
+  margin: 0 0 14px;
+  font-size: clamp(18px, 2.2vw, 22px);
+  font-weight: 700;
+  line-height: 1.45;
+  color: #2a2018;
+  word-break: keep-all;
+}
+.bannerBody {
+  margin: 0 0 22px;
+  font-size: clamp(14px, 1.5vw, 16px);
+  line-height: 1.9;
+  color: #6b6b6b;
+  white-space: pre-line;
+  word-break: keep-all;
+}
+.bannerBar {
+  margin: 0;
+  padding: clamp(16px, 2.4vw, 20px) clamp(18px, 3vw, 32px);
+  border-radius: 20px;
+  background: #e8d9c1;
+  font-size: clamp(14px, 1.6vw, 17px);
+  font-weight: 700;
+  line-height: 1.6;
+  text-align: center;
+  color: #2a2018;
+  text-wrap: balance;
+  word-break: keep-all;
+}
+.bannerNote {
+  margin: 16px 0 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #8a8a8a;
+  word-break: keep-all;
+}
+
+/* ===== 반응형 ===== */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 520px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

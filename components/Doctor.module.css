@@ -1,6 +1,6 @@
 .section {
   position: relative;
-  overflow: clip; /* 곡선 클리핑 — clip 은 sticky 를 깨지 않음 */
+  overflow: clip;
   background-color: #ffffff;
   background-image: url("/images/section6-bg.webp");
   background-size: cover;
@@ -8,18 +8,6 @@
   background-repeat: no-repeat;
   padding: clamp(80px, 11vw, 140px) clamp(20px, 6vw, 96px);
   scroll-margin-top: 72px;
-}
-
-.decor {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  fill: none;
-  stroke: #ecebe6;
-  stroke-width: 1;
-  stroke-linecap: round;
-  pointer-events: none;
 }
 
 .inner {

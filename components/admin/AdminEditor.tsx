@@ -635,6 +635,141 @@ function TrackBTab({ draft, patch }: TabProps) {
         />
       </Group>
 
+      <Group title="이런 분께 (체크리스트)">
+        <TextAreaField
+          label="제목"
+          value={trackB.fit.title}
+          onChange={(v) => patch((d) => void (d.trackB.fit.title = v))}
+        />
+        <StringListField
+          label="체크 항목"
+          values={trackB.fit.items}
+          onChange={(v) => patch((d) => void (d.trackB.fit.items = v))}
+          addLabel="+ 항목 추가"
+        />
+        <TextAreaField
+          label="마무리 문구"
+          value={trackB.fit.closing}
+          onChange={(v) => patch((d) => void (d.trackB.fit.closing = v))}
+        />
+      </Group>
+
+      <Group title="차별점 (감량기 → 유지기)">
+        <TextField
+          label="작은 제목"
+          value={trackB.phases.kicker}
+          onChange={(v) => patch((d) => void (d.trackB.phases.kicker = v))}
+        />
+        <TextAreaField
+          label="큰 제목"
+          value={trackB.phases.title}
+          onChange={(v) => patch((d) => void (d.trackB.phases.title = v))}
+        />
+        <Repeater
+          label="단계 카드"
+          items={trackB.phases.steps}
+          makeEmpty={() => ({ label: "", name: "", tagline: "", body: "", note: "", image: "" })}
+          itemLabel={(it) => it.name || "단계"}
+          onChange={(v) => patch((d) => void (d.trackB.phases.steps = v))}
+          renderItem={(it, update) => (
+            <>
+              <TextField label="단계 표시" value={it.label} onChange={(v) => update({ label: v })} />
+              <TextField label="이름" value={it.name} onChange={(v) => update({ name: v })} />
+              <TextField label="한 줄 설명" value={it.tagline} onChange={(v) => update({ tagline: v })} />
+              <TextAreaField label="본문" value={it.body} onChange={(v) => update({ body: v })} />
+              <TextField label="하단 안내" value={it.note} onChange={(v) => update({ note: v })} />
+              <ImageField
+                label="하단 이미지 (선택)"
+                hint="비워 두면 이미지 없이 표시됩니다."
+                value={it.image ?? ""}
+                onChange={(v) => update({ image: v })}
+              />
+            </>
+          )}
+        />
+        <TextAreaField
+          label="강조 문구"
+          value={trackB.phases.emphasis}
+          onChange={(v) => patch((d) => void (d.trackB.phases.emphasis = v))}
+        />
+      </Group>
+
+      <Group title="관리 약속 (4칸 패널)">
+        <TextField
+          label="작은 제목"
+          value={trackB.promise.kicker}
+          onChange={(v) => patch((d) => void (d.trackB.promise.kicker = v))}
+        />
+        <TextAreaField
+          label="큰 제목"
+          value={trackB.promise.title}
+          onChange={(v) => patch((d) => void (d.trackB.promise.title = v))}
+        />
+        <Repeater
+          label="패널"
+          items={trackB.promise.cards}
+          makeEmpty={() => ({ label: "", title: "", highlight: "", desc: "" })}
+          itemLabel={(it) => it.title || "패널"}
+          onChange={(v) => patch((d) => void (d.trackB.promise.cards = v))}
+          renderItem={(it, update) => (
+            <>
+              <TextField label="작은 라벨" value={it.label} onChange={(v) => update({ label: v })} />
+              <TextField label="제목" value={it.title} onChange={(v) => update({ title: v })} />
+              <TextField
+                label="제목 중 강조할 부분"
+                hint="제목에 들어 있는 글자를 그대로 적으면 그 부분만 주황색으로 보입니다. 비우면 강조 없음."
+                value={it.highlight}
+                onChange={(v) => update({ highlight: v })}
+              />
+              <TextAreaField
+                label="설명"
+                hint={BREAK_HINT}
+                value={it.desc}
+                onChange={(v) => update({ desc: v })}
+              />
+            </>
+          )}
+        />
+        <TextField
+          label="하단 카드 제목 (선택)"
+          hint="비워 두면 표시하지 않습니다."
+          value={trackB.promise.banner.heading}
+          onChange={(v) => patch((d) => void (d.trackB.promise.banner.heading = v))}
+        />
+        <TextAreaField
+          label="하단 카드 설명 (선택)"
+          hint={`비워 두면 표시하지 않습니다. ${BREAK_HINT}`}
+          value={trackB.promise.banner.body}
+          onChange={(v) => patch((d) => void (d.trackB.promise.banner.body = v))}
+        />
+        <TextAreaField
+          label="하단 베이지 바 문구"
+          value={trackB.promise.banner.title}
+          onChange={(v) => patch((d) => void (d.trackB.promise.banner.title = v))}
+        />
+        <TextField
+          label="하단 박스 안내"
+          value={trackB.promise.banner.note}
+          onChange={(v) => patch((d) => void (d.trackB.promise.banner.note = v))}
+        />
+        <TextField
+          label="상담 버튼 위 문구"
+          hint="전화번호·카카오톡 링크는 '기본 정보' 탭의 값을 그대로 씁니다."
+          value={trackB.promise.cta.title}
+          onChange={(v) => patch((d) => void (d.trackB.promise.cta.title = v))}
+        />
+        <TextField
+          label="전화 버튼 글자"
+          value={trackB.promise.cta.phoneLabel}
+          onChange={(v) => patch((d) => void (d.trackB.promise.cta.phoneLabel = v))}
+        />
+        <TextField
+          label="카카오톡 버튼 글자"
+          value={trackB.promise.cta.kakaoLabel}
+          onChange={(v) => patch((d) => void (d.trackB.promise.cta.kakaoLabel = v))}
+        />
+      </Group>
+
       <Group title="맞춤 처방 배너">
         <TextField
           label="작은 제목"
@@ -655,6 +790,122 @@ function TrackBTab({ draft, patch }: TabProps) {
           label="작은 안내"
           value={trackB.prescription.note}
           onChange={(v) => patch((d) => void (d.trackB.prescription.note = v))}
+        />
+      </Group>
+
+      <Group title="맞춤 처방 기준 (3칸 카드)">
+        <Repeater
+          label="카드"
+          items={trackB.basis.cards}
+          makeEmpty={() => ({ label: "POINT", title: "", intro: "", bullets: [], image: "" })}
+          itemLabel={(it) => it.title.replace(/\n/g, " ") || "카드"}
+          onChange={(v) => patch((d) => void (d.trackB.basis.cards = v))}
+          renderItem={(it, update) => (
+            <>
+              <TextField
+                label="왼쪽 위 작은 글자"
+                hint="오른쪽 큰 숫자(01, 02…)는 순서대로 자동입니다."
+                value={it.label}
+                onChange={(v) => update({ label: v })}
+              />
+              <ImageField
+                label="상단 사진 (선택)"
+                hint="비워 두면 사진 없이 표시됩니다."
+                value={it.image ?? ""}
+                onChange={(v) => update({ image: v })}
+              />
+              <TextAreaField label="제목" value={it.title} onChange={(v) => update({ title: v })} />
+              <TextAreaField label="소개 문구" value={it.intro} onChange={(v) => update({ intro: v })} />
+              <StringListField
+                label="목록 항목"
+                hint="[대괄호]로 감싼 부분은 강조색으로 보입니다(원장님 확인이 필요한 자리 표시용)."
+                values={it.bullets}
+                onChange={(v) => update({ bullets: v })}
+                addLabel="+ 항목 추가"
+              />
+            </>
+          )}
+        />
+        <TextField
+          label="상담 버튼 위 문구"
+          hint="전화번호·카카오톡 링크는 '기본 정보' 탭의 값을 그대로 씁니다."
+          value={trackB.basis.cta.title}
+          onChange={(v) => patch((d) => void (d.trackB.basis.cta.title = v))}
+        />
+        <TextField
+          label="전화 버튼 글자"
+          value={trackB.basis.cta.phoneLabel}
+          onChange={(v) => patch((d) => void (d.trackB.basis.cta.phoneLabel = v))}
+        />
+        <TextField
+          label="카카오톡 버튼 글자"
+          value={trackB.basis.cta.kakaoLabel}
+          onChange={(v) => patch((d) => void (d.trackB.basis.cta.kakaoLabel = v))}
+        />
+      </Group>
+
+      <Group title="마무리 상담 (원장 소개 아래)">
+        <TextAreaField
+          label="제목"
+          value={trackB.closing.title}
+          onChange={(v) => patch((d) => void (d.trackB.closing.title = v))}
+        />
+        <TextAreaField
+          label="부제"
+          hint="전화번호·카카오톡 링크는 '기본 정보' 탭의 값을 그대로 씁니다."
+          value={trackB.closing.subtitle}
+          onChange={(v) => patch((d) => void (d.trackB.closing.subtitle = v))}
+        />
+        <TextField
+          label="전화 버튼 글자"
+          value={trackB.closing.phoneLabel}
+          onChange={(v) => patch((d) => void (d.trackB.closing.phoneLabel = v))}
+        />
+        <TextField
+          label="카카오톡 버튼 글자"
+          value={trackB.closing.kakaoLabel}
+          onChange={(v) => patch((d) => void (d.trackB.closing.kakaoLabel = v))}
+        />
+      </Group>
+
+      <Group title="자주 묻는 질문 (마무리 상담 아래)">
+        <TextField
+          label="작은 제목"
+          value={trackB.faq.kicker}
+          onChange={(v) => patch((d) => void (d.trackB.faq.kicker = v))}
+        />
+        <TextAreaField
+          label="큰 제목"
+          value={trackB.faq.title}
+          onChange={(v) => patch((d) => void (d.trackB.faq.title = v))}
+        />
+        <TextAreaField
+          label="소개 문단"
+          value={trackB.faq.body}
+          onChange={(v) => patch((d) => void (d.trackB.faq.body = v))}
+        />
+        <TextAreaField
+          label="고지 문구"
+          value={trackB.faq.notice}
+          onChange={(v) => patch((d) => void (d.trackB.faq.notice = v))}
+        />
+        <Repeater
+          label="질문 · 답변"
+          items={trackB.faq.items}
+          makeEmpty={() => ({ q: "", a: "" })}
+          itemLabel={(it) => it.q || "질문"}
+          onChange={(v) => patch((d) => void (d.trackB.faq.items = v))}
+          renderItem={(it, update) => (
+            <>
+              <TextField label="질문" value={it.q} onChange={(v) => update({ q: v })} />
+              <TextAreaField
+                label="답변"
+                hint="[대괄호]로 감싼 부분은 주황색 굵은 글씨로 보입니다(원장님 확인이 필요한 자리 표시용)."
+                value={it.a}
+                onChange={(v) => update({ a: v })}
+              />
+            </>
+          )}
         />
       </Group>
 
