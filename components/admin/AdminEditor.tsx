@@ -619,11 +619,17 @@ function TrackBTab({ draft, patch }: TabProps) {
         <Repeater
           label="작용 항목"
           items={trackB.effects}
-          makeEmpty={() => ({ term: "", desc: "" })}
+          makeEmpty={() => ({ label: "", term: "", desc: "" })}
           itemLabel={(it) => it.term || "작용"}
           onChange={(v) => patch((d) => void (d.trackB.effects = v))}
           renderItem={(it, update) => (
             <>
+              <TextField
+                label="제목 위 작은 글자 (선택)"
+                hint="비워 두면 ( 작용 01 )처럼 순서대로 자동 번호가 나옵니다. 입력하면 입력한 글자가 그대로 나옵니다."
+                value={it.label ?? ""}
+                onChange={(v) => update({ label: v })}
+              />
               <TextField label="이름" value={it.term} onChange={(v) => update({ term: v })} />
               <TextAreaField
                 label="설명"

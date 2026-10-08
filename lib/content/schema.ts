@@ -112,7 +112,8 @@ export type SiteContent = {
     title: string;
     lead: string;
     effectsTitle: string;
-    effects: { term: string; desc: string }[];
+    /** label: 제목 위 작은 글자. 비우면 "( 작용 01 )" 처럼 순서대로 자동 번호 */
+    effects: { label: string; term: string; desc: string }[];
     /** 한약 작용 다음, 이런 분들께 체크리스트 섹션 */
     fit: {
       title: string;
@@ -400,18 +401,22 @@ export const defaultContent: SiteContent = {
     effectsTitle: "밝은태 다이어트 한약은 이렇게 작용합니다",
     effects: [
       {
+        label: "",
         term: "식욕 조절 · 폭식 예방",
         desc: "다이어트 실패의 큰 원인은 폭식입니다.\n식욕은 의지만으로 조절되지 않기에, 한약으로 식욕을 다스려 폭식을 줄이도록 돕습니다.",
       },
       {
+        label: "",
         term: "대사 증진",
         desc: "교감신경을 활성화해 기초대사를 끌어올립니다.\n에너지 소비의 약 70%를 차지하는 기초대사가 높을수록 체중 감소에 유리합니다.",
       },
       {
+        label: "",
         term: "체지방 · 내장지방 분해",
         desc: "혈액순환을 도와 체지방 분해를 촉진하고,\n장기 사이에 낀 내장지방까지 태우도록 돕습니다.",
       },
       {
+        label: "",
         term: "혈당 안정",
         desc: "혈당을 안정시켜 지방 저장 호르몬인 인슐린 분비를 조절하고, 섭취한 영양소가 지방으로 쌓이는 것을 줄이도록 돕습니다.",
       },

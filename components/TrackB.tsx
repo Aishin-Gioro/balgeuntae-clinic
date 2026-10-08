@@ -48,7 +48,7 @@ export async function TrackB() {
             <ol className={styles.effectsList}>
               {trackB.effects.map((e, i) => (
                 <li key={e.term} className={styles.effectItem}>
-                  <span className={styles.effectIndex}>( 작용 0{i + 1} )</span>
+                  <span className={styles.effectIndex}>{e.label?.trim() || `( 작용 0${i + 1} )`}</span>
                   <h4 className={styles.effectTerm}>{e.term}</h4>
                   <p className={styles.effectDesc}>{e.desc}</p>
                 </li>
