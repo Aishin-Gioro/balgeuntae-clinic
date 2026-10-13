@@ -490,15 +490,12 @@ function TreatmentTab({ draft, patch }: TabProps) {
                 value={it.desc}
                 onChange={(v) => update({ desc: v })}
               />
-              {/* 사진 영역 숨기기는 다이어트 카드에만 둔다(사진 준비 전까지 닫아두는 용도) */}
-              {it.id === "track-b" && (
-                <CheckboxField
-                  label="우측 전후 사진 영역 보이기"
-                  hint="체크를 끄면 오른쪽 사진(잠금) 영역이 숨겨지고 문구만 보입니다. 사진을 준비한 뒤 다시 켜면 됩니다."
-                  checked={it.showImage}
-                  onChange={(v) => update({ showImage: v })}
-                />
-              )}
+              <CheckboxField
+                label="우측 전후 사진 영역 보이기"
+                hint="체크를 끄면 오른쪽 사진(잠금) 영역이 숨겨지고 문구만 보입니다. 사진을 준비한 뒤 다시 켜면 됩니다."
+                checked={it.showImage}
+                onChange={(v) => update({ showImage: v })}
+              />
               <TextField
                 label="이미지 캡션"
                 value={it.caption}
