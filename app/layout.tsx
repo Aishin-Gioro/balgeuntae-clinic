@@ -17,7 +17,8 @@ export async function generateMetadata(): Promise<Metadata> {
   const description =
     "장상피화생·위축성위염 한약 치료와 밝은태 다이어트. 환골탈태하는 한의원, 밝은태 한의원.";
   return {
-    metadataBase: new URL("https://balgeuntae.example.com"), // TODO: 실제 도메인으로 교체
+    // 링크 공유 미리보기(og:image 등)의 상대 경로를 이 주소 기준의 절대 주소로 만든다.
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.taemedi.com"),
     title: {
       default: `${site.name} | ${site.tagline}`,
       template: `%s | ${site.name}`,
@@ -26,8 +27,24 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: `${site.name} | ${site.tagline}`,
       description,
+      siteName: site.name,
       type: "website",
       locale: "ko_KR",
+      // 카카오톡·SNS 링크 공유 미리보기 이미지 (1200x630, public/og-image.png)
+      images: [
+        {
+          url: "/og-image.png",
+          width: 1200,
+          height: 630,
+          alt: `${site.name} — ${site.tagline}`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${site.name} | ${site.tagline}`,
+      description,
+      images: ["/og-image.png"],
     },
     icons: metadataIcons,
   };
