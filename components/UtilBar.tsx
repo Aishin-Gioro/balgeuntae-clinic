@@ -1,5 +1,6 @@
 "use client";
 
+import { kakaoChatHref } from "@/lib/site";
 import { useContent, usePhoneHref } from "./ContentProvider";
 import {
   BlogIcon,
@@ -30,7 +31,7 @@ export function UtilBar() {
     <aside className={styles.bar} aria-label="빠른 상담">
       <a
         className={`${styles.item} ${styles.kakao}`}
-        href={site.links.kakao}
+        href={kakaoChatHref(site.links.kakao)}
         target="_blank"
         rel="noopener"
       >

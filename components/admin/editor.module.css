@@ -79,6 +79,22 @@
   line-height: 1.5;
   color: #948d80;
 }
+.checkboxLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #575047;
+  cursor: pointer;
+}
+.checkbox {
+  width: 17px;
+  height: 17px;
+  margin: 0;
+  accent-color: #6b5b3e;
+  cursor: pointer;
+}
 .input,
 .textarea {
   width: 100%;

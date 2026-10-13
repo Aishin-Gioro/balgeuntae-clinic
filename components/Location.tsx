@@ -1,5 +1,5 @@
 import { getContent } from "@/lib/content";
-import { telHref } from "@/lib/site";
+import { kakaoChatHref, telHref } from "@/lib/site";
 import { KakaoIcon, PhoneIcon } from "./icons";
 import { MapEmbed } from "./MapEmbed";
 import styles from "./Location.module.css";
@@ -51,12 +51,12 @@ export async function Location() {
             <div className={styles.buttons}>
               <a
                 className={`${styles.btn} ${styles.btnPrimary}`}
-                href={site.links.kakao}
+                href={kakaoChatHref(site.links.kakao)}
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <KakaoIcon className={styles.btnIcon} />
-                카카오톡 채널로 상담 문의
+                카카오톡으로 상담 문의
               </a>
               <a className={`${styles.btn} ${styles.btnGhost}`} href={telHref(site.phone)}>
                 <PhoneIcon className={styles.btnIcon} />

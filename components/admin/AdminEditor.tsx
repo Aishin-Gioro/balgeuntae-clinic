@@ -8,6 +8,7 @@ import {
   type SiteContent,
 } from "@/lib/content/schema";
 import {
+  CheckboxField,
   Group,
   ImageField,
   Repeater,
@@ -175,7 +176,7 @@ function BasicTab({ draft, patch }: TabProps) {
         />
         <TextField
           label="대표 전화번호"
-          hint="예: 010-9813-0125 — 전화 걸기 링크는 자동 생성됩니다."
+          hint="예: 02-417-3325 — 전화 걸기 링크는 자동 생성됩니다."
           value={site.phone}
           onChange={(v) => patch((d) => void (d.site.phone = v))}
         />
@@ -353,6 +354,11 @@ function HeroTab({ draft, patch }: TabProps) {
 }
 
 /* ── 후기 ────────────────────────────────────────────── */
+const REVIEW_TRACKS = [
+  { key: "stomach", title: "위장 치료 후기 카드" },
+  { key: "diet", title: "다이어트 후기 카드" },
+] as const;
+
 function ReviewsTab({ draft, patch }: TabProps) {
   const { reviews } = draft;
   return (
@@ -360,6 +366,7 @@ function ReviewsTab({ draft, patch }: TabProps) {
       <p className={s.panelIntro}>
         히어로에서 진료과목(탭)을 선택한 화면에만 보이는 후기 섹션입니다.
         로그인 전에는 사진·이름·후기글이 흐리게(블러) 보이다가, 로그인하면 선명하게 보입니다.
+        위장 치료 / 다이어트를 선택했을 때 각각의 후기 카드가 따로 보입니다(상단 문구는 공통).
       </p>
 
       <Group title="상단 문구">
@@ -381,30 +388,33 @@ function ReviewsTab({ draft, patch }: TabProps) {
         />
       </Group>
 
-      <Group
-        title="후기 카드"
-        hint="로그인 전에는 블러 처리되어 보이므로, 이름은 반드시 실명 대신 이니셜(예: 김*희님)로 입력해주세요."
-      >
-        <Repeater
-          label="후기"
-          items={reviews.items}
-          makeEmpty={() => ({ name: "", photo: "", quote: ["", ""] })}
-          itemLabel={(it) => it.name || "후기"}
-          onChange={(v) => patch((d) => void (d.reviews.items = v))}
-          renderItem={(it, update) => (
-            <>
-              <TextField label="이름" value={it.name} onChange={(v) => update({ name: v })} />
-              <ImageField label="사진" value={it.photo} onChange={(v) => update({ photo: v })} />
-              <StringListField
-                label="후기 문구(줄별)"
-                values={it.quote}
-                multiline
-                onChange={(v) => update({ quote: v })}
-              />
-            </>
-          )}
-        />
-      </Group>
+      {REVIEW_TRACKS.map(({ key, title }) => (
+        <Group
+          key={key}
+          title={title}
+          hint="로그인 전에는 블러 처리되어 보이므로, 이름은 반드시 실명 대신 이니셜(예: 김*희님)로 입력해주세요."
+        >
+          <Repeater
+            label="후기"
+            items={reviews.itemsByTrack[key]}
+            makeEmpty={() => ({ name: "", photo: "", quote: ["", ""] })}
+            itemLabel={(it) => it.name || "후기"}
+            onChange={(v) => patch((d) => void (d.reviews.itemsByTrack[key] = v))}
+            renderItem={(it, update) => (
+              <>
+                <TextField label="이름" value={it.name} onChange={(v) => update({ name: v })} />
+                <ImageField label="사진" value={it.photo} onChange={(v) => update({ photo: v })} />
+                <StringListField
+                  label="후기 문구(줄별)"
+                  values={it.quote}
+                  multiline
+                  onChange={(v) => update({ quote: v })}
+                />
+              </>
+            )}
+          />
+        </Group>
+      ))}
 
       <Group title="로그인 버튼 / 상태 문구">
         <TextField
@@ -464,7 +474,8 @@ function TreatmentTab({ draft, patch }: TabProps) {
             title: "",
             desc: "",
             caption: "",
-            image: "",
+            images: [],
+            showImage: true,
             href: "#",
             cta: "자세히보기",
           })}
@@ -479,15 +490,35 @@ function TreatmentTab({ draft, patch }: TabProps) {
                 value={it.desc}
                 onChange={(v) => update({ desc: v })}
               />
+              {/* 사진 영역 숨기기는 다이어트 카드에만 둔다(사진 준비 전까지 닫아두는 용도) */}
+              {it.id === "track-b" && (
+                <CheckboxField
+                  label="우측 전후 사진 영역 보이기"
+                  hint="체크를 끄면 오른쪽 사진(잠금) 영역이 숨겨지고 문구만 보입니다. 사진을 준비한 뒤 다시 켜면 됩니다."
+                  checked={it.showImage}
+                  onChange={(v) => update({ showImage: v })}
+                />
+              )}
               <TextField
                 label="이미지 캡션"
                 value={it.caption}
                 onChange={(v) => update({ caption: v })}
               />
-              <ImageField
-                label="카드 이미지"
-                value={it.image}
-                onChange={(v) => update({ image: v })}
+              <Repeater
+                label="전후 비교 사진"
+                hint="여러 장 올리면 화면에서 좌우 화살표로 넘겨 볼 수 있습니다. ↑↓ 로 순서를 바꿀 수 있습니다."
+                items={it.images.map((src) => ({ src }))}
+                makeEmpty={() => ({ src: "" })}
+                itemLabel={(_, i) => `사진 ${i + 1}`}
+                addLabel="+ 사진 추가"
+                onChange={(v) => update({ images: v.map((x) => x.src) })}
+                renderItem={(img, updateImg) => (
+                  <ImageField
+                    label="사진"
+                    value={img.src}
+                    onChange={(v) => updateImg({ src: v })}
+                  />
+                )}
               />
               <TextField
                 label="버튼 문구"
@@ -616,6 +647,12 @@ function TrackBTab({ draft, patch }: TabProps) {
           value={trackB.effectsTitle}
           onChange={(v) => patch((d) => void (d.trackB.effectsTitle = v))}
         />
+        <ImageField
+          label="왼쪽 이미지"
+          hint="PC에서는 왼쪽에 고정되고, 모바일에서는 작용 항목 위에 보입니다. 비우면 빈칸으로 표시됩니다."
+          value={trackB.effectsImage}
+          onChange={(v) => patch((d) => void (d.trackB.effectsImage = v))}
+        />
         <Repeater
           label="작용 항목"
           items={trackB.effects}
@@ -708,6 +745,7 @@ function TrackBTab({ draft, patch }: TabProps) {
         />
         <TextAreaField
           label="큰 제목"
+          hint={BREAK_HINT}
           value={trackB.promise.title}
           onChange={(v) => patch((d) => void (d.trackB.promise.title = v))}
         />

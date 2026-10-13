@@ -19,3 +19,13 @@ export {
 export function telHref(phone: string): string {
   return `tel:${phone.replace(/[^0-9+]/g, "")}`;
 }
+
+/**
+ * 카카오톡 채널 주소("https://pf.kakao.com/_xxxx")를 1:1 채팅방 주소("…/_xxxx/chat")로 바꾼다.
+ * 관리자에 채널 홈 주소를 넣어도 상담 버튼은 채널 소개가 아닌 채팅방으로 바로 열린다.
+ * 이미 /chat 이거나 다른 형태의 링크는 그대로 둔다.
+ */
+export function kakaoChatHref(url: string): string {
+  const m = url.trim().match(/^(https?:\/\/pf\.kakao\.com\/_[A-Za-z0-9]+)\/?$/);
+  return m ? `${m[1]}/chat` : url;
+}

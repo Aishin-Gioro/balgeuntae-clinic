@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { kakaoChatHref } from "@/lib/site";
 import { useContent } from "./ContentProvider";
 import { useHeroTrack } from "./HeroTrackContext";
 import { BrandMark, UnlockIcon } from "./icons";
@@ -132,7 +133,7 @@ export function Header({ gateUnlocked = false }: { gateUnlocked?: boolean }) {
 
         <a
           className={styles.cta}
-          href={site.links.kakao}
+          href={kakaoChatHref(site.links.kakao)}
           target="_blank"
           rel="noopener"
         >

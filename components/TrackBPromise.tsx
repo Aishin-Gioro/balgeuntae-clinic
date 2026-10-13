@@ -1,3 +1,4 @@
+import { MOBILE_BREAK } from "@/lib/site";
 import { getContent } from "@/lib/content";
 import { ConsultCta } from "./ConsultCta";
 import styles from "./TrackBPromise.module.css";
@@ -27,6 +28,16 @@ const ICONS = [
   </>,
 ];
 
+/** 「⏎」(MOBILE_BREAK) 자리에서 모바일(640px 이하)에서만 줄을 나눈다 */
+function withMobileBreak(text: string) {
+  return text.split(MOBILE_BREAK).map((part, pi, arr) => (
+    <span key={pi}>
+      {part}
+      {pi < arr.length - 1 && <br className={styles.mobileBreak} />}
+    </span>
+  ));
+}
+
 function renderTitle(title: string, highlight: string) {
   const at = highlight ? title.indexOf(highlight) : -1;
   if (at < 0) return title;
@@ -46,7 +57,7 @@ export async function TrackBPromise() {
       <div className={styles.inner}>
         <p className={styles.kicker}>{promise.kicker}</p>
         <h2 id="track-b-promise-title" className={styles.title}>
-          {promise.title}
+          {withMobileBreak(promise.title)}
         </h2>
 
         <ol className={styles.grid}>

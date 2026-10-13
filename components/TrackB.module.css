@@ -49,6 +49,13 @@
   white-space: pre-line;
   word-break: keep-all;
   text-align: center;
+  transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), filter 0.9s ease;
+}
+/* 화면에 들어올 때 스르륵 등장 (RevealTitle 이 data-reveal 을 붙임) */
+.title[data-reveal="pending"] {
+  opacity: 0;
+  transform: translateY(18px);
+  filter: blur(4px);
 }
 
 .lead {
@@ -105,6 +112,14 @@
   color: rgba(226, 234, 224, 0.5);
   font-size: 13px;
   letter-spacing: 0.02em;
+}
+
+.effectsImg {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 16px;
 }
 
 .effectsList {
@@ -195,11 +210,26 @@
   .effectsMedia {
     position: static;
   }
-  .effectsPhoto {
+  .effectsPhoto,
+  .effectsImg {
     aspect-ratio: 3 / 2;
   }
   .effectItem {
-    padding: 28px 0;
+    padding: 24px 0;
+  }
+}
+
+/* 모바일: PC 의 고정 이미지 + 스크롤 연출 대신, 작용 01~04 가 화면에 들어올 때 차례로 떠오른다
+   (RevealList 가 data-reveal-ready / data-revealed 를 붙임) */
+@media (max-width: 840px) and (prefers-reduced-motion: no-preference) {
+  .effectsList[data-reveal-ready] .effectItem {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .effectsList[data-reveal-ready] .effectItem[data-revealed] {
+    opacity: 1;
+    transform: none;
   }
 }
 

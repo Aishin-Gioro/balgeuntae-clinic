@@ -143,6 +143,16 @@
 }
 
 /* ===== 반응형 ===== */
+/* 모바일 전용 줄바꿈 마커 — 640px 이하에서만 표시 */
+.mobileBreak {
+  display: none;
+}
+@media (max-width: 640px) {
+  .mobileBreak {
+    display: inline;
+  }
+}
+
 @media (max-width: 900px) {
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));

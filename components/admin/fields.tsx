@@ -72,6 +72,34 @@ export function TextField({
   );
 }
 
+/* ── 켜기/끄기 체크박스 ───────────────────────────────── */
+export function CheckboxField({
+  label,
+  hint,
+  checked,
+  onChange,
+}: {
+  label: string;
+  hint?: string;
+  checked: boolean;
+  onChange: (v: boolean) => void;
+}) {
+  return (
+    <div className={s.field}>
+      <label className={s.checkboxLabel}>
+        <input
+          type="checkbox"
+          className={s.checkbox}
+          checked={checked}
+          onChange={(e) => onChange(e.target.checked)}
+        />
+        {label}
+      </label>
+      {hint && <span className={s.fieldHint}>{hint}</span>}
+    </div>
+  );
+}
+
 /* ── 여러 줄 텍스트 (줄바꿈 = Enter) ─────────────────── */
 export function TextAreaField({
   label,

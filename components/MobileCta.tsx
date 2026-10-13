@@ -1,5 +1,6 @@
 "use client";
 
+import { kakaoChatHref } from "@/lib/site";
 import { useContent, usePhoneHref } from "./ContentProvider";
 import { KakaoIcon, PhoneIcon } from "./icons";
 import styles from "./MobileCta.module.css";
@@ -13,7 +14,7 @@ export function MobileCta() {
     <nav className={styles.cta} aria-label="빠른 상담">
       <a
         className={`${styles.item} ${styles.kakao}`}
-        href={site.links.kakao}
+        href={kakaoChatHref(site.links.kakao)}
         target="_blank"
         rel="noopener"
       >

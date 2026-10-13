@@ -24,16 +24,8 @@ import { Footer } from "@/components/Footer";
 import { UtilBar } from "@/components/UtilBar";
 import { MobileCta } from "@/components/MobileCta";
 
-export default async function HomePage({
-  searchParams,
-}: {
-  searchParams: Promise<{ track?: string }>;
-}) {
-  const [{ track }, content, gateUnlocked] = await Promise.all([
-    searchParams,
-    getContent(),
-    isGateUnlocked(),
-  ]);
+export default async function HomePage() {
+  const [content, gateUnlocked] = await Promise.all([getContent(), isGateUnlocked()]);
 
   // ContentProvider 는 클라이언트 컴포넌트라 여기 넘기는 값이 로그인 여부와
   // 무관하게 페이지 응답에 그대로 담긴다. 전후 사진·후기 사진은 반드시
@@ -48,7 +40,13 @@ export default async function HomePage({
           <Hero />
           <HeroTrackGate>
             <GateProvider unlocked={gateUnlocked}>
-              <Reviews track={track} />
+              {/* 진료과목별 후기 — 둘 다 서버에서 그려두고 선택된 쪽만 보여 탭 전환이 즉시 반영된다 */}
+              <ShowForTrack id="stomach">
+                <Reviews track="stomach" />
+              </ShowForTrack>
+              <ShowForTrack id="diet">
+                <Reviews track="diet" />
+              </ShowForTrack>
               <Treatment />
               <ShowForTrack id="stomach">
                 <TrackA />

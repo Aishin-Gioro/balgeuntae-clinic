@@ -1,6 +1,8 @@
 import { MOBILE_BREAK } from "@/lib/site";
 import { getContent } from "@/lib/content";
 import { ProofGate } from "./ProofGate";
+import { RevealList } from "./RevealList";
+import { RevealTitle } from "./RevealTitle";
 import styles from "./TrackB.module.css";
 
 function withMobileBreak(text: string) {
@@ -30,9 +32,9 @@ export async function TrackB() {
 
       <div className={styles.inner}>
         <p className={styles.kicker}>{trackB.kicker}</p>
-        <h2 id="track-b-title" className={styles.title}>
+        <RevealTitle id="track-b-title" className={styles.title}>
           {trackB.title}
-        </h2>
+        </RevealTitle>
         <p className={styles.lead}>{withMobileBreak(trackB.lead)}</p>
 
         <div className={styles.effectsBlock}>
@@ -40,12 +42,17 @@ export async function TrackB() {
 
           <div className={styles.effectsGrid}>
             <div className={styles.effectsMedia}>
-              <div className={styles.effectsPhoto} aria-hidden="true">
-                다이어트 이미지
-              </div>
+              {trackB.effectsImage ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img className={styles.effectsImg} src={trackB.effectsImage} alt="" />
+              ) : (
+                <div className={styles.effectsPhoto} aria-hidden="true">
+                  다이어트 이미지
+                </div>
+              )}
             </div>
 
-            <ol className={styles.effectsList}>
+            <RevealList className={styles.effectsList}>
               {trackB.effects.map((e, i) => (
                 <li key={e.term} className={styles.effectItem}>
                   <span className={styles.effectIndex}>{e.label?.trim() || `( 작용 0${i + 1} )`}</span>
@@ -53,7 +60,7 @@ export async function TrackB() {
                   <p className={styles.effectDesc}>{e.desc}</p>
                 </li>
               ))}
-            </ol>
+            </RevealList>
           </div>
         </div>
 

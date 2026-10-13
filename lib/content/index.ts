@@ -41,13 +41,50 @@ export function deepMerge<T>(base: T, patch: unknown): T {
 }
 
 /**
+ * 옛 저장본 형식을 현재 스키마로 옮긴다.
+ * - reviews.items(진료과목 공통 후기 1개 목록) → reviews.itemsByTrack.{stomach, diet}
+ *   기존 후기는 양쪽에 똑같이 복사해 두고, 원장님이 관리자에서 정리한다.
+ * - treatment.tracks[].image(사진 1장) → images(여러 장), showImage 없으면 true
+ *   (배열은 deepMerge 에서 통째로 교체되므로 항목 안의 새 필드는 여기서 채워야 한다)
+ */
+export function migrateStored(stored: unknown): unknown {
+  if (!isPlainObject(stored)) return stored;
+  let out = stored;
+
+  if (isPlainObject(out.reviews)) {
+    const { items, ...reviews } = out.reviews;
+    if (Array.isArray(items)) {
+      if (!isPlainObject(reviews.itemsByTrack)) {
+        reviews.itemsByTrack = { stomach: items, diet: items };
+      }
+      out = { ...out, reviews };
+    }
+  }
+
+  if (isPlainObject(out.treatment) && Array.isArray(out.treatment.tracks)) {
+    const tracks = out.treatment.tracks.map((t: unknown) => {
+      if (!isPlainObject(t)) return t;
+      const { image, ...rest } = t;
+      if (!Array.isArray(rest.images)) {
+        rest.images = typeof image === "string" && image ? [image] : [];
+      }
+      if (typeof rest.showImage !== "boolean") rest.showImage = true;
+      return rest;
+    });
+    out = { ...out, treatment: { ...out.treatment, tracks } };
+  }
+
+  return out;
+}
+
+/**
  * 저장본을 읽어 기본값과 병합한다. 읽기 오류는 일부러 던진다 — unstable_cache 는 던진 결과를
  * 캐시하지 않으므로, 일시 오류로 기본 문구가 5분간 캐시에 박히는 일을 막는다.
  * (오류 시 기본값으로 대체하는 것은 getContent 에서 한다.)
  */
 async function loadMerged(): Promise<SiteContent> {
   const stored = await getStorage().readContent();
-  return stored ? deepMerge(defaultContent, stored) : defaultContent;
+  return stored ? deepMerge(defaultContent, migrateStored(stored)) : defaultContent;
 }
 
 const loadCached = unstable_cache(loadMerged, [CONTENT_TAG], {
@@ -61,7 +98,7 @@ export const getContent = cache(async (): Promise<SiteContent> => {
   try {
     // 캐시에 남아 있는 옛 병합본에는 새로 추가한 필드가 없을 수 있어(스키마 변경 직후),
     // 꺼낸 뒤 기본값을 한 번 더 깔아 준다.
-    return deepMerge(defaultContent, await loadCached());
+    return deepMerge(defaultContent, migrateStored(await loadCached()));
   } catch (err) {
     // 저장본을 못 읽는 일시 오류 — 이 결과는 캐시되지 않으므로 다음 요청에서 다시 시도한다.
     console.error("[content] 저장된 콘텐츠를 읽지 못했습니다. 기본값 사용:", err);
@@ -85,13 +122,17 @@ export async function saveContent(next: SiteContent): Promise<void> {
  * (실제 화면에 쓰이는 값은 ProofGate 가 서버에서 별도로 isGateUnlocked() 를
  * 확인해 직접 렌더링하므로 이 함수와 무관하게 정상 동작한다.)
  *
- * 후기(reviews.items)는 여기서 걸러내지 않는다 — 비로그인 방문자에게도
+ * 후기(reviews.itemsByTrack)는 여기서 걸러내지 않는다 — 비로그인 방문자에게도
  * 실제 사진·글이 화면에 표시되고, CSS 블러로만 가려지는 의도된 동작이다
  * (components/Reviews.tsx 참고).
  */
 export function redactGatedContent(content: SiteContent): SiteContent {
   return {
     ...content,
+    treatment: {
+      ...content.treatment,
+      tracks: content.treatment.tracks.map((t) => ({ ...t, images: [] })),
+    },
     trackA: { ...content.trackA, proof: { ...content.trackA.proof, photo: "" } },
     trackB: { ...content.trackB, proof: { ...content.trackB.proof, photo: "" } },
   };

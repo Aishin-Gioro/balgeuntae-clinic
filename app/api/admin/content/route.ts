@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { isAdmin } from "@/lib/admin/auth";
-import { defaultContent, deepMerge, getContent, saveContent } from "@/lib/content";
+import { defaultContent, deepMerge, getContent, migrateStored, saveContent } from "@/lib/content";
 import type { SiteContent } from "@/lib/content/schema";
 
 export async function GET() {
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
   }
 
   // 기본값 위에 병합해 스키마 모양을 보장한 뒤 저장
-  const merged = deepMerge<SiteContent>(defaultContent, body);
+  const merged = deepMerge<SiteContent>(defaultContent, migrateStored(body));
 
   try {
     await saveContent(merged);

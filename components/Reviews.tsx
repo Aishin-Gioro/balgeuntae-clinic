@@ -1,5 +1,5 @@
 import { isGateUnlocked } from "@/lib/auth";
-import { getContent } from "@/lib/content";
+import { getContent, type HeroTrackId, type ReviewItem } from "@/lib/content";
 import { KakaoIcon } from "./icons";
 import styles from "./Reviews.module.css";
 
@@ -12,8 +12,6 @@ import styles from "./Reviews.module.css";
  * 상태에서도 실제 데이터가 페이지 응답에 포함되며, CSS 블러로만 가려진다
  * — 이름은 반드시 이니셜(예: "김*희님")로만 입력해 실명이 노출되지 않게 한다.
  */
-
-type ReviewItem = { name: string; photo: string; quote: string[] };
 
 function ReviewCard({ item }: { item: ReviewItem }) {
   return (
@@ -36,17 +34,18 @@ function ReviewCard({ item }: { item: ReviewItem }) {
   );
 }
 
-export async function Reviews({ track }: { track?: string }) {
+/** track: 이 섹션이 보여줄 진료과목. 진료과목별 후기 목록(itemsByTrack)에서 해당 목록만 렌더링한다. */
+export async function Reviews({ track }: { track: HeroTrackId }) {
   const [content, unlocked] = await Promise.all([getContent(), isGateUnlocked()]);
   const { reviews } = content;
+  const items = reviews.itemsByTrack[track];
 
-  const returnTo =
-    track === "stomach" || track === "diet" ? `/?track=${track}#reviews` : "/#reviews";
+  const returnTo = `/?track=${track}#reviews`;
 
   // 후기가 4개 이상이면 3열 그리드 대신 옆으로 천천히 흐르는 마퀴로 전환한다.
-  const many = reviews.items.length >= 4;
+  const many = items.length >= 4;
   const lockClass = unlocked ? "" : ` ${styles.gridLocked}`;
-  const marqueeDuration = Math.max(20, reviews.items.length * 6);
+  const marqueeDuration = Math.max(20, items.length * 6);
 
   return (
     <section id="reviews" className={styles.section} aria-labelledby="reviews-title">
@@ -74,12 +73,12 @@ export async function Reviews({ track }: { track?: string }) {
               className={`${styles.marqueeTrack}${lockClass}`}
               style={{ animationDuration: `${marqueeDuration}s` }}
             >
-              {[...reviews.items, ...reviews.items].map((item, i) => (
+              {[...items, ...items].map((item, i) => (
                 <ReviewCard item={item} key={i} />
               ))}
             </div>
           ) : (
-            reviews.items.map((item, i) => <ReviewCard item={item} key={i} />)
+            items.map((item, i) => <ReviewCard item={item} key={i} />)
           )}
         </div>
 

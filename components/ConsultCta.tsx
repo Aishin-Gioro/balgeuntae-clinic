@@ -1,5 +1,5 @@
 import { getContent } from "@/lib/content";
-import { telHref } from "@/lib/site";
+import { kakaoChatHref, telHref } from "@/lib/site";
 import { KakaoIcon, PhoneIcon } from "./icons";
 import styles from "./ConsultCta.module.css";
 
@@ -35,7 +35,7 @@ export async function ConsultCta({
         </a>
         <a
           className={`${styles.button} ${styles.kakao}`}
-          href={site.links.kakao}
+          href={kakaoChatHref(site.links.kakao)}
           target="_blank"
           rel="noopener"
         >

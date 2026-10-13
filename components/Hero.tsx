@@ -76,6 +76,11 @@ export function Hero() {
               aria-pressed={track === id}
               onClick={() => setTrack(track === id ? null : id)}
             >
+              {track !== id && (
+                <span className={styles.clickBadge} aria-hidden="true">
+                  CLICK
+                </span>
+              )}
               {hero.tracks[id].buttonLabel}
             </button>
           ))}

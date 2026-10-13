@@ -38,6 +38,8 @@ export type HeroVariant = {
 
 export type HeroTrack = HeroVariant & { buttonLabel: string };
 
+export type ReviewItem = { name: string; photo: string; quote: string[] };
+
 export type SiteContent = {
   site: {
     name: string;
@@ -68,7 +70,10 @@ export type SiteContent = {
       title: string;
       desc: string;
       caption: string;
-      image: string;
+      /** 우측 전후 비교 사진(여러 장). 2장 이상이면 좌우 화살표로 넘긴다 */
+      images: string[];
+      /** 우측 전후 비교 사진 영역 노출 여부. false 면 사진 영역을 숨기고 문구만 보인다 */
+      showImage: boolean;
       href: string;
       cta: string;
     }[];
@@ -88,7 +93,8 @@ export type SiteContent = {
     unlockedNote: string;
     logoutLabel: string;
     disclaimer: string;
-    items: { name: string; photo: string; quote: string[] }[];
+    /** 진료과목별 후기 카드 — 히어로에서 선택한 진료과목의 목록만 보인다 */
+    itemsByTrack: Record<HeroTrackId, ReviewItem[]>;
   };
 
   trackA: {
@@ -112,6 +118,8 @@ export type SiteContent = {
     title: string;
     lead: string;
     effectsTitle: string;
+    /** 한약 작용 왼쪽(모바일은 위) 이미지. 비우면 빈칸 자리표시자 */
+    effectsImage: string;
     /** label: 제목 위 작은 글자. 비우면 "( 작용 01 )" 처럼 순서대로 자동 번호 */
     effects: { label: string; term: string; desc: string }[];
     /** 한약 작용 다음, 이런 분들께 체크리스트 섹션 */
@@ -250,9 +258,9 @@ export const defaultContent: SiteContent = {
   site: {
     name: "밝은태 한의원",
     tagline: "환골탈태하는 한의원",
-    phone: "010-9813-0125",
+    phone: "02-417-3325",
     links: {
-      kakao: "https://pf.kakao.com/_xdfDPK",
+      kakao: "https://pf.kakao.com/_xdfDPK/chat",
       youtube: "https://www.youtube.com/results?search_query=진액보충+한의사+김상태",
       consult: "#",
       blog: "https://blog.naver.com/dr_kst",
@@ -317,7 +325,8 @@ export const defaultContent: SiteContent = {
         title: "장상피화생 · 위축성위염",
         desc: "위점막이 변형되어 발생하는 위암 전단계 질환. 개인의 체질과 위장 상태에 맞춘 한약으로 위점막 회복을 돕습니다.",
         caption: "내시경 전 · 후 비교",
-        image: "/images/track-a.jpg",
+        images: ["/images/track-a.jpg"],
+        showImage: true,
         href: "#track-a",
         cta: "자세히보기",
       },
@@ -327,7 +336,8 @@ export const defaultContent: SiteContent = {
         title: "밝은태 다이어트",
         desc: "“요요는 살이 찌는 습관, ‘태(胎)’를 바꾸지 않았기 때문입니다.” 살이 찌는 ‘태(胎)’ 자체를 바꾸는 다이어트 한약 처방입니다.",
         caption: "인바디 전 · 후 비교",
-        image: "/images/track-b.jpg",
+        images: ["/images/track-b.jpg"],
+        showImage: true,
         href: "#track-b",
         cta: "자세히보기",
       },
@@ -342,11 +352,18 @@ export const defaultContent: SiteContent = {
     unlockedNote: "후기 열람 중",
     logoutLabel: "열람 종료",
     disclaimer: "* 개인차가 있을 수 있습니다",
-    items: [
-      { name: "", photo: "", quote: ["", ""] },
-      { name: "", photo: "", quote: ["", ""] },
-      { name: "", photo: "", quote: ["", ""] },
-    ],
+    itemsByTrack: {
+      stomach: [
+        { name: "", photo: "", quote: ["", ""] },
+        { name: "", photo: "", quote: ["", ""] },
+        { name: "", photo: "", quote: ["", ""] },
+      ],
+      diet: [
+        { name: "", photo: "", quote: ["", ""] },
+        { name: "", photo: "", quote: ["", ""] },
+        { name: "", photo: "", quote: ["", ""] },
+      ],
+    },
   },
 
   trackA: {
@@ -399,6 +416,7 @@ export const defaultContent: SiteContent = {
     title: "요요 없는 다이어트는\n‘태(胎)’부터 바꿉니다",
     lead: `요요는 살이 찌는 습관, ‘태(胎)’를 바꾸지 않았기 때문입니다.\n밝은태 다이어트는 단순 감량이 아니라 살이 찌는${B}‘태(胎)’ — 식욕·대사·생활 패턴 — 를 함께 바꾸는${B} 한약 치료입니다.`,
     effectsTitle: "밝은태 다이어트 한약은 이렇게 작용합니다",
+    effectsImage: "",
     effects: [
       {
         label: "",
@@ -457,7 +475,7 @@ export const defaultContent: SiteContent = {
     },
     promise: {
       kicker: "밝은태의 관리 약속",
-      title: "처음 상담부터 유지기 마지막 날까지,\n원장이 직접 봅니다",
+      title: `처음 상담부터 ${B}유지기 마지막 날까지,\n원장이 직접 봅니다`,
       cards: [
         {
           label: "POINT 01",

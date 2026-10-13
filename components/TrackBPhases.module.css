@@ -160,11 +160,25 @@
   background: #e0a04a;
 }
 
+/* 단계 사이 아래 화살표 — 모바일 전용 */
+.downArrow {
+  display: none;
+}
+
 /* ===== 모바일: 세로로 쌓고, 가로선은 칸마다 짧게 ===== */
 @media (max-width: 760px) {
   .steps {
     grid-template-columns: 1fr !important;
-    row-gap: 48px;
+    row-gap: 24px;
+  }
+  .downArrow {
+    display: flex;
+    justify-content: center;
+  }
+  .downArrow svg {
+    width: 28px;
+    height: 28px;
+    color: #4a4a4a;
   }
   .rail {
     margin-left: 0;
@@ -172,6 +186,19 @@
   }
   .node {
     display: none;
+  }
+}
+
+/* 모바일: 감량기 → 화살표 → 유지기 가 스크롤에 따라 차례로 떠오른다 (RevealList) */
+@media (max-width: 760px) and (prefers-reduced-motion: no-preference) {
+  .steps[data-reveal-ready] > li {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .steps[data-reveal-ready] > li[data-revealed] {
+    opacity: 1;
+    transform: none;
   }
 }
 
