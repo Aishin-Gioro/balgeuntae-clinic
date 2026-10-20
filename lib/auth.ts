@@ -24,8 +24,13 @@ function secret(): string {
   return s;
 }
 
+/**
+ * 용도 구분값("gate:")을 함께 서명한다. 관리자 토큰(lib/admin/auth.ts)과 같은
+ * SESSION_SECRET·같은 형식을 쓰므로, 구분값이 없으면 게이트 쿠키를 관리자 쿠키로
+ * 바꿔 넣는 것만으로 관리자 권한을 얻을 수 있다.
+ */
 function sign(payload: string): string {
-  return createHmac("sha256", secret()).update(payload).digest("base64url");
+  return createHmac("sha256", secret()).update(`gate:${payload}`).digest("base64url");
 }
 
 /** `<만료 epoch초>.<서명>` 형태의 토큰 생성 */
@@ -65,12 +70,17 @@ export async function isGateUnlocked(): Promise<boolean> {
  */
 export function safeReturnPath(raw: string | null | undefined): string {
   const fallback = "/";
-  if (!raw) return fallback;
-  // 반드시 "/"로 시작하고 "//" 또는 "/\" (프로토콜 상대 URL)은 거부
-  if (!raw.startsWith("/") || raw.startsWith("//") || raw.startsWith("/\\")) {
+  if (!raw || !raw.startsWith("/")) return fallback;
+  // 문자열 검사만으로는 "/\t/evil.com"처럼 URL 파서가 탭·개행을 지운 뒤
+  // "//evil.com"이 되는 경우를 막을 수 없다. 실제로 해석해서 출처가 바뀌지 않는지 확인한다.
+  const base = "http://internal.invalid";
+  try {
+    const url = new URL(raw, base);
+    if (url.origin !== base) return fallback;
+    return `${url.pathname}${url.search}${url.hash}`;
+  } catch {
     return fallback;
   }
-  return raw;
 }
 
 export const gateCookieOptions = {

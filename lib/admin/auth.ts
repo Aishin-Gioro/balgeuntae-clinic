@@ -22,8 +22,9 @@ function secret(): string {
   return s;
 }
 
+/** 용도 구분값("admin:")을 함께 서명해 게이트 토큰과 서로 바꿔 쓸 수 없게 한다. */
 function sign(payload: string): string {
-  return createHmac("sha256", secret()).update(payload).digest("base64url");
+  return createHmac("sha256", secret()).update(`admin:${payload}`).digest("base64url");
 }
 
 function safeEqual(a: string, b: string): boolean {
