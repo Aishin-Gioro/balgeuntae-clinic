@@ -79,7 +79,7 @@ export function Header({ gateUnlocked = false }: { gateUnlocked?: boolean }) {
   }
 
   return (
-    <header
+    <header data-track-location="header"
       className={[styles.header, navOpen ? styles.navOpen : ""]
         .filter(Boolean)
         .join(" ")}

@@ -11,7 +11,7 @@
 
 import { cache } from "react";
 import { unstable_cache, revalidateTag } from "next/cache";
-import { defaultContent, type SiteContent } from "./schema";
+import { YOUTUBE_CHANNEL, defaultContent, type SiteContent } from "./schema";
 import { getStorage } from "./storage";
 
 export const CONTENT_TAG = "site-content";
@@ -40,16 +40,28 @@ export function deepMerge<T>(base: T, patch: unknown): T {
   return out as T;
 }
 
+function replaceYoutubeSearch(value: unknown): unknown {
+  if (typeof value === "string") {
+    return /^https?:\/\/(www\.)?youtube\.com\/results\b/.test(value) ? YOUTUBE_CHANNEL : value;
+  }
+  if (Array.isArray(value)) return value.map(replaceYoutubeSearch);
+  if (isPlainObject(value)) {
+    return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, replaceYoutubeSearch(v)]));
+  }
+  return value;
+}
+
 /**
  * 옛 저장본 형식을 현재 스키마로 옮긴다.
  * - reviews.items(진료과목 공통 후기 1개 목록) → reviews.itemsByTrack.{stomach, diet}
  *   기존 후기는 양쪽에 똑같이 복사해 두고, 원장님이 관리자에서 정리한다.
  * - treatment.tracks[].image(사진 1장) → images(여러 장), showImage 없으면 true
  *   (배열은 deepMerge 에서 통째로 교체되므로 항목 안의 새 필드는 여기서 채워야 한다)
+ * - 예전 기본값이던 유튜브 "검색 결과" 링크 → 채널 주소 (원장 소개·유틸바 등 위치 무관)
  */
 export function migrateStored(stored: unknown): unknown {
   if (!isPlainObject(stored)) return stored;
-  let out = stored;
+  let out = replaceYoutubeSearch(stored) as Json;
 
   if (isPlainObject(out.reviews)) {
     const { items, ...reviews } = out.reviews;

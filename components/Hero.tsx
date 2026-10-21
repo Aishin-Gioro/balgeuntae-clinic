@@ -2,6 +2,7 @@
 
 import { MOBILE_BREAK, type HeroTrackId, type HeroVariant } from "@/lib/site";
 import { useContent } from "./ContentProvider";
+import { pushEvent } from "@/lib/analytics";
 import { useHeroTrack } from "./HeroTrackContext";
 import { ChatIcon, ChevronDown, ChevronRight } from "./icons";
 import styles from "./Hero.module.css";
@@ -30,7 +31,7 @@ export function Hero() {
   ];
 
   return (
-    <section id="hero" className={styles.hero} aria-label="주요 진료 안내">
+    <section id="hero" data-section-name="hero" className={styles.hero} aria-label="주요 진료 안내">
       {variants.map(({ id, content }) => (
         <div
           key={id}
@@ -74,7 +75,10 @@ export function Hero() {
               type="button"
               className={`${styles.selectorBtn} ${track === id ? styles.selectorBtnActive : ""}`}
               aria-pressed={track === id}
-              onClick={() => setTrack(track === id ? null : id)}
+              onClick={() => {
+                if (track !== id) pushEvent("track_select", { track: id });
+                setTrack(track === id ? null : id);
+              }}
             >
               {track !== id && (
                 <span className={styles.clickBadge} aria-hidden="true">

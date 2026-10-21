@@ -18,7 +18,7 @@ function renderBullet(text: string) {
 export async function TrackBBasis() {
   const { basis } = (await getContent()).trackB;
   return (
-    <section className={styles.section} aria-label="맞춤 처방 기준">
+    <section data-section-name="diet_basis" className={styles.section} aria-label="맞춤 처방 기준">
       <div className={styles.inner}>
         <ol className={styles.grid}>
           {basis.cards.map((card, i) => (

@@ -7,7 +7,7 @@ export async function TrackBFit() {
   const [closingHead, ...closingRest] = fit.closing.split("\n");
 
   return (
-    <section className={styles.section} aria-labelledby="track-b-fit-title">
+    <section data-section-name="diet_fit" className={styles.section} aria-labelledby="track-b-fit-title">
       <div className={styles.inner}>
         <h2 id="track-b-fit-title" className={styles.title}>
           <span className={styles.titleHead}>{titleHead}</span>

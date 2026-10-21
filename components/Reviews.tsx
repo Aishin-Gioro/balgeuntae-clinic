@@ -48,7 +48,7 @@ export async function Reviews({ track }: { track: HeroTrackId }) {
   const marqueeDuration = Math.max(20, items.length * 6);
 
   return (
-    <section id="reviews" className={styles.section} aria-labelledby="reviews-title">
+    <section id="reviews" data-section-name="reviews" className={styles.section} aria-labelledby="reviews-title">
       {/* 장식 곡선 — 진료과목 섹션과 같은 톤, 한 줄만 */}
       <svg className={styles.decor} viewBox="0 0 1440 760" preserveAspectRatio="none" aria-hidden="true">
         <path

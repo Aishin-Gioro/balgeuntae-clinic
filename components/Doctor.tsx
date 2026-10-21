@@ -5,7 +5,7 @@ import styles from "./Doctor.module.css";
 export async function Doctor() {
   const { doctor } = await getContent();
   return (
-    <section id="doctor" className={styles.section} aria-labelledby="doctor-name">
+    <section id="doctor" data-section-name="doctor" className={styles.section} aria-labelledby="doctor-name">
       <div className={styles.inner}>
         <div className={styles.top}>
           <span className={styles.brand}>

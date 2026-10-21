@@ -7,7 +7,7 @@ export async function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className={styles.footer}>
+    <footer data-track-location="footer" className={styles.footer}>
       <div className={styles.inner}>
         <div className={styles.top}>
           <div className={styles.brand}>

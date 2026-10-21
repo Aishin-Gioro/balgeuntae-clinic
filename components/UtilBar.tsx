@@ -4,7 +4,6 @@ import { kakaoChatHref } from "@/lib/site";
 import { useContent, usePhoneHref } from "./ContentProvider";
 import {
   BlogIcon,
-  ChatIcon,
   ChevronUp,
   InstagramIcon,
   KakaoIcon,
@@ -28,7 +27,7 @@ export function UtilBar() {
   };
 
   return (
-    <aside className={styles.bar} aria-label="빠른 상담">
+    <aside data-track-location="util_bar" className={styles.bar} aria-label="빠른 상담">
       <a
         className={`${styles.item} ${styles.kakao}`}
         href={kakaoChatHref(site.links.kakao)}
@@ -41,10 +40,6 @@ export function UtilBar() {
       <a className={styles.item} href={site.links.youtube} target="_blank" rel="noopener">
         <YoutubeIcon className={styles.icon} />
         <span>유튜브</span>
-      </a>
-      <a className={styles.item} href={site.links.consult} target="_blank" rel="noopener">
-        <ChatIcon className={styles.icon} />
-        <span>온라인상담</span>
       </a>
       <a className={styles.item} href={site.links.blog} target="_blank" rel="noopener">
         <BlogIcon className={styles.icon} />

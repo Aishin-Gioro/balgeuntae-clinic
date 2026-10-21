@@ -6,7 +6,7 @@ import styles from "./TrackBPhases.module.css";
 export async function TrackBPhases() {
   const { phases } = (await getContent()).trackB;
   return (
-    <section className={styles.section} aria-labelledby="track-b-phases-title">
+    <section data-section-name="diet_phases" className={styles.section} aria-labelledby="track-b-phases-title">
       <div className={styles.inner}>
         <p className={styles.kicker}>{phases.kicker}</p>
         <h2 id="track-b-phases-title" className={styles.title}>

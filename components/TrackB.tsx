@@ -17,7 +17,7 @@ function withMobileBreak(text: string) {
 export async function TrackB() {
   const { trackB } = await getContent();
   return (
-    <section id="track-b" className={styles.section} aria-labelledby="track-b-title">
+    <section id="track-b" data-section-name="diet_detail" className={styles.section} aria-labelledby="track-b-title">
       <svg className={styles.decor} viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
         <path
           vectorEffect="non-scaling-stroke"

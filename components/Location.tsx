@@ -7,7 +7,7 @@ import styles from "./Location.module.css";
 export async function Location() {
   const { location, site } = await getContent();
   return (
-    <section id="location" className={styles.section} aria-labelledby="location-title">
+    <section id="location" data-section-name="location" className={styles.section} aria-labelledby="location-title">
       <div className={styles.inner}>
         <div className={styles.head}>
           <p className={styles.kicker}>{location.kicker}</p>

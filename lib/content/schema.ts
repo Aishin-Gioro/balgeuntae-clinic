@@ -254,6 +254,9 @@ export type SiteContent = {
 
 const B = MOBILE_BREAK;
 
+/** 유튜브 채널 주소 — 예전 저장본의 검색 결과 링크도 migrateStored 에서 이 주소로 바꾼다 */
+export const YOUTUBE_CHANNEL = "https://www.youtube.com/@GunGangTV";
+
 export const defaultContent: SiteContent = {
   site: {
     name: "밝은태 한의원",
@@ -261,7 +264,7 @@ export const defaultContent: SiteContent = {
     phone: "02-417-3325",
     links: {
       kakao: "https://pf.kakao.com/_xdfDPK/chat",
-      youtube: "https://www.youtube.com/results?search_query=진액보충+한의사+김상태",
+      youtube: YOUTUBE_CHANNEL,
       consult: "#",
       blog: "https://blog.naver.com/dr_kst",
       instagram: "#",
@@ -627,7 +630,7 @@ export const defaultContent: SiteContent = {
     links: [
       {
         label: "유튜브 채널",
-        href: "https://www.youtube.com/results?search_query=진액보충+한의사+김상태",
+        href: YOUTUBE_CHANNEL,
         icon: "/images/youtube-icon.png",
       },
       {

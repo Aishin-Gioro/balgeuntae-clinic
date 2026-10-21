@@ -7,7 +7,7 @@ import styles from "./TrackA.module.css";
 export async function TrackA() {
   const { trackA } = await getContent();
   return (
-    <section id="track-a" className={styles.section} aria-labelledby="track-a-title">
+    <section id="track-a" data-section-name="stomach_detail" className={styles.section} aria-labelledby="track-a-title">
       <div className={styles.inner}>
         <p className={styles.kicker}>{trackA.kicker}</p>
         <RevealTitle id="track-a-title" className={styles.title}>

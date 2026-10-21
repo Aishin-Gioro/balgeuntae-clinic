@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Noto_Serif_KR } from "next/font/google";
+import { GoogleTagManager } from "@next/third-parties/google";
 import { getContent } from "@/lib/content";
 import "./globals.css";
 
@@ -70,6 +71,8 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ko" className={notoSerifKr.variable}>
+      {/* GTM — GA4·Clarity 태그는 GTM 화면에서 관리. ID 미설정(로컬 등) 시 로드하지 않는다. */}
+      {process.env.NEXT_PUBLIC_GTM_ID && <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID} />}
       <body>{children}</body>
     </html>
   );

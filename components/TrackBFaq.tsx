@@ -17,7 +17,7 @@ function renderAnswer(text: string) {
 export async function TrackBFaq() {
   const { faq } = (await getContent()).trackB;
   return (
-    <section className={styles.section} aria-labelledby="track-b-faq-title">
+    <section data-section-name="diet_faq" className={styles.section} aria-labelledby="track-b-faq-title">
       <div className={styles.inner}>
         <div className={styles.intro}>
           <p className={styles.kicker}>{faq.kicker}</p>

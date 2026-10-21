@@ -53,7 +53,7 @@ function renderTitle(title: string, highlight: string) {
 export async function TrackBPromise() {
   const { promise } = (await getContent()).trackB;
   return (
-    <section className={styles.section} aria-labelledby="track-b-promise-title">
+    <section data-section-name="diet_promise" className={styles.section} aria-labelledby="track-b-promise-title">
       <div className={styles.inner}>
         <p className={styles.kicker}>{promise.kicker}</p>
         <h2 id="track-b-promise-title" className={styles.title}>

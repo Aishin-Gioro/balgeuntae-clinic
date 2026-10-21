@@ -24,7 +24,7 @@ export async function ProofGate({
 
   if (!(await isGateUnlocked())) {
     return (
-      <div className={`${styles.locked} ${styles.narrow}`}>
+      <div className={`${styles.locked} ${styles.narrow}`} data-proof-gate>
         <div className={styles.blurLayer} aria-hidden="true">
           <div className={styles.blurShot} />
         </div>

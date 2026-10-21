@@ -5,7 +5,7 @@ import styles from "./TrackBClosing.module.css";
 export async function TrackBClosing() {
   const { closing } = (await getContent()).trackB;
   return (
-    <section className={styles.section} aria-labelledby="track-b-closing-title">
+    <section data-section-name="diet_closing" className={styles.section} aria-labelledby="track-b-closing-title">
       <div className={styles.inner}>
         <h2 id="track-b-closing-title" className={styles.title}>
           {closing.title}

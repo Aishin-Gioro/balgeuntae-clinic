@@ -80,7 +80,7 @@ export function Treatment() {
   const showImage = activeTrack.showImage;
 
   return (
-    <section id="treatment" className={styles.section} aria-labelledby="treatment-title">
+    <section id="treatment" data-section-name="treatment" className={styles.section} aria-labelledby="treatment-title">
       {/* 장식 곡선 — 얇고 살짝 불규칙한 2줄 */}
       <svg className={styles.decor} viewBox="0 0 1440 760" preserveAspectRatio="none" aria-hidden="true">
         <path
@@ -120,7 +120,7 @@ export function Treatment() {
                 caption={activeTrack.caption}
               />
             ) : (
-              <div className={styles.cardLocked}>
+              <div className={styles.cardLocked} data-proof-gate>
                 <div className={styles.cardLockedBlur} aria-hidden="true" />
                 <div className={styles.cardLockedInner}>
                   <LockIcon className={styles.cardLockIcon} />

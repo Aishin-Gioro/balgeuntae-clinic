@@ -10,7 +10,7 @@ export function PrescriptionBanner() {
   if (!track) return null;
 
   return (
-    <section className={styles.section}>
+    <section data-section-name="prescription" className={styles.section}>
       <div className={styles.banner}>
         <p className={styles.kicker}>{trackB.prescription.kicker}</p>
         <h2 className={styles.title}>{trackB.prescription.title}</h2>

@@ -6,6 +6,7 @@ import {
   gateCookieOptions,
   safeReturnPath,
 } from "@/lib/auth";
+import { LOGIN_COMPLETE_COOKIE } from "@/lib/analytics";
 
 /**
  * 카카오 콜백.
@@ -16,25 +17,29 @@ export async function GET(req: NextRequest) {
   const params = req.nextUrl.searchParams;
   const origin = req.nextUrl.origin;
 
-  const denied = params.get("error");
-  if (denied) {
-    return NextResponse.redirect(new URL("/?gate=cancelled", origin));
-  }
-
   const code = params.get("code");
   const state = params.get("state") ?? "";
   const [nonce, ...rest] = state.split(":");
   const returnTo = safeReturnPath(rest.join(":"));
 
+  // 실패해도 원래 주소(진료과목·utm_* 포함)로 돌려보낸다 — 유입 경로 유지
+  const fail = (reason: "cancelled" | "error") => {
+    const url = new URL(returnTo, origin);
+    url.searchParams.set("gate", reason);
+    return NextResponse.redirect(url);
+  };
+
+  if (params.get("error")) return fail("cancelled");
+
   const expectedNonce = req.cookies.get(OAUTH_STATE_COOKIE)?.value;
   if (!code || !nonce || !expectedNonce || nonce !== expectedNonce) {
-    return NextResponse.redirect(new URL("/?gate=error", origin));
+    return fail("error");
   }
 
   const clientId = process.env.KAKAO_REST_API_KEY;
   const redirectUri = process.env.KAKAO_REDIRECT_URI;
   if (!clientId || !redirectUri) {
-    return NextResponse.redirect(new URL("/?gate=error", origin));
+    return fail("error");
   }
 
   const body = new URLSearchParams({
@@ -61,11 +66,13 @@ export async function GET(req: NextRequest) {
   }
 
   if (!ok) {
-    return NextResponse.redirect(new URL("/?gate=error", origin));
+    return fail("error");
   }
 
   const res = NextResponse.redirect(new URL(`${returnTo}`, origin));
   res.cookies.set(GATE_COOKIE, createGateToken(), gateCookieOptions);
   res.cookies.delete(OAUTH_STATE_COOKIE);
+  // 분석용 1회 표시 — 클라이언트(Analytics)가 읽어 login_complete 를 보내고 지운다. 계정 정보는 담지 않는다.
+  res.cookies.set(LOGIN_COMPLETE_COOKIE, "kakao", { path: "/", maxAge: 60, sameSite: "lax" });
   return res;
 }

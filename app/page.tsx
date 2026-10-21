@@ -23,6 +23,7 @@ import { Location } from "@/components/Location";
 import { Footer } from "@/components/Footer";
 import { UtilBar } from "@/components/UtilBar";
 import { MobileCta } from "@/components/MobileCta";
+import { Analytics } from "@/components/Analytics";
 
 export default async function HomePage() {
   const [content, gateUnlocked] = await Promise.all([getContent(), isGateUnlocked()]);
@@ -74,6 +75,7 @@ export default async function HomePage() {
         <Footer />
         <UtilBar />
         <MobileCta />
+        <Analytics />
       </ContentProvider>
     </Suspense>
   );

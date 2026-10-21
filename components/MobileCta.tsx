@@ -11,7 +11,7 @@ export function MobileCta() {
   const phoneHref = usePhoneHref();
 
   return (
-    <nav className={styles.cta} aria-label="빠른 상담">
+    <nav data-track-location="mobile_bar" className={styles.cta} aria-label="빠른 상담">
       <a
         className={`${styles.item} ${styles.kakao}`}
         href={kakaoChatHref(site.links.kakao)}
