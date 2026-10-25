@@ -7,6 +7,8 @@ const shortLinks = [
   { path: "/yt", source: "youtube", medium: "channel" },
   { path: "/ig", source: "instagram", medium: "bio" },
   { path: "/place", source: "naver", medium: "place" },
+  { path: "/tt", source: "tiktok", medium: "bio" },
+  { path: "/th", source: "threads", medium: "bio" },
 ];
 
 /** @type {import('next').NextConfig} */
