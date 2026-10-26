@@ -9,6 +9,7 @@ const shortLinks = [
   { path: "/place", source: "naver", medium: "place" },
   { path: "/tt", source: "tiktok", medium: "bio" },
   { path: "/th", source: "threads", medium: "bio" },
+  { path: "/x", source: "x", medium: "bio" },
 ];
 
 /** @type {import('next').NextConfig} */
