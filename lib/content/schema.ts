@@ -98,6 +98,19 @@ export type SiteContent = {
   };
 
   trackA: {
+    /** 위장 진료과목 카드 — 진료과목 소개와 위장 상세 사이. 항목이 없으면 섹션을 숨긴다 */
+    scope: {
+      kicker: string;
+      title: string;
+      items: { name: string; desc: string }[];
+    };
+    /** 치료 방향(차별점) — 위장 상세 바로 뒤. 항목이 없으면 섹션을 숨긴다 */
+    direction: {
+      kicker: string;
+      title: string;
+      lead: string;
+      points: { title: string; desc: string }[];
+    };
     kicker: string;
     title: string;
     lead: string;
@@ -370,6 +383,34 @@ export const defaultContent: SiteContent = {
   },
 
   trackA: {
+    scope: {
+      kicker: "진료 범위",
+      title: "이런 위장 고민을 진료합니다",
+      items: [
+        { name: "장상피화생", desc: "내시경·조직검사에서 장상피화생 소견을 받으신 경우" },
+        { name: "위축성위염", desc: "위 점막이 얇아지고 건조해져 반복되는 위염" },
+        { name: "역류성식도염", desc: "신물, 가슴 쓰림, 목의 이물감이 반복되는 경우" },
+        { name: "기능성위장장애", desc: "검사는 정상인데 더부룩함, 속쓰림, 체기가 반복되는 경우" },
+        { name: "자율신경실조", desc: "긴장하면 속이 얹히고, 불면·두근거림과 위장 증상이 함께 오는 경우" },
+        { name: "기력저하", desc: "소화가 안 되어 먹어도 기운이 나지 않고 쉽게 지치는 경우" },
+      ],
+    },
+    direction: {
+      kicker: "밝은태의 치료 방향",
+      title: "증상 완화를 넘어,\n위장의 회복력을 봅니다",
+      lead: "당장의 증상을 가라앉히는 데 그치지 않고,\n위장 본연의 기능과 회복력을 높이는 데 중점을 둡니다.",
+      points: [
+        { title: "진액과 혈액을 보충합니다", desc: "건조해진 위점막이 촉촉함을 되찾도록 돕습니다." },
+        {
+          title: "스스로 회복하는 환경을 만듭니다",
+          desc: "위점막이 스스로 회복할 수 있는 환경을 조성해, 전반적인 위 기능 개선을 지향합니다.",
+        },
+        {
+          title: "약재를 가려 씁니다",
+          desc: "일시적으로 증상을 완화해도 위장을 건조하게 만드는 약재는 가급적 사용을 지양합니다.",
+        },
+      ],
+    },
     kicker: "장상피화생 · 위축성위염",
     title: "위점막의 변화,\n회복을 목표로 합니다",
     lead: "장상피화생과 위축성위염은 위점막이 장(腸) 점막처럼 변형되는 질환으로, 위암 전(前)단계로 봅니다.\n밝은태 한의원은 마른 위점막에 진액을 보충하는 한약 치료로 접근합니다.",

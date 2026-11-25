@@ -1,0 +1,170 @@
+.section {
+  /* 오른쪽 아래 화병이 잘리지 않게 right bottom 기준. 배경색은 이미지 로딩 전 대체색 */
+  background: #f4f2ee url("/images/hero-bg4.webp") right bottom / cover no-repeat;
+  padding: clamp(72px, 10vw, 130px) clamp(20px, 6vw, 96px);
+  scroll-margin-top: 72px;
+}
+
+.inner {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+/* ===== 헤더 ===== */
+.kicker {
+  margin: 0 0 14px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #6b5b3e;
+  text-align: center;
+}
+
+.title {
+  margin: 0 0 clamp(40px, 6vw, 64px);
+  font-family: var(--font-serif), "Nanum Myeongjo", "AppleMyungjo", "Batang", Georgia, serif;
+  font-size: 36px;
+  /* 위장 상세 제목(300)과 같아 보이도록 — 밝은 배경의 어두운 글씨는 같은 값이면 더 가늘게 보인다 */
+  font-weight: 400;
+  line-height: 1.35;
+  color: #2b2b28;
+  white-space: pre-line;
+  word-break: keep-all;
+  text-align: center;
+  transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), filter 0.9s ease;
+}
+/* 화면에 들어올 때 스르륵 등장 (RevealTitle 이 data-reveal 을 붙임) */
+.title[data-reveal="pending"] {
+  opacity: 0;
+  transform: translateY(18px);
+  filter: blur(4px);
+}
+
+/* ===== 카드 목록 — 개수가 바뀌어도 마지막 줄이 가운데에 오도록 flex 사용 ===== */
+.list {
+  --gap: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  flex: 0 0 calc((100% - 2 * var(--gap)) / 3);
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  padding: 30px 28px 34px;
+  background: #ffffff;
+  border-top: 2px solid #1f2d27;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+}
+/* 호버하면 위쪽 선을 따라 갈색 선이 왼쪽에서 오른쪽으로 채워진다 */
+.card::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #b08d57;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.number {
+  display: block;
+  margin-bottom: 22px;
+  font-family: var(--font-serif), "Nanum Myeongjo", "AppleMyungjo", "Batang", Georgia, serif;
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  color: #6b5b3e;
+}
+
+.name {
+  margin: 0 0 10px;
+  font-size: clamp(18px, 2vw, 21px);
+  font-weight: 700;
+  line-height: 1.4;
+  color: #2b2b28;
+  word-break: keep-all;
+}
+
+.desc {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.8;
+  color: #55534e;
+  white-space: pre-line;
+  word-break: keep-all;
+}
+
+/* ===== 호버 (마우스가 있는 기기에서만 — 터치에서는 눌린 채 남지 않게) ===== */
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 18px 36px rgba(66, 52, 30, 0.14);
+  }
+  .card:hover::before {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card::before {
+    transition: none;
+  }
+  .card:hover {
+    transform: none;
+  }
+}
+
+/* ===== 등장 연출 (RevealList) ===== */
+@media (prefers-reduced-motion: no-preference) {
+  .list[data-reveal-ready] .item {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .list[data-reveal-ready] .item[data-revealed] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ===== 반응형 ===== */
+@media (max-width: 900px) {
+  .item {
+    flex-basis: calc((100% - var(--gap)) / 2);
+  }
+}
+
+@media (max-width: 640px) {
+  /* 세로로 긴 화면은 크게 확대되므로, 창살이 제목 뒤에 오지 않게 여백이 많은 가운데를 보인다 */
+  .section {
+    background-position: center;
+  }
+  .title {
+    font-size: 30px;
+  }
+  .list {
+    --gap: 12px;
+  }
+  .item {
+    flex-basis: 100%;
+  }
+  .card {
+    padding: 24px 22px 26px;
+  }
+  .number {
+    margin-bottom: 12px;
+  }
+}

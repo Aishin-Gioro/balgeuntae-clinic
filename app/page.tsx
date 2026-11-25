@@ -10,7 +10,9 @@ import { ShowForTrack } from "@/components/ShowForTrack";
 import { PrescriptionBanner } from "@/components/PrescriptionBanner";
 import { Reviews } from "@/components/Reviews";
 import { Treatment } from "@/components/Treatment";
+import { StomachScope } from "@/components/StomachScope";
 import { TrackA } from "@/components/TrackA";
+import { TreatmentDirection } from "@/components/TreatmentDirection";
 import { TrackB } from "@/components/TrackB";
 import { TrackBFit } from "@/components/TrackBFit";
 import { TrackBPhases } from "@/components/TrackBPhases";
@@ -50,7 +52,9 @@ export default async function HomePage() {
               </ShowForTrack>
               <Treatment />
               <ShowForTrack id="stomach">
+                <StomachScope />
                 <TrackA />
+                <TreatmentDirection />
               </ShowForTrack>
               <ShowForTrack id="diet">
                 <TrackB />

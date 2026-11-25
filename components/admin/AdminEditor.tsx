@@ -448,6 +448,7 @@ function ReviewsTab({ draft, patch }: TabProps) {
 /* ── 진료과목 개요 ───────────────────────────────────── */
 function TreatmentTab({ draft, patch }: TabProps) {
   const { treatment } = draft;
+  const { scope } = draft.trackA;
   return (
     <div className={s.panel}>
       <Group title="섹션 제목">
@@ -526,6 +527,37 @@ function TreatmentTab({ draft, patch }: TabProps) {
           )}
         />
       </Group>
+
+      <Group
+        title="위장 진료과목 목록"
+        hint="위장 치료 화면에서 위의 카드 아래에 보입니다. 과목을 모두 삭제하면 이 구역은 숨겨집니다."
+      >
+        <TextField
+          label="작은 제목"
+          value={scope.kicker}
+          onChange={(v) => patch((d) => void (d.trackA.scope.kicker = v))}
+        />
+        <TextAreaField
+          label="큰 제목"
+          value={scope.title}
+          onChange={(v) => patch((d) => void (d.trackA.scope.title = v))}
+        />
+        <Repeater
+          label="과목"
+          hint="번호(01, 02…)는 순서대로 자동으로 붙습니다."
+          items={scope.items}
+          makeEmpty={() => ({ name: "", desc: "" })}
+          itemLabel={(it) => it.name || "과목"}
+          addLabel="+ 과목 추가"
+          onChange={(v) => patch((d) => void (d.trackA.scope.items = v))}
+          renderItem={(it, update) => (
+            <>
+              <TextField label="과목 이름" value={it.name} onChange={(v) => update({ name: v })} />
+              <TextAreaField label="설명" value={it.desc} onChange={(v) => update({ desc: v })} />
+            </>
+          )}
+        />
+      </Group>
     </div>
   );
 }
@@ -574,6 +606,38 @@ function TrackATab({ draft, patch }: TabProps) {
                 multiline
                 onChange={(v) => update({ a: v })}
               />
+            </>
+          )}
+        />
+      </Group>
+
+      <Group title="치료 방향" hint="위장 상세 아래에 보입니다. 항목을 모두 삭제하면 이 구역은 숨겨집니다.">
+        <TextField
+          label="작은 제목"
+          value={trackA.direction.kicker}
+          onChange={(v) => patch((d) => void (d.trackA.direction.kicker = v))}
+        />
+        <TextAreaField
+          label="큰 제목"
+          value={trackA.direction.title}
+          onChange={(v) => patch((d) => void (d.trackA.direction.title = v))}
+        />
+        <TextAreaField
+          label="소개 문단"
+          value={trackA.direction.lead}
+          onChange={(v) => patch((d) => void (d.trackA.direction.lead = v))}
+        />
+        <Repeater
+          label="핵심 항목"
+          hint="번호(01, 02…)는 순서대로 자동으로 붙습니다."
+          items={trackA.direction.points}
+          makeEmpty={() => ({ title: "", desc: "" })}
+          itemLabel={(it) => it.title || "항목"}
+          onChange={(v) => patch((d) => void (d.trackA.direction.points = v))}
+          renderItem={(it, update) => (
+            <>
+              <TextField label="제목" value={it.title} onChange={(v) => update({ title: v })} />
+              <TextAreaField label="설명" value={it.desc} onChange={(v) => update({ desc: v })} />
             </>
           )}
         />

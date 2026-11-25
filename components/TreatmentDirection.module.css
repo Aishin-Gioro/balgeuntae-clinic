@@ -1,0 +1,127 @@
+.section {
+  background: #ffffff;
+  padding: clamp(72px, 10vw, 130px) clamp(20px, 6vw, 96px);
+  /* 바로 아래 맞춤 처방 배너(PrescriptionBanner)가 위 여백을 갖고 있어 겹쳐 벌어지지 않게 */
+  padding-bottom: 0;
+  scroll-margin-top: 72px;
+}
+
+.inner {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: 5fr 6fr;
+  gap: clamp(40px, 7vw, 96px);
+  align-items: start;
+}
+
+/* ===== 왼쪽 제목 ===== */
+.kicker {
+  margin: 0 0 14px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #6b5b3e;
+}
+
+.title {
+  margin: 0 0 24px;
+  font-family: var(--font-serif), "Nanum Myeongjo", "AppleMyungjo", "Batang", Georgia, serif;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: #2b2b28;
+  white-space: pre-line;
+  word-break: keep-all;
+  transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), filter 0.9s ease;
+}
+/* 화면에 들어올 때 스르륵 등장 (RevealTitle 이 data-reveal 을 붙임) */
+.title[data-reveal="pending"] {
+  opacity: 0;
+  transform: translateY(18px);
+  filter: blur(4px);
+}
+
+.lead {
+  margin: 0;
+  max-width: 28em;
+  font-size: 15px;
+  line-height: 1.9;
+  color: #55534e;
+  white-space: pre-line;
+  word-break: keep-all;
+}
+
+/* ===== 오른쪽 핵심 항목 ===== */
+.points {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid #2b2b28;
+}
+
+.point {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  align-items: baseline;
+  padding: 30px 0 32px;
+  border-bottom: 1px solid #e3ded3;
+}
+
+.number {
+  font-family: var(--font-serif), "Nanum Myeongjo", "AppleMyungjo", "Batang", Georgia, serif;
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  color: #6b5b3e;
+}
+
+.pointTitle {
+  margin: 0 0 8px;
+  font-size: clamp(18px, 2vw, 21px);
+  font-weight: 700;
+  line-height: 1.4;
+  color: #2b2b28;
+  word-break: keep-all;
+}
+
+.pointDesc {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.8;
+  color: #55534e;
+  white-space: pre-line;
+  word-break: keep-all;
+}
+
+/* ===== 등장 연출 (RevealList) ===== */
+@media (prefers-reduced-motion: no-preference) {
+  .points[data-reveal-ready] .point {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .points[data-reveal-ready] .point[data-revealed] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ===== 반응형 ===== */
+@media (max-width: 840px) {
+  .columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .title {
+    font-size: 30px;
+  }
+  .point {
+    grid-template-columns: 40px 1fr;
+    padding: 24px 0 26px;
+  }
+}
